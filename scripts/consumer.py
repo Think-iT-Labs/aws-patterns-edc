@@ -4,6 +4,14 @@ import os
 import time
 
 
+def make_api_request(url, payload, api_key):
+
+    response = requests.post(url, json=payload, headers={"x-api-key": api_key})
+    response.raise_for_status()
+
+    return (response.json())
+
+
 def request_catalog(base_url, provider_url, api_key):
     catalog_request_url = base_url+'/catalog/request'
     myobj = {
@@ -14,36 +22,23 @@ def request_catalog(base_url, provider_url, api_key):
         "providerUrl": provider_url,
         "protocol": "dataspace-protocol-http"
     }
-    catalog_response = requests.post(
-        catalog_request_url, json=myobj, headers={"x-api-key": api_key})
-
-    contract_asset_list = []
+    catalog_json = make_api_request(catalog_request_url, myobj, api_key)
     contract_asset_dict = dict()
-    # action_type_list = []
-    if catalog_response.status_code == 200:
-        catalog_json = catalog_response.json()
-        datasets = catalog_json.get("dcat:dataset", [])
-        for dataset in datasets:
-            permissions = dataset.get("odrl:hasPolicy", [])
-            for permission in permissions:
-                contract_id = permission.get("@id", "")
-                asset_id = permission.get("odrl:target", "")
-                action_type = permission.get(
-                    "odrl:permission", {}).get("odrl:action", {}).get("odrl:type", "")
-                contract_asset_dict.update(
-                    {contract_id: {"asset_id": asset_id, "action_type": action_type}})
-            '''asset_id = contract_ids_dict["contractID"]["assetID"]
-            action_type = contract_ids_dict["contractID"]["action_type"]
-            print(asset_id)
-            print(action_type)'''
-        providerID = catalog_json.get("edc:participantId", "")
-        providerID_set = {"providerID": providerID}
+    datasets = catalog_json.get("dcat:dataset", [])
+    for dataset in datasets:
+        permissions = dataset.get("odrl:hasPolicy", [])
+        for permission in permissions:
+            contract_id = permission.get("@id", "")
+            asset_id = permission.get("odrl:target", "")
+            action_type = permission.get("odrl:permission", {}).get(
+                "odrl:action", {}).get("odrl:type", "")
+            contract_asset_dict.update(
+                {contract_id: {"asset_id": asset_id, "action_type": action_type
+                               }})
 
-        return (contract_asset_dict, providerID_set)
-        # return (action_type_list)
-    else:
-        raise Exception(
-            f"Asset creation failed with status code {catalog_response.status_code}")
+    providerID = catalog_json.get("edc:participantId", "")
+    providerID_set = {"providerID": providerID}
+    return (contract_asset_dict, providerID_set)
 
 
 def process_id(contract_ids_dict):
@@ -55,7 +50,8 @@ def process_id(contract_ids_dict):
     return (contract_id, asset_id, action_type)
 
 
-def create_contract_negociation(provider_url, provider_id, consumer_id, contract_id, asset_id, action_type):
+def create_contract_negociation(provider_url, provider_id, consumer_id,
+                                contract_id, asset_id, action_type):
     myobj = {
         "@context": {
             "edc": "https://w3id.org/edc/v0.0.1/ns/"
@@ -84,11 +80,9 @@ def create_contract_negociation(provider_url, provider_id, consumer_id, contract
         }
     }
     contract_negotiation_url = base_url+'/contractnegotiations'
-    contract_negotiation_response = requests.post(
-        contract_negotiation_url, json=myobj, headers={"x-api-key": api_key})
-    if contract_negotiation_response.status_code == 200:
-        contract_negotiation_json = contract_negotiation_response.json()
-        return contract_negotiation_json["@id"]
+    contract_negotiation_json = make_api_request(contract_negotiation_url,
+                                                 myobj, api_key)
+    return contract_negotiation_json["@id"]
 
 
 def check_contract_negociation(contract_negotiation_id):
@@ -110,11 +104,10 @@ def check_contract_negociation(contract_negotiation_id):
 
     agreement_id = contract_negotiation_json["edc:contractAgreementId"]
     negotiation_state = contract_negotiation_json["edc:state"]
-    print(contract_negotiation_json)
     return (agreement_id, negotiation_state)
 
 
-def transfer_process(provider_url, provider_id, consumer_id, contract_id, asset_id):
+def transfer_process(provider_url, provider_id, agreement_id, asset_id):
     transfer_process_url = base_url+'/transferprocesses'
     myobj = {
         "@context": {
@@ -135,11 +128,9 @@ def transfer_process(provider_url, provider_id, consumer_id, contract_id, asset_
             "secretAccessKey": secret_access_key
         }
     }
-    transfer_process_response = requests.post(
-        transfer_process_url, json=myobj, headers={"x-api-key": api_key})
-    if transfer_process_response.status_code == 200:
-        transfer_process_json = transfer_process_response.json()
-        return transfer_process_json["@id"]
+    transfer_process_json = make_api_request(
+        transfer_process_url, myobj, api_key)
+    return transfer_process_json["@id"]
 
 
 if __name__ == "__main__":
@@ -162,9 +153,9 @@ if __name__ == "__main__":
 
     contract_negotiation_id = create_contract_negociation(
         provider_url, provider_id, consumer_id, contract_id, asset_id, action_type)
-    print(contract_negotiation_id)
+    # print(contract_negotiation_id)
     agreement_id, negotiation_state = check_contract_negociation(
         contract_negotiation_id)
     transfer_process_id = transfer_process(
-        provider_url, provider_id, consumer_id, agreement_id, asset_id)
-    print(transfer_process_id)
+        provider_url, provider_id, agreement_id, asset_id)
+    # print(transfer_process_id)
