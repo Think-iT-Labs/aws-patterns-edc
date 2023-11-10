@@ -11,13 +11,28 @@ base_url = os.getenv('BASE_URL')
 api_key = os.getenv('API_KEY')
 provider_bucket_name = os.getenv('PROVIDER_BUCKET_NAME')
 bucket_region = os.getenv('BUCKET_REGION')
-key_name = os.getenv('KEY_NAME')
+key_name = os.getenv('KEY_NAMEadd')
 policy_name = os.getenv('POLICY_NAME')
 permission_action = os.getenv('PERMISSION_ACTION')
 contract_definition_name = os.getenv('CONTRACT_DEFINITION_NAME')
 
 
 def make_api_request(url, payload, api_key):
+    """
+    Make an HTTP POST request to a specified URL with the given payload and API
+    key.
+
+    Args:
+        url (str): The URL  for the API request.
+        payload (dict): The data to send in the request body as JSON.
+        api_key (str): The API key for authentication.
+
+    Returns:
+        str: The ID from the API response if successful.
+
+    Raises:
+        Exception: If the request fails or the JSON response cannot be parsed.
+    """
     try:
         response = requests.post(url, json=payload, headers={
                                  "x-api-key": api_key})
@@ -34,7 +49,16 @@ def make_api_request(url, payload, api_key):
 
 
 def create_asset(base_url, api_key):
+    """
+    Creates an asset by making an API request.
 
+    Args:
+        base_url (str): The base URL for the API.
+        api_key (str): The API key for authentication.
+
+    Returns:
+        str: The ID of the created asset.
+    """
     asset_url = base_url+'/assets'
     payload = {
         "@context": {
@@ -61,7 +85,17 @@ def create_asset(base_url, api_key):
 
 
 def create_policy(base_url, api_key, asset_id):
+    """
+    Create a policy by making an API request.
 
+    Args:
+        base_url (str): The base URL for the API.
+        api_key (str): The API key for authentication.
+        asset_id (str): The ID of the associated asset.
+
+    Returns:
+        str: The ID of the created policy.
+    """
     policy_url = base_url+'/policydefinitions'
     payload = {
         "@context": {
@@ -85,7 +119,18 @@ def create_policy(base_url, api_key, asset_id):
 
 
 def create_contract_definition(base_url, api_key, contract_definition_name, asset_id, policy_id):
+    """ 
+    Create a contract definition by making an API request.
 
+    Args:
+        base_url (str): The base URL for the API.
+        api_key (str): The API key for authentication.
+        contract_definition_name (str): The name of the contract definition.
+        asset_id (str): The ID of the associated asset.
+        policy_id (str): The ID of the associated policy.
+    Returns:
+        str: The ID of the created contract definition.
+    """
     contract_definition_url = base_url+'/contractdefinitions'
     payload = {
         "@context": {
