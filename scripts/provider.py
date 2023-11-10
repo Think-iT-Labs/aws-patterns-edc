@@ -11,7 +11,7 @@ base_url = os.getenv('BASE_URL')
 api_key = os.getenv('API_KEY')
 provider_bucket_name = os.getenv('PROVIDER_BUCKET_NAME')
 bucket_region = os.getenv('BUCKET_REGION')
-key_name = os.getenv('KEY_NAMEadd')
+key_name = os.getenv('KEY_NAME')
 policy_name = os.getenv('POLICY_NAME')
 permission_action = os.getenv('PERMISSION_ACTION')
 contract_definition_name = os.getenv('CONTRACT_DEFINITION_NAME')
@@ -118,7 +118,8 @@ def create_policy(base_url, api_key, asset_id):
     return policy_id
 
 
-def create_contract_definition(base_url, api_key, contract_definition_name, asset_id, policy_id):
+def create_contract_definition(base_url, api_key, contract_definition_name,
+                               asset_id, policy_id):
     """ 
     Create a contract definition by making an API request.
 
