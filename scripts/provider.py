@@ -2,12 +2,35 @@ import requests
 from dotenv import load_dotenv
 import os
 
+dotenv_path = ".env.provider"
+load_dotenv(dotenv_path=dotenv_path)
+access_key_id = os.getenv('ACCESS_KEY_ID')
+secret_access_key = os.getenv('SECRET_ACCESS_KEY')
+edc_name = os.getenv('EDC_NAME')
+base_url = os.getenv('BASE_URL')
+api_key = os.getenv('API_KEY')
+provider_bucket_name = os.getenv('PROVIDER_BUCKET_NAME')
+bucket_region = os.getenv('BUCKET_REGION')
+key_name = os.getenv('KEY_NAME')
+policy_name = os.getenv('POLICY_NAME')
+permission_action = os.getenv('PERMISSION_ACTION')
+contract_definition_name = os.getenv('CONTRACT_DEFINITION_NAME')
+
 
 def make_api_request(url, payload, api_key):
-    response = requests.post(url, json=payload, headers={"x-api-key": api_key})
-    response.raise_for_status()
-    response_json = response.json()
-    return response_json["@id"]
+    try:
+        response = requests.post(url, json=payload, headers={
+                                 "x-api-key": api_key})
+        response.raise_for_status()
+        response_json = response.json()
+        if "@id" in response_json:
+            return response_json["@id"]
+        else:
+            raise Exception("Invalid response from the API")
+    except requests.exceptions.RequestException as e:
+        raise Exception(f"Request to {url} failed: {e}")
+    except ValueError as e:
+        raise Exception(f"Failed to parse JSON response: {e}")
 
 
 def create_asset(base_url, api_key):
@@ -33,8 +56,8 @@ def create_asset(base_url, api_key):
             "secretAccessKey": secret_access_key
         }
     }
-    id = make_api_request(asset_url, payload, api_key)
-    return id
+    asset_id = make_api_request(asset_url, payload, api_key)
+    return asset_id
 
 
 def create_policy(base_url, api_key, asset_id):
@@ -57,14 +80,14 @@ def create_policy(base_url, api_key, asset_id):
             ]
         }
     }
-    id = make_api_request(policy_url, payload, api_key)
-    return id
+    policy_id = make_api_request(policy_url, payload, api_key)
+    return policy_id
 
 
 def create_contract_definition(base_url, api_key, contract_definition_name, asset_id, policy_id):
 
     contract_definition_url = base_url+'/contractdefinitions'
-    myobj = {
+    payload = {
         "@context": {
             "edc": "https://w3id.org/edc/v0.0.1/ns/"
         },
@@ -79,31 +102,17 @@ def create_contract_definition(base_url, api_key, contract_definition_name, asse
                 "operandRight": asset_id
             }]
     }
-    id = make_api_request(contract_definition_url, myobj, api_key)
-    return id
+    contract_definition_id = make_api_request(
+        contract_definition_url, payload, api_key)
+    return contract_definition_id
 
 
 if __name__ == "__main__":
-    dotenv_path = ".env.provider"
-    load_dotenv(dotenv_path=dotenv_path)
-    access_key_id = os.getenv('ACCESS_KEY_ID')
-    secret_access_key = os.getenv('SECRET_ACCESS_KEY')
-    edc_name = os.getenv('EDC_NAME')
-    base_url = os.getenv('BASE_URL')
-    api_key = os.getenv('API_KEY')
-    provider_bucket_name = os.getenv('PROVIDER_BUCKET_NAME')
-    bucket_region = os.getenv('BUCKET_REGION')
-    key_name = os.getenv('KEY_NAME')
-    policy_name = os.getenv('POLICY_NAME')
-    permission_action = os.getenv('PERMISSION_ACTION')
-    contract_definition_name = os.getenv('CONTRACT_DEFINITION_NAME')
-    print(contract_definition_name)
-
     asset_id = create_asset(base_url, api_key)
     policy_id = create_policy(base_url, api_key, asset_id)
     contract_definition_id = create_contract_definition(
         base_url, api_key, contract_definition_name, asset_id, policy_id)
 
-    print(asset_id)
-    print(policy_id)
-    print(contract_definition_id)
+    print("Asset ID:", asset_id)
+    print("Policy ID:", policy_id)
+    print("Contract Definition ID:", contract_definition_id)
