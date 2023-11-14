@@ -1,0 +1,705 @@
+{
+	"info": {
+		"_postman_id": "2fe59e95-32c4-4def-9c0a-101164c53857",
+		"name": "Consumer Connector Management API - AWS Pattern",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13258237"
+	},
+	"item": [
+		{
+			"name": "Asset",
+			"item": [
+				{
+					"name": "createAsset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "root",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"asset\": {\n        \"edc:properties\": {\n            \"edc:contenttype\": \"application/json\",\n            \"edc:name\": \"{{ASSET_NAME}}\"\n        }\n    },\n    \"dataAddress\": {\n        \"edc:type\": \"AmazonS3\",\n        \"name\": \"\",\n        \"bucketName\": \"\",\n        \"keyName\": \"\",\n        \"region\": \"\",\n        \"accessKeyId\": \"\",\n        \"secretAccessKey\": \"\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "requestAssets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "root",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets/request",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAsset",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@id\": \"{{ASSET_ID}}\",\n    \"edc:properties\": {\n        \"edc:id\": \"{{ASSET_ID}}\",\n        \"edc:name\": \"NEW NAME\"\n    },\n    \"@context\": {\n        \"dct\": \"https://purl.org/dc/terms/\",\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\n        \"dcat\": \"https://www.w3.org/ns/dcat/\",\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\n        \"dspace\": \"https://w3id.org/dspace/v0.8/\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets/",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDataAddress",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"AmazonS3\",\n    \"name\": \"hola\",\n    \"bucketName\": \"test-bucket\",\n    \"baseUrl\": \"http://www.fpp.3a\",\n    \"@context\": {\n        \"dct\": \"https://purl.org/dc/terms/\",\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\n        \"dcat\": \"https://www.w3.org/ns/dcat/\",\n        \"odrl\": \"http://www.w3.org/ns/odrl/2/\",\n        \"dspace\": \"https://w3id.org/dspace/v0.8/\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAsset",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeAsset",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								":id"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "customAsset",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "7c0f0a74-0c49-4206-a360-d36c7d5be6ec"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAssetDataAddress",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/assets/:id/dataaddress",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"assets",
+								":id",
+								"dataaddress"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5aac6cb6-9523-48ba-99b8-562719565b62"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Catalog",
+			"item": [
+				{
+					"name": "requestCatalog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"CatalogRequest\",\n    \"providerUrl\": \"{{PROVIDER_PROTOCOL_URL}}\",\n    \"protocol\": \"dataspace-protocol-http\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/catalog/request",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"catalog",
+								"request"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Agreement",
+			"item": [
+				{
+					"name": "queryAllAgreements",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractagreements/request",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractagreements",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContractAgreement",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractagreements/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractagreements",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "thunder"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Negotiation",
+			"item": [
+				{
+					"name": "queryNegotiations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filter\": \"thunder\",\n    \"filterExpression\": [\n        {\n            \"operandLeft\": {},\n            \"operandRight\": {},\n            \"operator\": \"thunder\"\n        }\n    ],\n    \"limit\": 96,\n    \"offset\": 61,\n    \"sortField\": \"thunder\",\n    \"sortOrder\": \"ASC\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/request",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNegotiation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "thunder"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAgreementForNegotiation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/:id/agreement",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								":id",
+								"agreement"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "thunder"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancelNegotiation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/:id/cancel",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								":id",
+								"cancel"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "thunder"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "declineNegotiation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/:id/decline",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								":id",
+								"decline"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "thunder"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNegotiationState",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/:id/state",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								":id",
+								"state"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "thunder"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create contractnegotiation Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/ContractRequest\",\n    \"connectorAddress\": \"http://provider-tractusx-connector-controlplane.default:8084/api/v1/dsp\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"providerId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"connectorId\": \"{{CONSUMER_CLIENT_ID}}\",\n    \"offer\": {\n        \"assetId\": \"{{ASSET_ID}}\",\n        \"offerId\": \"{{CONTRACT_OFFER_ID}}\",\n        \"policy\": {\n            \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\n            \"@type\": \"odrl:Set\",\n            \"permission\": {\n                \"odrl:target\": \"{{ASSET_ID}}\",\n                \"odrl:action\": {\n                    \"odrl:type\": \"https://w3id.org/edc/v0.0.1/ns/USE\"\n                }\n            },\n            \"prohibition\": [],\n            \"obligation\": [],\n            \"target\": \"{{ASSET_ID}}\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/contractnegotiations/",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"contractnegotiations",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Policy",
+			"item": [
+				{
+					"name": "queryAllPolicies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/policydefinitions/request",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPolicy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/policydefinitions/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "8d897ac9-1725-4c0b-a505-a275beda5c97"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePolicy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/policydefinitions/:id",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "7019238f-db8d-49ae-b0e1-2a8abdb05deb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"policy\": {\n        \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\n        \"@type\": \"Set\",\n        \"uid\": \"{{POLICY_NAME}}\",\n        \"permission\": [\n            {\n                \"target\": \"{{ASSET_ID}}\",\n                \"action\": \"USE\",\n                \"constraint\": []\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/policydefinitions",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"policydefinitions"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "13",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "97",
+									"disabled": true
+								},
+								{
+									"key": "filter",
+									"value": "thunder",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "ASC",
+									"disabled": true
+								},
+								{
+									"key": "sortField",
+									"value": "thunder",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfer Process",
+			"item": [
+				{
+					"name": "initiateTransfer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/TransferRequest\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"connectorId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"assetId\": \"{{ASSET_ID}}\",\n    \"dataDestination\": {\n        \"type\": \"AmazonS3\",\n        \"bucketName\": \"\", // REPLACE WITH THE DESTINATION BUCKET NAME\n        \"keyName\": \"\", // REPLACE WITH YOUR OBJECT NAME \n        \"region\": \"\", // REPLACE WITH THE BUCKET REGION\n        \"accessKeyId\": \"\", // REPLACE WITH YOUR ACCESS KEY ID\n        \"secretAccessKey\": \"\" // REPLACE WITH SECRET ACCESS KEY \n    },\n    \"transferType\": {\n        \"contentType\": \"application/json\",\n        \"isFinite\": true\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CONSUMER_MANAGEMENT_URL}}/transferprocesses",
+							"host": [
+								"{{CONSUMER_MANAGEMENT_URL}}"
+							],
+							"path": [
+								"transferprocesses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "root",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CONSUMER_MANAGEMENT_URL",
+			"value": "http://localhost:8200/management/v2",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_PROTOCOL_URL",
+			"value": "http://provider-tractusx-connector-controlplane.default:8084/api/v1/dsp",
+			"type": "string"
+		},
+		{
+			"key": "ASSET_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CONTRACT_OFFER_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "POLICY_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CONTRACT_AGREEMENT_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "PROVIDER_CLIENT_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CONSUMER_CLIENT_ID",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
