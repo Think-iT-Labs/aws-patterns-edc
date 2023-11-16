@@ -212,7 +212,10 @@ def check_contract_negotiation(contract_negotiation_id):
     contract_negotiation_url = base_url + \
         '/contractnegotiations/' + contract_negotiation_id
 
-    while True:
+    iteration = 0
+    max_iterations = 10
+
+    while iteration < max_iterations:
         negotiation = send_request(contract_negotiation_url)
         if negotiation is None:
             break
