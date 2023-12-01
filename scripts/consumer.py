@@ -67,8 +67,13 @@ def request_catalog(base_url, provider_url, api_key):
     catalog_json = make_api_request(catalog_request_url, myobj, api_key)
     contract_asset_dict = dict()
     datasets = catalog_json.get("dcat:dataset", [])
+    if isinstance(datasets, dict):
+        datasets = [datasets]
+
     for dataset in datasets:
         permissions = dataset.get("odrl:hasPolicy", [])
+        if isinstance(permissions, dict):
+            permissions = [permissions]
         for permission in permissions:
             contract_id = permission.get("@id", "")
             asset_id = permission.get("odrl:target", "")
@@ -212,7 +217,10 @@ def check_contract_negotiation(contract_negotiation_id):
     contract_negotiation_url = base_url + \
         '/contractnegotiations/' + contract_negotiation_id
 
-    while True:
+    iteration = 0
+    max_iterations = 10
+
+    while iteration < max_iterations:
         negotiation = send_request(contract_negotiation_url)
         if negotiation is None:
             break
