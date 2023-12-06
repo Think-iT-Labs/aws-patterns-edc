@@ -1,0 +1,33 @@
+{
+    "region": "Europe and South America",
+    "vehicles": [
+      {
+        "type": "Van",
+        "gross_vehicle_weight": "<3.5 t GVW",
+        "emission_intensity": {
+          "CO2": 800, "unit": "g CO2 e/t-km (WTW)"
+        }
+      },
+      {
+        "type": "Urban Truck",
+        "gross_vehicle_weight": "3.5-7.5 t GVW",
+        "emission_intensity": {
+          "CO2": 315, "unit": "g CO2 e/t-km (WTW)"
+        }
+      },
+      {
+        "type": "Medium Goods Vehicle (MGV)",
+        "gross_vehicle_weight": "7.5-20 t GVW",
+        "emission_intensity": {
+          "CO2": 195, "unit": "g CO2 e/t-km (WTW)"
+        }
+      },
+      {
+        "type": "Heavy Goods Vehicle (HGV)",
+        "gross_vehicle_weight": ">20 t GVW",
+        "emission_intensity": {
+          "CO2": 115, "unit": "g CO2 e/t-km (WTW)"
+        }
+      }
+    ]
+  }
