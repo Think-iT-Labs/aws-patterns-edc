@@ -86,6 +86,8 @@ dataplane:
 
 # -- Assets Database: PostreSQL
 postgresql:
+  username: "user"
+  password: "password"
   jdbcUrl: "jdbc:postgresql://postgresql:5432/edc"
   fullnameOverride: "postgresql"
   primary:
@@ -124,3 +126,5 @@ vault:
     transferProxyTokenEncryptionAesKey: transfer-proxy-token-encryption-aes-key
     dapsPrivateKey: daps-private-key
     dapsPublicKey: daps-public-key
+backendService:
+  httpProxyTokenReceiverUrl: "yourbackendurl"
