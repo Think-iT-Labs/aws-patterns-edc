@@ -103,7 +103,7 @@ postgresql:
 
 # -- Sercrets Manager: Hashicorp Vault
 vault:
-  fullnameOverride: "vault"
+  fullnameOverride: "vault-consumer"
   injector:
     enabled: false
   server:
@@ -111,7 +111,7 @@ vault:
       enabled: true
       devRootToken: "root"
   hashicorp:
-    url: "http://vault:8200"
+    url: "http://vault-consumer:8200"
     token: "{VAULT_TOKEN}"
     timeout: 30
     healthCheck:
