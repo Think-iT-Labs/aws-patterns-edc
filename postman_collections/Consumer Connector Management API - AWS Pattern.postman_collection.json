@@ -603,7 +603,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/TransferRequest\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"connectorId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"assetId\": \"{{ASSET_ID}}\",\n    \"transferType\": {\n        \"contentType\": \"application/json\",\n        \"isFinite\": true\n    },\n    \"dataDestination\": {\n        \n    }\n}",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/TransferRequest\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"connectorId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"assetId\": \"{{ASSET_ID}}\",\n    \"transferType\": {\n        \"contentType\": \"application/json\",\n        \"isFinite\": true\n    },\n    \"dataDestination\": {\n        \"type\": \"AmazonS3\",\n        \"bucketName\": \"{{ REPLACE WITH THE DESTINATION BUCKET NAME }}\",\n        \"keyName\": \"{{ REPLACE WITH YOUR OBJECT NAME }}\",\n        \"region\": \"{{ REPLACE WITH THE BUCKET REGION }}\",\n        \"accessKeyId\": \"{{ REPLACE WITH YOUR ACCESS KEY ID }}\",\n        \"secretAccessKey\": \"{{ REPLACE WITH SECRET ACCESS KEY }}\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
