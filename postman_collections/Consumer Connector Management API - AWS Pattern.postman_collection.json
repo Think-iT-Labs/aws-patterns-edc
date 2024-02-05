@@ -447,7 +447,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/ContractRequest\",\n    \"connectorAddress\": \"http://provider-tractusx-connector-controlplane.default:8084/api/v1/dsp\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"providerId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"connectorId\": \"{{CONSUMER_CLIENT_ID}}\",\n    \"offer\": {\n        \"assetId\": \"{{ASSET_ID}}\",\n        \"offerId\": \"{{CONTRACT_OFFER_ID}}\",\n        \"policy\": {\n            \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\n            \"@type\": \"odrl:Set\",\n            \"permission\": {\n                \"odrl:target\": \"{{ASSET_ID}}\",\n                \"odrl:action\": {\n                    \"odrl:type\": \"https://w3id.org/edc/v0.0.1/ns/USE\"\n                }\n            },\n            \"prohibition\": [],\n            \"obligation\": [],\n            \"target\": \"{{ASSET_ID}}\"\n        }\n    }\n}",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/ContractRequest\",\n    \"connectorAddress\": \"http://provider-tractusx-connector-controlplane.provider:8084/api/v1/dsp\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"providerId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"connectorId\": \"{{CONSUMER_CLIENT_ID}}\",\n    \"offer\": {\n        \"assetId\": \"{{ASSET_ID}}\",\n        \"offerId\": \"{{CONTRACT_OFFER_ID}}\",\n        \"policy\": {\n            \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",\n            \"@type\": \"odrl:Set\",\n            \"permission\": {\n                \"odrl:target\": \"{{ASSET_ID}}\",\n                \"odrl:action\": {\n                    \"odrl:type\": \"https://w3id.org/edc/v0.0.1/ns/USE\"\n                }\n            },\n            \"prohibition\": [],\n            \"obligation\": [],\n            \"target\": \"{{ASSET_ID}}\"\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -603,7 +603,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/TransferRequest\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"connectorId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"assetId\": \"{{ASSET_ID}}\",\n    \"dataDestination\": {\n        \"type\": \"AmazonS3\",\n        \"bucketName\": \"\", // REPLACE WITH THE DESTINATION BUCKET NAME\n        \"keyName\": \"\", // REPLACE WITH YOUR OBJECT NAME \n        \"region\": \"\", // REPLACE WITH THE BUCKET REGION\n        \"accessKeyId\": \"\", // REPLACE WITH YOUR ACCESS KEY ID\n        \"secretAccessKey\": \"\" // REPLACE WITH SECRET ACCESS KEY \n    },\n    \"transferType\": {\n        \"contentType\": \"application/json\",\n        \"isFinite\": true\n    }\n}",
+							"raw": "{\n    \"@context\": {\n        \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\"\n    },\n    \"@type\": \"https://w3id.org/edc/v0.0.1/ns/TransferRequest\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"connectorAddress\": \"{{PROVIDER_PROTOCOL_URL}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"connectorId\": \"{{PROVIDER_CLIENT_ID}}\",\n    \"assetId\": \"{{ASSET_ID}}\",\n    \"transferType\": {\n        \"contentType\": \"application/json\",\n        \"isFinite\": true\n    },\n    \"dataDestination\": {\n        \n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -668,7 +668,7 @@
 		},
 		{
 			"key": "PROVIDER_PROTOCOL_URL",
-			"value": "http://provider-tractusx-connector-controlplane.default:8084/api/v1/dsp",
+			"value": "http://provider-tractusx-connector-controlplane.provider:8084/api/v1/dsp",
 			"type": "string"
 		},
 		{
