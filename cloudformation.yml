@@ -336,9 +336,16 @@ Resources:
         SecurityGroupIds:
           - !Ref DAPSSecurityGroup
           - !Ref EfsSecurityGroup
+        BlockDeviceMappings:
+          - DeviceName: /dev/xvda
+            Ebs:
+              VolumeSize: 10
+              VolumeType: gp2
+              Encrypted: true
         UserData: 
           Fn::Base64: !Sub |
             #!/bin/bash
+            yum update -y
             echo "Installing EFC utils"
             yum install -y amazon-efs-utils
             mount -t efs -o tls ${FileSystem}:/ /home/ec2-user
@@ -484,6 +491,7 @@ Resources:
     Type: AWS::EFS::FileSystem
     Properties:
       PerformanceMode: !Ref PerformanceMode
+      Encrypted: true
   MountTarget1:
     Type: AWS::EFS::MountTarget
     DependsOn:
