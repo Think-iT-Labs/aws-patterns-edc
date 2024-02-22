@@ -43,6 +43,10 @@ Parameters:
       - t2.small
       - t2.medium
       - t2.large
+      - t3.micro
+      - t3.small
+      - t3.medium
+      - t3.large
       - m1.small
       - m1.medium
       - m1.large
@@ -59,6 +63,10 @@ Parameters:
       - m4.2xlarge
       - m4.4xlarge
       - m4.10xlarge
+      - m5.large
+      - m5.xlarge
+      - m6i.large
+      - m6i.xlarge
       - c1.medium
       - c1.xlarge
       - c3.large
@@ -328,6 +336,7 @@ Resources:
     - SecurityGroupIngress
     Properties:
       LaunchTemplateName: DAPSTemplateName
+
       LaunchTemplateData:
         ImageId: !Ref LatestAmiId
         InstanceType: !Ref InstanceType
@@ -336,6 +345,11 @@ Resources:
         SecurityGroupIds:
           - !Ref DAPSSecurityGroup
           - !Ref EfsSecurityGroup
+        TagSpecifications:
+          - ResourceType: "instance"
+            Tags:
+            - Key: "Name"
+              Value: !Sub ${EnvironmentName}-instance
         BlockDeviceMappings:
           - DeviceName: /dev/xvda
             Ebs:
@@ -345,41 +359,47 @@ Resources:
         UserData: 
           Fn::Base64: !Sub |
             #!/bin/bash
-            yum update -y
-            echo "Installing EFC utils"
-            yum install -y amazon-efs-utils
-            mount -t efs -o tls ${FileSystem}:/ /home/ec2-user
-            echo "Installing Git"
-            yum install git -y
-            echo "Installing Docker"
-            yum install docker -y
+            until yum update -y; do echo "Waiting for yum update to run successfully"; sleep 1;done
+            echo "Installing EFS utils, git and docker..."
+            until yum install -y amazon-efs-utils docker git; do echo "Waiting for installs to complete..."; sleep 1;done
+            echo "Packages updated and installed"
+            mkdir -p /srv/mvds
+            chmod 755 /srv/mvds
+            mount -t efs -o tls ${FileSystem}:/ /srv/mvds
+            echo "Configuring Docker for this instance"
             usermod -a -G docker ec2-user
+            [ $? != 0 ] && echo "Error adding ec2-user to docker group"
             id ec2-user
             # newgrp docker
             service docker start
             systemctl enable docker.service
+
             echo "Installing Docker Compose"
             curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-            docker-compose version
+            [ $? != 0 ] && echo "Error downloading docker compose"
             chmod +x /usr/local/bin/docker-compose
+            docker-compose version
+            
             echo "Waiting random seconds between 1 and 10sec to avoid writing conflicts"
             sleep $(( (RANDOM % 10) + 1 ))
-            if [ ! -d /home/ec2-user/omejdn-daps ]
+             if [ ! -d /srv/mvds/omejdn-daps ]
             then
               echo "Cloning Git Repository"
-              git clone https://github.com/International-Data-Spaces-Association/omejdn-daps /home/ec2-user/omejdn-daps
-              cd /home/ec2-user/omejdn-daps
+              git clone https://github.com/International-Data-Spaces-Association/omejdn-daps /srv/mvds/omejdn-daps
+              chmod 755 /srv/mvds/omejdn-daps
+              cd /srv/mvds/omejdn-daps
               openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 365 -nodes -subj "/C=TN"
               echo "Updating Env variables"
               sed -i "s/development/production/g" .env
               sed -i "s/localhost/${DNSName}/g" .env
               sed -i "s/http/https/g" .env
-              sed -i "s/.\/dummy.key/\/home\/ec2-user\/omejdn-daps\/key.pem/g" .env
-              sed -i "s/.\/dummy.cert/\/home\/ec2-user\/omejdn-daps\/cert.pem/g" .env
+              sed -i "s/.\/dummy.key/\/srv\/mvds\/omejdn-daps\/key.pem/g" .env
+              sed -i "s/.\/dummy.cert/\/srv\/mvds\/omejdn-daps\/cert.pem/g" .env
             fi
-            cd /home/ec2-user/omejdn-daps
+            cd /srv/mvds/omejdn-daps
             echo "Run Docker Compose"
             docker-compose up -d
+            [ $? != 0 ] && echo "Error running docker compose"
 
   AutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
