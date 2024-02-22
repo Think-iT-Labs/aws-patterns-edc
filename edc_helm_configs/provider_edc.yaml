@@ -59,7 +59,7 @@ controlplane:
   ingresses:
     ## Public / Internet facing Ingress
     - enabled: false
-      hostname: "edc-control.provider"
+      hostname: "edc-control.{PROVIDER_NAMESPACE}"
       # -- EDC endpoints exposed by this ingress resource
       endpoints:
         - protocol
