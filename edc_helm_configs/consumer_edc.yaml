@@ -55,6 +55,16 @@ controlplane:
       # -- authentication key, must be attached to each 'X-Api-Key' request header
       authKey: "root"
 
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      add: []
+      drop:
+      - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 10001
+
   ## Ingress declaration to expose the network service.
   ingresses:
     ## Public / Internet facing Ingress
