@@ -35,7 +35,7 @@ Parameters:
   InstanceType:
     Description: EC2 DAPS instance type
     Type: String
-    Default: t2.small
+    Default: t3.small
     AllowedValues:
       - t1.micro
       - t2.nano
