@@ -663,7 +663,7 @@
 	"variable": [
 		{
 			"key": "CONSUMER_MANAGEMENT_URL",
-			"value": "http://localhost:8200/management/v2",
+			"value": "http://localhost:8300/management/v2",
 			"type": "string"
 		},
 		{
