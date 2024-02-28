@@ -513,7 +513,7 @@
 	"variable": [
 		{
 			"key": "PROVIDER_MANAGEMENT_URL",
-			"value": "http://localhost:8100/management/v2",
+			"value": "http://localhost:8400/management/v2",
 			"type": "string"
 		},
 		{
