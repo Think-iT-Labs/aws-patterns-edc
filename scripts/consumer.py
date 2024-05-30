@@ -120,6 +120,9 @@ def create_contract_negociation(provider_url, provider_id, consumer_id,
     Returns:
         str: The ID of the created contract negotiation.
     """
+
+    print(provider_id)
+    print(consumer_id)
     payload = {
         "@context": {
             "edc": "https://w3id.org/edc/v0.0.1/ns/"
@@ -127,8 +130,8 @@ def create_contract_negociation(provider_url, provider_id, consumer_id,
         "@type": "https://w3id.org/edc/v0.0.1/ns/ContractRequest",
         "connectorAddress": provider_url,
         "protocol": "dataspace-protocol-http",
-        "providerId": provider_id,
-        "connectorId": consumer_id,
+        "providerId": provider_id["providerID"],
+        "connectorId": provider_id["providerID"],
         "offer": {
             "assetId": asset_id,
             "offerId": contract_id,
@@ -150,6 +153,7 @@ def create_contract_negociation(provider_url, provider_id, consumer_id,
     contract_negotiation_url = base_url+'/contractnegotiations'
     contract_negotiation_json = make_api_request(contract_negotiation_url,
                                                  payload, api_key)
+    print(contract_negotiation_json)
     return contract_negotiation_json["@id"]
 
 
@@ -183,7 +187,7 @@ def is_negotiation_verified(negotiation):
     Returns:
         bool: True if the negotiation is verified, False otherwise.
     """
-    if "edc:state" in negotiation and negotiation["edc:state"] == "VERIFIED":
+    if "edc:state" in negotiation and negotiation["edc:state"] == "FINALIZED":
         return True
     return False
 
@@ -256,7 +260,7 @@ def transfer_process(provider_url, provider_id, agreement_id, asset_id):
         "protocol": "dataspace-protocol-http",
         "connectorAddress": provider_url,
         "contractId": agreement_id,
-        "connectorId": provider_id,
+        "connectorId": provider_id["providerID"],
         "assetId": asset_id,
         "dataDestination": {
             "type": "AmazonS3",
@@ -267,6 +271,7 @@ def transfer_process(provider_url, provider_id, agreement_id, asset_id):
             "secretAccessKey": secret_access_key
         }
     }
+    print(provider_id)
     transfer_process_json = make_api_request(
         transfer_process_url, myobj, api_key)
     return transfer_process_json["@id"]
