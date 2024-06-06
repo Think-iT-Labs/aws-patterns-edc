@@ -1,22 +1,29 @@
-# Setup a Minimum Viable Data Space (MVDS) on AWS
+# Set up a minimum viable data space to share data between organizations - Repository for the AWS Pattern Guide
 
-Data spaces are federated networks for data exchange with trust and control over one's data as core principles. 
+Data spaces are federated networks for data exchange with trust and control over one's data as core principles. They enable organizations to share, exchange, and collaborate on data at scale by offering a cost-effective and technology-agnostic solution.
 
-They enable organisations to share, exchange and collaborate on data at scale by offering a cost-effective and technology agnostic solution. 
+Data spaces have the potential to significantly drive efforts for a sustainable future by using data-driven problem solving with an end-to-end approach that involves all relevant stakeholders.
 
-Data spaces have the potential to significantly drive our efforts for a sustainable future by leveraging data-driven problem solving with an end-to-end approach that involves all relevant stakeholders.
+This pattern guides you through the example of how two companies can use data space technology on Amazon Web Services (AWS) to drive their carbon emissions‒reduction strategy forward. In this scenario, company X provides carbon-emissions data, which company Y consumes. 
 
-In this pattern, we guide you through the example of how two companies can leverage data space technology on top of AWS to drive their carbon emissions intensity strategy forward.
+See the Additional information section in the AWS Pattern Guide for the following data space specification details:
 
-Concretely, we provide guided steps on:
+* Participants
+* Business case
+* Data space authority
+* Data space components
+* Data space services
+* Data to be exchanged
+* Data model
 
-1. How to deploy the infrastructure needed for a simple data space with two participants on top of AWS.
-2. How to exchange carbon emissions intensity data using the connectors in a sovereign way.
+The pattern includes steps for the following:
+* Deploying the infrastructure needed for a basic data space with two participants running on AWS.
+* Exchanging carbon emissions‒intensity data by using the connectors in a secure way.
 
-This pattern deploys a Kubernetes cluster that will host data space connectors and their services via Amazon EKS. 
+This pattern deploys a Kubernetes cluster that will host data space connectors and their services through Amazon Elastic Kubernetes Service (Amazon EKS).
 
-Both the EDC control plane and data plane will be deployed on Amazon EKS and we use the official Tractus-X helm chart that deploys PostgreSQL and Vault services as dependencies. 
+The Eclipse Dataspace Components (EDC) control plane and data plane are both deployed on Amazon EKS. The official Tractus-X Helm chart deploys PostgreSQL and HashiCorp Vault services as dependencies.
 
-In addition, we deploy the identity service on Amazon EC2 in order to replicate a real life scenario of an MVDS. 
+In addition, the identity service is deployed on Amazon Elastic Compute Cloud (Amazon EC2) to replicate a real-life scenario of a minimum viable data space (MVDS).
 
 > Public link to the AWS Pattern: https://think-it.notion.site/Setup-a-Minimum-Viable-Data-Space-MVDS-on-AWS-c6c4fcff638d476f9159b1ad5534cf2b
