@@ -55,7 +55,7 @@ The MVDS architecture comprises one virtual private cloud (VPC) for Amazon EKS.
 
 Data spaces are designed to be technology-agnostic solutions, and multiple implementations exist. This pattern uses an Amazon EKS cluster to deploy the data space technical components. The following diagram shows the deployment of the EKS cluster. Worker nodes are installed in private subnets.
 
-![eks architecture](assets/eks-architecture.png)
+![eks architecture](./assets/eks-architecture.png)
 
 ## Best practices
 
