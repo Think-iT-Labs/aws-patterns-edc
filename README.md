@@ -1,3 +1,10 @@
+<style>
+  .h3-style {
+    font-size: 1.17em; /* Default <h3> size */
+    font-weight: bold;
+    margin: 0; /* Optional: Adjust spacing */
+  }
+</style>
 # Set up a minimum viable data space to share data between organizations on AWS
 
 ## Summary
@@ -67,4 +74,10 @@ In a more realistic situation, each participant would have a separate Kubernetes
 
 ## Epics
 
-### Set up the infrastructure, and provision an EKS cluster
+<details>
+  <summary class="h3-style">Set up the environment, and provision an EKS cluster and EC2 instances</summary>
+
+| **Task**                                   | **Description**                                                                                                                                                                                                                                                                                                            | **Skills required** |
+|--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
+| **Clone the repository.**                  | To clone the repository to your workstation, run the following command:<br><br>```bash<br>git clone https://github.com/Think-iT-Labs/aws-patterns-edc<br>```<br><br>The workstation must have access to your AWS account.                                                                                                  | DevOps engineer     |
+| **Provision the Kubernetes cluster and set up namespaces.** | To deploy a simplified default EKS cluster in your account, run the following `eksctl` command on the workstation where you cloned the repo:<br><br>```bash<br>eksctl create cluster<br>```<br><br>The command creates the VPC and subnets that span three different Availability Zones. It also creates two `m5.large` EC2 instances.<br><br>For more information and example output, see the [eksctl guide](https://eksctl.io). | DevOps engineer     |
