@@ -77,3 +77,4 @@ To clone the repository to your workstation, run the following command:
 ```bash
 git clone https://github.com/Think-iT-Labs/aws-patterns-edc
 ```
+>The workstation must have access to your AWS account.
