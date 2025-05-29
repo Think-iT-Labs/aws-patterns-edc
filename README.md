@@ -34,6 +34,7 @@ In addition, this pattern replaces the centralized identity service used in prev
 * [AWS Command Line Interface (AWS CLI)](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed and configured in your chosen AWS Region
 * [AWS security credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
 * [Git](https://github.com/git-guides/install-git) on your workstation
+* [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
 * [Helm](https://helm.sh/docs/intro/install/)
 * [Postman](https://www.postman.com/downloads/)
@@ -43,6 +44,7 @@ In addition, this pattern replaces the centralized identity service used in prev
 #### Product versions
 
 * AWS CLI version 2+
+* Terraform 1.12.0+
 * kubectl 1.33+
 * Helm 3
 * Postman Collection v2.1
@@ -76,5 +78,28 @@ To clone the repository to your workstation, run the following command:
 
 ```bash
 git clone https://github.com/Think-iT-Labs/aws-patterns-edc
+cd aws-patterns-edc/infrastructure
 ```
 >The workstation must have access to your AWS account.
+
+#### Provision the Kubernetes cluster using Terraform
+
+To deploy the Amazon EKS architecture in your AWS account, we use Terraform. Follow the steps below to set up the infrastructure:
+
+The Terraform configuration is organized in the `infrastructure` folder of the repository, which includes two subfolders:
+
+* `backend`: Contains the configuration for the Terraform state backend using Amazon S3.
+* `eks`: Includes the configuration files for provisioning the EKS cluster.
+
+The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default. However, you can change it to your preferred AWS Region.
+
+To update the AWS Region, modify the `aws_region` variable in both the `backend/terraform.tfvars` and `eks/terraform.tfvars` files. 
+
+To provision Terraform state backend, run the following commands:
+
+```bash
+cd backend
+terraform init
+terraform plan
+terraform apply -auto-approve
+```
