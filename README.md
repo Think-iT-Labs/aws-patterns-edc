@@ -84,18 +84,17 @@ cd aws-patterns-edc/infrastructure
 
 #### Provision the Kubernetes cluster using Terraform
 
-To deploy the Amazon EKS architecture in your AWS account, we use Terraform. Follow the steps below to set up the infrastructure:
+To deploy the Amazon EKS architecture in your AWS account, this pattern uses Terraform to automate the infrastructure setup. Follow the step-by-step instructions below to provision the necessary resources.
 
 The Terraform configuration is organized in the `infrastructure` folder of the repository, which includes two subfolders:
 
-* `backend`: Contains the configuration for the Terraform state backend using Amazon S3.
-* `eks`: Includes the configuration files for provisioning the EKS cluster.
+* `backend`: contains the configuration for the [Terraform state](https://developer.hashicorp.com/terraform/language/state) backend using Amazon S3.
+* `eks`: includes the configuration files for provisioning the EKS cluster.
 
-The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default. However, you can change it to your preferred AWS Region.
+The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default.
+However, you can change it to your preferred region by updating the `aws_region` variable in both the `backend/terraform.tfvars` and `eks/terraform.tfvars` files.
 
-To update the AWS Region, modify the `aws_region` variable in both the `backend/terraform.tfvars` and `eks/terraform.tfvars` files. 
-
-To provision Terraform state backend, run the following commands:
+To provision Terraform state S3 backend, run the following commands:
 
 ```bash
 cd backend
@@ -103,3 +102,4 @@ terraform init
 terraform plan
 terraform apply -auto-approve
 ```
+>Those commands initialize the Terraform backend and provision the S3 bucket for storing the Terraform state.
