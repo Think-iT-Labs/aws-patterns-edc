@@ -76,7 +76,7 @@ In a more realistic situation, each participant would have a separate Kubernetes
 
 <details>
   <summary class="h3-style">Set up the environment, and provision an EKS cluster and EC2 instances</summary>
-
+<br>
 
 | **Task**                                   | **Description**                                                                                                                                                                                                                                                                                                            | **Skills required** |
 |--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
