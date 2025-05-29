@@ -131,10 +131,10 @@ The Terraform configuration creates the following resources by default, as desig
 
 Additionally, the configuration installs several add-ons inside the EKS cluster, including:
 
-- **Metrics Server** for resource monitoring.
+- **Metrics Server** for cluster resource monitoring.
 - **EBS CSI Driver** to enable dynamic provisioning of EBS volumes for persistent storage.  
 - **AWS Load Balancer Controller** to automatically provision Application Load Balancers (ALBs).
-- **External DNS** to automatically manage DNS records in the hosted zone.
+- **External DNS** to automatically manage DNS records in the Route 53 hosted zone records.
 
 After you provision the private cluster, add the new EKS cluster to your local Kubernetes configuration by running the following command:
 
