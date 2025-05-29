@@ -1,12 +1,10 @@
-<div style="display: none;">
-  <style>
-    .h3-style {
-      font-size: 1.17em;
-      font-weight: bold;
-      margin: 0;
-    }
-  </style>
-</div>
+<style>
+  .h3-style {
+    font-size: 1.17em; /* Default <h3> size */
+    font-weight: bold;
+    margin: 0; /* Optional: Adjust spacing */
+  }
+</style>
 # Set up a minimum viable data space to share data between organizations on AWS
 
 ## Summary
@@ -77,7 +75,7 @@ In a more realistic situation, each participant would have a separate Kubernetes
 ## Epics
 
 <details>
-  <summary><span style="font-size:1.17em; font-weight:bold;">Set up the environment, and provision an EKS cluster and EC2 instances</span></summary>
+  <summary class="h3-style">Set up the environment, and provision an EKS cluster and EC2 instances</summary>
 <br>
 
 | **Task**                                   | **Description**                                                                                                                                                                                                                                                                                                            | **Skills required** |
