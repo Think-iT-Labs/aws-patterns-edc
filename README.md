@@ -77,6 +77,7 @@ In a more realistic situation, each participant would have a separate Kubernetes
 <details>
   <summary class="h3-style">Set up the environment, and provision an EKS cluster and EC2 instances</summary>
 
+
 | **Task**                                   | **Description**                                                                                                                                                                                                                                                                                                            | **Skills required** |
 |--------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|
 | **Clone the repository.**                  | To clone the repository to your workstation, run the following command:<br><br>```bash<br>git clone https://github.com/Think-iT-Labs/aws-patterns-edc<br>```<br><br>The workstation must have access to your AWS account.                                                                                                  | DevOps engineer     |
