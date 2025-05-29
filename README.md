@@ -135,3 +135,16 @@ Additionally, the configuration installs several add-ons inside the EKS cluster,
 - **EBS CSI Driver** to enable dynamic provisioning of EBS volumes for persistent storage.  
 - **AWS Load Balancer Controller** to automatically provision Application Load Balancers (ALBs).
 - **External DNS** to automatically manage DNS records in the hosted zone.
+
+After you provision the private cluster, add the new EKS cluster to your local Kubernetes configuration by running the following command:
+
+```bash
+aws eks update-kubeconfig --name aws-patterns-edc --region <AWS REGION>
+```
+>Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster.
+
+To confirm that your EKS nodes are running and are in the ready state, run the following command:
+
+```bash
+kubectl get nodes
+```
