@@ -122,7 +122,7 @@ terraform apply -auto-approve
 ```
 >The provisioning process may take several minutes to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
-The Terraform configuration creates the following resources by default, as designed in the Amazon EKS architecture diagram:
+The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/17-develop-a-terraform-based-user-guide-for-hosting-a-minimum-viable-data-space-on-aws/assets/Amazon%20EKS%20architecture.png) diagram:
 
 - A VPC with two **public** and two **private** subnets.
 - An **Internet Gateway** attached to the VPC for internet connectivity.
