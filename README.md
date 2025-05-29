@@ -121,3 +121,17 @@ terraform plan
 terraform apply -auto-approve
 ```
 >The provisioning process may take several minutes to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
+
+The Terraform configuration creates the following resources by default, as designed in the Amazon EKS architecture diagram:
+
+- A VPC with two **public** and two **private** subnets.
+- An **Internet Gateway** attached to the VPC for internet connectivity.
+- A **NAT Gateway** to enable internet access from the private subnets.
+- An **Amazon EKS cluster** configured with two `t3a.medium` nodes provisioned in the private subnets.
+
+Additionally, the configuration installs several add-ons inside the EKS cluster, including:
+
+- **Metrics Server** for resource monitoring.
+- **EBS CSI Driver** to enable dynamic provisioning of EBS volumes for persistent storage.  
+- **AWS Load Balancer Controller** to automatically provision Application Load Balancers (ALBs).
+- **External DNS** to automatically manage DNS records in the hosted zone.
