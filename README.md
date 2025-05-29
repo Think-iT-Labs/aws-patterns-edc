@@ -1,3 +1,4 @@
+<!-- Hidden CSS (won't render) -->
 <style>
   .h3-style {
     font-size: 1.17em; /* Default <h3> size */
