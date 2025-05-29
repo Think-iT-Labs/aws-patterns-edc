@@ -94,6 +94,8 @@ The Terraform configuration is organized in the `infrastructure` folder of the r
 The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default.
 However, you can change it to your preferred region by updating the `aws_region` variable in both the `backend/terraform.tfvars` and `eks/terraform.tfvars` files.
 
+##### Provision S3 bucket for storing Terraform state
+
 To provision Terraform state S3 backend, run the following commands:
 
 ```bash
@@ -102,4 +104,20 @@ terraform init
 terraform plan
 terraform apply -auto-approve
 ```
->Those commands initialize the Terraform backend and provision the S3 bucket for storing the Terraform state.
+
+##### Provision Amazon EKS architecture
+
+Before provisioning the EKS cluster, ensure that the S3 bucket for storing the Terraform state has been created. The EKS Terraform configuration relies on this S3 bucket to manage the state files.
+
+If you change the AWS Region, remember to update the `aws_region` variable in the `eks/terraform.tfvars` file. Additionally, update the region setting in the backend block of the Terraform backend configuration `eks/terraform.tf` file to reflect the new region.
+
+To provision the EKS cluster, run the following commands:
+
+```bash
+cd .. 
+cd eks
+terraform init
+terraform plan
+terraform apply -auto-approve
+```
+>The provisioning process may take several minutes to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
