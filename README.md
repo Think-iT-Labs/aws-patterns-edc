@@ -1,11 +1,12 @@
-<!-- Hidden CSS (won't render) -->
-<style>
-  .h3-style {
-    font-size: 1.17em; /* Default <h3> size */
-    font-weight: bold;
-    margin: 0; /* Optional: Adjust spacing */
-  }
-</style>
+<div style="display: none;">
+  <style>
+    .h3-style {
+      font-size: 1.17em;
+      font-weight: bold;
+      margin: 0;
+    }
+  </style>
+</div>
 # Set up a minimum viable data space to share data between organizations on AWS
 
 ## Summary
