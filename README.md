@@ -97,7 +97,7 @@ However, you can change it to your preferred region by updating the `aws_region`
 
 ⚠️ **Important:**
 
-As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required to expose the connector endpoints publicly.
+As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
 
 You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
 
