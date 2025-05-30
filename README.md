@@ -112,7 +112,7 @@ terraform init
 terraform plan
 terraform apply -auto-approve
 ```
->The provisioning process may take several minutes to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
+>The provisioning process may take **about 30 to 40 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
