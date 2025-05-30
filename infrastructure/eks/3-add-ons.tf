@@ -1,7 +1,7 @@
 locals {
   addons_namespace                 = "kube-system"
   aws_lbc_service_account          = "aws-load-balancer-controller"
-  aws_ebs_csic_service_account     = "ebs-csi-controller"
+  aws_ebs_csic_service_account     = "ebs-csi-controller-sa"
   external_dns_service_account     = "external-dns"
   external_secrets_service_account = "external-secrets"
 }

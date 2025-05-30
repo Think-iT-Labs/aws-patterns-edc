@@ -45,7 +45,7 @@ In addition, this pattern replaces the centralized identity service used in prev
 
 * AWS CLI version 2+
 * Terraform 1.12.0+
-* kubectl 1.33+
+* kubectl 1.32+
 * Helm 3
 * Postman Collection v2.1
 
