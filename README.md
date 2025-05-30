@@ -82,34 +82,26 @@ cd aws-patterns-edc/infrastructure
 ```
 >The workstation must have access to your AWS account.
 
-#### Provision the Kubernetes cluster using Terraform
+#### Provision Amazon EKS cluster architecture using Terraform
 
 To deploy the Amazon EKS architecture in your AWS account, this pattern uses Terraform to automate the infrastructure setup. Follow the step-by-step instructions below to provision the necessary resources.
 
-The Terraform configuration is organized in the `infrastructure` folder of the repository, which includes two subfolders:
+The Terraform configuration is organized in the `infrastructure` folder of the repository, which includes a subfolder:
 
-* `backend`: contains the configuration for the [Terraform state](https://developer.hashicorp.com/terraform/language/state) backend using Amazon S3.
 * `eks`: includes the configuration files for provisioning the EKS cluster.
 
 The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default.
-However, you can change it to your preferred region by updating the `aws_region` variable in both the `backend/terraform.tfvars` and `eks/terraform.tfvars` files.
+However, you can change it to your preferred region by updating the `aws_region` variable in `eks/terraform.tfvars` file.
 
-#### Provision S3 bucket for storing Terraform state
+---
 
-To provision Terraform state S3 backend, run the following commands:
+⚠️ **Important:**
 
-```bash
-cd backend
-terraform init
-terraform plan
-terraform apply -auto-approve
-```
+As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required to expose the connector endpoints publicly.
 
-#### Provision Amazon EKS architecture
+You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
 
-Before provisioning the EKS cluster, ensure that the S3 bucket for storing the Terraform state has been created. The EKS Terraform configuration relies on this S3 bucket to manage the state files.
-
-If you change the AWS Region, remember to update the `aws_region` variable in the `eks/terraform.tfvars` file. Additionally, update the region setting in the backend block of the Terraform backend configuration `eks/terraform.tf` file to reflect the new region.
+---
 
 To provision the EKS cluster, run the following commands:
 
@@ -122,7 +114,7 @@ terraform apply -auto-approve
 ```
 >The provisioning process may take several minutes to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
-The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/17-develop-a-terraform-based-user-guide-for-hosting-a-minimum-viable-data-space-on-aws/assets/Amazon%20EKS%20architecture.png) diagram:
+The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
 - A VPC with two **public** and two **private** subnets.
 - An **Internet Gateway** attached to the VPC for internet connectivity.

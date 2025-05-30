@@ -8,12 +8,11 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket       = "aws-patterns-edc-terraform-state"
-    key          = "eks.tfstate"
-    region       = "us-east-1"
-    use_lockfile = true
+
+  backend "local" {
+    path = "terraform.tfstate"
   }
+
 }
 
 provider "aws" {
