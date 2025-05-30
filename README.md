@@ -67,7 +67,7 @@ Namespaces in Kubernetes will separate the company X provider’s infrastructure
 
 In a more realistic situation, each participant would have a separate Kubernetes cluster running within their own AWS account.
 
-## Epics
+## Epics (click on ▶ to expand or collapse)
 
 <details>
   <summary><strong style="font-size:1.17em; font-weight:bold;">Set up the environment, and provision an EKS cluster and EC2 instances</strong></summary>
