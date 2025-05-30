@@ -67,7 +67,8 @@ Namespaces in Kubernetes will separate the company X provider’s infrastructure
 
 In a more realistic situation, each participant would have a separate Kubernetes cluster running within their own AWS account.
 
-## Epics (click on ▶ to expand or ▼ to collapse)
+## Epics
+(click on ▶ to expand or ▼ to collapse)
 
 <details>
   <summary><strong style="font-size:1.17em; font-weight:bold;">Set up the environment, and provision an EKS cluster and EC2 instances</strong></summary>
@@ -100,6 +101,8 @@ However, you can change it to your preferred region by updating the `aws_region`
 As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
 
 You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
+
+Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
 
 ---
 
