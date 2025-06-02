@@ -115,7 +115,7 @@ terraform init
 terraform plan
 terraform apply -auto-approve
 ```
->The provisioning process may take **about 30 to 40 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
+>The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
@@ -126,10 +126,13 @@ The Terraform configuration creates the following resources by default, as desig
 
 Additionally, the configuration installs several add-ons inside the EKS cluster, including:
 
-- **Metrics Server** for cluster resource monitoring.
-- **EBS CSI Driver** to enable dynamic provisioning of EBS volumes for persistent storage.  
-- **AWS Load Balancer Controller** to automatically provision Application Load Balancers (ALBs).
-- **External DNS** to automatically manage DNS records in the Route 53 hosted zone records.
+- **Metrics Server** for cluster resources monitoring.
+- **AWS Load Balancer Controller** to automatically provision Application Load Balancers (ALBs) for Kubernetes Ingress resources on EKS.
+- **External DNS** to automatically manage DNS records in the Route 53 hosted zone record, linking them to ALBs based on Ingress resources in EKS.
+
+**Bastion Host Consideration (optional):**
+
+The provided Terraform configuration does not include Bastion Hosts by default. However, the architecture is designed to support them if needed. In such cases, a Bastion Host should be provisioned in a public subnet to enable secure administrative access to resources in the private subnets, such as EKS worker nodes.
 
 After you provision the private cluster, add the new EKS cluster to your local Kubernetes configuration by running the following command:
 
