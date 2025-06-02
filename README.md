@@ -93,6 +93,8 @@ The Terraform configuration is organized in the `infrastructure` folder of the r
 
 The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default.
 However, you can change it to your preferred region by updating the `aws_region` variable in `eks/terraform.tfvars` file.
+Additionally, ensure that the `eks_availability_zones` variable is updated to match the Availability Zones for your chosen region.
+
 
 ---
 
