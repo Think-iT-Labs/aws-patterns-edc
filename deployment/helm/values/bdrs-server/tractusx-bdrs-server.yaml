@@ -1,0 +1,27 @@
+install:
+  postgresql: true
+  vault: true
+
+server:
+  debug:
+    enabled: true
+    port: 1046
+  env :
+    EDC_API_AUTH_KEY : "password"
+    EDC_DATASOURCE_DIDENTRY_USER : "bdrs"
+    EDC_DATASOURCE_DIDENTRY_PASSWORD : "bdrs"
+    EDC_IAM_DID_WEB_USE_HTTPS : "false"
+  endpoints:
+    management:
+      port: 8081
+      path: /api/management
+      authType: "tokenbased"
+  trustedIssuers:
+    - "did:web:issuer.learning.think-it.io"
+
+postgresql:
+  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/bdrs"
+  auth:
+    database: "bdrs"
+    username: "bdrs"
+    password: "bdrs"

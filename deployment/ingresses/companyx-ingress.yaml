@@ -1,0 +1,76 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: companyx
+  namespace: companyx
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: companyx.learning.think-it.io
+      http:
+        paths:
+          - path: /api/check/liveness
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-connector-controlplane
+                port:
+                  number: 8080
+          - path: /management
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-connector-controlplane
+                port:
+                  number: 8081
+          - path: /api/v1/dsp
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-connector-controlplane
+                port:
+                  number: 8084
+          - path: /catalog
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-connector-controlplane
+                port:
+                  number: 8085
+          - path: /api/public
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-connector-dataplane
+                port:
+                  number: 8081
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-identity-hub
+                port:
+                  number: 7083
+          - path: /api/identity
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-identity-hub
+                port:
+                  number: 7081
+          - path: /api/credentials
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-identity-hub
+                port:
+                  number: 7082
+          - path: /api/sts
+            pathType: Prefix
+            backend:
+              service:
+                name: companyx-tractusx-identity-hub
+                port:
+                  number: 7084
+
+

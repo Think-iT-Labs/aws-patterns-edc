@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: companyx-tractusx-identity-hub
+  namespace: companyx
+  labels:
+    App: companyx-tractusx-identity-hub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      App: companyx-tractusx-identity-hub
+  template:
+    metadata:
+      labels:
+        App: companyx-tractusx-identity-hub
+    spec:
+      containers:
+        - name: tx-identityhub
+          image: tx-identityhub:latest
+          ports:
+            - name: debug
+              containerPort: 1044
+            - name: default-port
+              containerPort: 7080
+            - name: pres-port
+              containerPort: 7082
+            - name: identity
+              containerPort: 7081
+            - name: did
+              containerPort: 7083
+            - name: sts-port
+              containerPort: 7084
+          envFrom:
+            - configMapRef:
+                name: companyx-tractusx-identity-hub
+          livenessProbe:
+            httpGet:
+              path: /api/check/liveness
+              port: 7080
+              scheme: HTTP
+            timeoutSeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              path: /api/check/readiness
+              port: 7080
+              scheme: HTTP
+            timeoutSeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+          startupProbe:
+            httpGet:
+              path: /api/check/startup
+              port: 7080
+              scheme: HTTP
+            timeoutSeconds: 30
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 10
+          imagePullPolicy: Never
