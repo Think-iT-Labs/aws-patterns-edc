@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: companyy-tractusx-identity-hub
+  namespace: companyy
+data:
+  JAVA_TOOL_OPTIONS: '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044'
+  EDC_IAM_DID_WEB_USE_HTTPS: 'false'
+  EDC_IH_IAM_ID: did:web:companyy.learning.think-it.io
+  EDC_IH_API_SUPERUSER_KEY: c3VwZXItdXNlcg==.c3VwZXItc2VjcmV0LWtleQo=
+  EDC_IAM_STS_PRIVATEKEY_ALIAS: 'did:web:companyy.learning.think-it.io#signing-key-1'
+  EDC_IAM_STS_PUBLICKEY_ID: 'did:web:companyy.learning.think-it.io#signing-key-1'
+  EDC_SQL_SCHEMA_AUTOCREATE: 'true'
+  EDC_DATASOURCE_DEFAULT_PASSWORD: companyy
+  EDC_DATASOURCE_DEFAULT_URL: jdbc:postgresql://companyy-postgresql/edc
+  EDC_DATASOURCE_DEFAULT_USER: companyy
+  EDC_VAULT_HASHICORP_TOKEN: root
+  EDC_VAULT_HASHICORP_URL: http://companyy-vault:8200
+  WEB_HTTP_CREDENTIALS_PATH: /api/credentials
+  WEB_HTTP_CREDENTIALS_PORT: '7082'
+  WEB_HTTP_DID_PATH: /
+  WEB_HTTP_DID_PORT: '7083'
+  WEB_HTTP_IDENTITY_AUTH_KEY: password
+  WEB_HTTP_IDENTITY_PATH: /api/identity
+  WEB_HTTP_IDENTITY_PORT: '7081'
+  WEB_HTTP_PATH: /api
+  WEB_HTTP_PORT: '7080'
+  WEB_HTTP_STS_PATH: /api/sts
+  WEB_HTTP_STS_PORT: '7084'
+  EDC_MVD_CREDENTIALS_PATH: /etc/credentials/

@@ -1,0 +1,82 @@
+service:
+  type: ClusterIP
+
+extraVolumes:
+  - name: did-document
+    configMap:
+      name: did-document
+      items:
+        - key: did.json
+          path: did.json
+  - name: did-document-index
+    configMap:
+      name: did-document
+      items:
+        - key: did.json
+          path: did.json
+
+extraVolumeMounts:
+  - name: did-document
+    mountPath: /opt/bitnami/nginx/html/.well-known/
+    readOnly: true
+  - name: did-document-index
+    mountPath: /opt/bitnami/nginx/html/
+    readOnly: true
+
+extraDeploy:
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: did-document
+    data:
+      did.json: |
+        {
+          "service":[
+          
+          ],
+          "verificationMethod":[
+            {
+              "id":"did:web:issuer.learning.think-it.io#key-1",
+              "type":"JsonWebKey2020",
+              "controller":"did:web:did:web:issuer.learning.think-it.io",
+              "publicKeyMultibase":null,
+              "publicKeyJwk":{
+                "kty":"OKP",
+                "crv":"Ed25519",
+                "kid":"did:web:issuer.learning.think-it.io#key-1",
+                "x":"_fHascHXzpCjkm7pW6o7qNzHo50ANyC5RxjidICeY74"
+              }
+            }
+          ],
+          "authentication":[
+          
+          ],
+          "id":"did:web:issuer.learning.think-it.io",
+          "@context":[
+            "https://w3id.org/did-resolution/v1",
+            "https://www.w3.org/ns/did/v1"
+          ]
+        }
+
+serverBlock: |
+  server {
+    listen 0.0.0.0:8080;
+    root /opt/bitnami/nginx/html;
+  
+    location / {
+          index did.json index.html index.htm;
+      }
+  
+    location = /.well-known/did.json {
+      default_type application/json;
+      add_header Access-Control-Allow-Origin *;
+      add_header Cache-Control "public, max-age=3600";
+    }
+  }
+
+ingress:
+  enabled: true
+  pathType: Prefix
+  ingressClassName: nginx
+  hostname: issuer.learning.think-it.io
+  path: /

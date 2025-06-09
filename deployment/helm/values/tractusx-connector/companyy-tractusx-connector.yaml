@@ -1,0 +1,56 @@
+install:
+  postgresql: true
+  vault: true
+
+participant:
+  id: "BPNL000000000002"
+
+iatp:
+  id: "did:web:companyy.learning.think-it.io"
+  trustedIssuers:
+    - "did:web:issuer.learning.think-it.io"
+  sts:
+    oauth:
+      token_url: "http://companyy.learning.think-it.io/api/sts/token"
+      client:
+        id: "did:web:companyy.learning.think-it.io"
+        secret_alias: "did:web:companyy.learning.think-it.io-sts-client-secret"
+
+controlplane:
+  env:
+    "EDC_HOSTNAME" : "companyy-tractusx-connector-controlplane"
+    "EDC_DSP_CALLBACK_ADDRESS" : "http://companyy.learning.think-it.io/api/v1/dsp"
+    "EDC_DATAPLANE_SELECTOR_DEFAULTPLANE_SOURCETYPES": "HttpData,AmazonS3"
+    "EDC_DATAPLANE_SELECTOR_DEFAULTPLANE_DESTINATIONTYPES": "HttpProxy,AmazonS3"
+    "EDC_IAM_DID_WEB_USE_HTTPS" : "false"
+  bdrs:
+    server:
+      url: "http://bdrs.learning.think-it.io/api/directory"
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+dataplane:
+  token:
+    signer:
+      privatekey_alias: "did:web:companyy.learning.think-it.io#signing-key-1"
+    verifier:
+      publickey_alias: "did:web:companyy.learning.think-it.io#signing-key-1"
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+postgresql:
+  jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
+  auth:
+    database: "edc"
+    username: "companyy"
+    password: "companyy"

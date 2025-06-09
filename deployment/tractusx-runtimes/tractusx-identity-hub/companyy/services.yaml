@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: companyy-tractusx-identity-hub
+  namespace: companyy
+spec:
+  ports:
+    - name: debug
+      port: 1044
+      targetPort: 1044
+    - name: identity
+      port: 7081
+      targetPort: 7081
+    - name: credentials
+      port: 7082
+      targetPort: 7082
+    - name: did
+      port: 7083
+      targetPort: 7083
+    - name: sts
+      port: 7084
+      targetPort: 7084
+  selector:
+    App: companyy-tractusx-identity-hub
+  type: ClusterIP
