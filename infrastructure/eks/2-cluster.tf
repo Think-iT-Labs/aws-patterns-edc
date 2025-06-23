@@ -125,7 +125,7 @@ resource "aws_eks_node_group" "eks_worker_nodes" {
   }
 
   labels = {
-    role        = "general"
+    role    = "general"
     cluster = var.eks_name
   }
 

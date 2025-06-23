@@ -144,4 +144,3 @@ variable "external_secrets_chart_version" {
   description = "Version of the External Secrets Helm chart to deploy"
   type        = string
 }
-

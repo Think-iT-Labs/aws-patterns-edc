@@ -1,0 +1,49 @@
+---
+install:
+  postgresql: true
+  vault: true
+
+server:
+  debug:
+    enabled: true
+    port: 1046
+  env :
+    EDC_API_AUTH_KEY : ${api_auth_key}
+    EDC_DATASOURCE_DIDENTRY_USER : ${postgresql_auth_username}
+    EDC_DATASOURCE_DIDENTRY_PASSWORD : ${postgresql_auth_password}
+  endpoints:
+    management:
+      port: 8081
+      path: /api/management
+      authType: "tokenbased"
+  trustedIssuers:
+    - ${issuer_did}
+  ingresses:
+    - enabled: true
+      hostname: ${bdrs-server_hostname}
+      annotations:
+        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+        alb.ingress.kubernetes.io/ssl-redirect: "443"
+        alb.ingress.kubernetes.io/scheme: internet-facing
+        alb.ingress.kubernetes.io/target-type: ip
+        alb.ingress.kubernetes.io/healthcheck-path: /api/check/liveness
+        alb.ingress.kubernetes.io/healthcheck-port: "8080"
+        alb.ingress.kubernetes.io/group.name: "aws-patterns-edc"
+      endpoints:
+        - directory
+        - management
+      className: ${alb_ingress_class_name}
+      tls:
+        enabled: false
+postgresql:
+  jdbcUrl: ${postgresql_jdbc_url}
+  auth:
+    postgresPassword: ${postgresql_auth_postgres_password}
+    username: ${postgresql_auth_username}
+    password: ${postgresql_auth_password}
+    database: ${postgresql_auth_database}
+
+vault:
+  hashicorp:
+    url: http://{{ .Release.Name }}-vault:8200
+    token: root

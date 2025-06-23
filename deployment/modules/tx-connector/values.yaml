@@ -1,0 +1,99 @@
+---
+install:
+  postgresql: true
+  vault: true
+
+participant:
+  id: ${participant_id}
+
+iatp:
+  id: ${participant_did}
+  trustedIssuers:
+    - ${issuer_did}
+  sts:
+    oauth:
+      token_url: ${sts_token_url}
+      client:
+        id: ${sts_client_id}
+        secret_alias: ${sts_secret_alias}
+
+controlplane:
+  env:
+    "EDC_HOSTNAME": ${edc_hostname}
+    "EDC_DSP_CALLBACK_ADDRESS": ${edc_dsp_callback_address}
+    "EDC_DATAPLANE_SELECTOR_DEFAULTPLANE_SOURCETYPES": "HttpData,AmazonS3"
+    "EDC_DATAPLANE_SELECTOR_DEFAULTPLANE_DESTINATIONTYPES": "HttpProxy,AmazonS3"
+  bdrs:
+    server:
+      url: ${bdrs_server_url}
+  debug:
+    enabled: true
+    port: 1044
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  endpoints:
+    management:
+      authKey: password
+  image:
+    pullPolicy: Always
+  securityContext:
+    # avoids some errors in the log: cannot write temp files of large multipart requests when R/O
+    readOnlyRootFilesystem: false
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+dataplane:
+  token:
+    signer:
+      privatekey_alias: ${dataplane_signer_privatekey_alias}
+    verifier:
+      publickey_alias: ${dataplane_verifier_publickey_alias}
+  env:
+    "EDC_API_AUTH_KEY": "password"
+  debug:
+    enabled: true
+    port: 1044
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+  image:
+    pullPolicy: Always
+  securityContext:
+    # avoids some errors in the log: cannot write temp files of large multipart requests when R/O
+    readOnlyRootFilesystem: false
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+postgresql:
+   jdbcUrl: ${postgresql_jdbc_url}
+   auth:
+     postgresPassword: ${postgresql_auth_postgres_password}
+     username: ${postgresql_auth_username}
+     password: ${postgresql_auth_password}
+     database: ${postgresql_auth_database}
+
+vault:
+  hashicorp:
+    url: http://{{ .Release.Name }}-vault:8200
+    token: root

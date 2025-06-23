@@ -16,7 +16,6 @@ terraform {
     }
   }
 
-
   backend "local" {
     path = "terraform.tfstate"
   }
@@ -28,18 +27,19 @@ provider "aws" {
   default_tags {
     tags = {
       Project   = var.project_name
-      Cluster   = "eks-${var.eks_name}"
+      GitRepo   = "https://github.com/Think-iT-Labs/aws-patterns-edc"
+      Cluster   = "aws-patterns-edc"
       ManagedBy = "terraform"
     }
   }
 }
 
 data "aws_eks_cluster" "eks_cluster_d" {
-  name = aws_eks_cluster.eks_cluster.name
+  name = "aws-patterns-edc"
 }
 
 data "aws_eks_cluster_auth" "eks_cluster_auth_d" {
-  name = aws_eks_cluster.eks_cluster.name
+  name = "aws-patterns-edc"
 }
 
 provider "helm" {

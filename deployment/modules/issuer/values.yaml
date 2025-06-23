@@ -1,0 +1,56 @@
+---
+service:
+  type: ClusterIP
+
+extraVolumes:
+  - name: did-document
+    configMap:
+      name: ${issuer_did_document}
+      items:
+        - key: did.json
+          path: did.json
+  - name: did-document-index
+    configMap:
+      name: ${issuer_did_document}
+      items:
+        - key: did.json
+          path: did.json
+
+extraVolumeMounts:
+  - name: did-document
+    mountPath: /opt/bitnami/nginx/html/.well-known/
+    readOnly: true
+  - name: did-document-index
+    mountPath: /opt/bitnami/nginx/html/
+    readOnly: true
+
+serverBlock: |
+  server {
+    listen 0.0.0.0:8080;
+    root /opt/bitnami/nginx/html;
+  
+    location / {
+          index did.json index.html index.htm;
+      }
+  
+    location = /.well-known/did.json {
+      default_type application/json;
+      add_header Access-Control-Allow-Origin *;
+      add_header Cache-Control "public, max-age=3600";
+    }
+  }
+
+ingress:
+  enabled: true
+  pathType: Prefix
+  annotations:
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS":443}]'
+      alb.ingress.kubernetes.io/ssl-redirect: "443"
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/healthcheck-path: /
+      alb.ingress.kubernetes.io/healthcheck-port: "80"
+      alb.ingress.kubernetes.io/group.name: "aws-patterns-edc"
+  ingressClassName: ${alb_ingress_class_name}
+  hostname: ${issuer_host}
+  path: /

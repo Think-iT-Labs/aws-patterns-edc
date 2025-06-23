@@ -1,0 +1,305 @@
+{
+	"info": {
+		"_postman_id": "6fd606c8-64d5-455d-aa50-0770cc93bd0a",
+		"name": "AWS Patterns EDC Management API Seed",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "647585"
+	},
+	"item": [
+		{
+			"name": "SeedBDRS",
+			"item": [
+				{
+					"name": "Create CompanyX BPN Mapping",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bpn\": \"{{COMPANYX_BPN}}\",\n  \"did\": \"{{COMPANYX_DID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BDRS_MGMT_URL}}/bpn-directory",
+							"host": [
+								"{{BDRS_MGMT_URL}}"
+							],
+							"path": [
+								"bpn-directory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create CompanyY BPN Mapping",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bpn\": \"{{COMPANYY_BPN}}\",\n  \"did\": \"{{COMPANYY_DID}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BDRS_MGMT_URL}}/bpn-directory",
+							"host": [
+								"{{BDRS_MGMT_URL}}"
+							],
+							"path": [
+								"bpn-directory"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{BDRS_API_AUTH_KEY}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "X-Api-Key",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "SeedIH",
+			"item": [
+				{
+					"name": "Create Participant",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200 or 409\", function () {",
+									"  pm.expect(pm.response.code).to.be.oneOf([200, 409]);",
+									"});",
+									"",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"clientId\", jsonData.clientId);",
+									"pm.environment.set(\"clientSecret\", jsonData.clientSecret);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"active\": \"true\",\n    \"did\": \"{{PARTICIPANT_DID}}\",\n    \"key\": {\n        \"keyGeneratorParams\": {\n            \"algorithm\": \"EdDSA\",\n            \"curve\": \"Ed25519\"\n        },\n        \"keyId\": \"{{PARTICIPANT_DID}}#signing-key-1\",\n        \"privateKeyAlias\": \"{{PARTICIPANT_DID}}#signing-key-1\"\n    },\n    \"participantId\": \"{{PARTICIPANT_DID}}\",\n    \"serviceEndpoints\": [\n        {\n            \"type\": \"CredentialService\",\n            \"serviceEndpoint\": \"{{CONNECTOR_URL}}/api/credentials/v1/participants/{{PARTICIPANT_DID_BASE64}}\",\n            \"id\": \"credentialservice-1\"\n        },\n        {\n            \"type\": \"ProtocolEndpoint\",\n            \"serviceEndpoint\": \"{{CONNECTOR_URL}}/api/v1/dsp\",\n            \"id\": \"dsp-url\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IH_URL}}/api/identity/v1alpha/participants",
+							"host": [
+								"{{IH_URL}}"
+							],
+							"path": [
+								"api",
+								"identity",
+								"v1alpha",
+								"participants"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Membership Credential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204 or 409\", function () {",
+									"  pm.expect(pm.response.code).to.be.oneOf([204, 409]);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"membership-credential\",\n    \"participantContextId\": \"{{PARTICIPANT_DID}}\",\n    \"issuancePolicy\": null,\n    \"reissuancePolicy\": null,\n    \"verifiableCredentialContainer\": {\n        \"format\": \"VC1_0_JWT\",\n        \"credential\": {\n            \"@context\": [\n                \"https://www.w3.org/2018/credentials/v1\",\n                \"https://w3id.org/security/suites/jws-2020/v1\",\n                \"https://www.w3.org/ns/did/v1\",\n                {\n                    \"mxd-credentials\": \"https://w3id.org/mxd/credentials/\",\n                    \"membership\": \"mxd-credentials:membership\",\n                    \"membershipType\": \"mxd-credentials:membershipType\",\n                    \"website\": \"mxd-credentials:website\",\n                    \"contact\": \"mxd-credentials:contact\",\n                    \"since\": \"mxd-credentials:since\"\n                }\n            ],\n            \"id\": \"http://org.yourdataspace.com/credentials/2347\",\n            \"type\": [\n                \"VerifiableCredential\",\n                \"MembershipCredential\"\n            ],\n            \"issuer\": \"{{ISSUER_DID}}\",\n            \"issuanceDate\": \"2023-08-18T00:00:00Z\",\n            \"credentialSubject\": {\n                \"id\": \"{{PARTICIPANT_DID}}\",\n                \"membership\": {\n                    \"membershipType\": \"FullMember\",\n                    \"website\": \"www.whatever.com\",\n                    \"contact\": \"fizz.buzz@whatever.com\",\n                    \"since\": \"2023-01-01T00:00:00Z\"\n                }\n            }\n        },\n        \"rawVc\": \"{{MEMBERSHIP_CREDENTIAL}}\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{IH_URL}}/api/identity/v1alpha/participants/{{PARTICIPANT_DID_BASE64}}/credentials",
+							"host": [
+								"{{IH_URL}}"
+							],
+							"path": [
+								"api",
+								"identity",
+								"v1alpha",
+								"participants",
+								"{{PARTICIPANT_DID_BASE64}}",
+								"credentials"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{IH_SUPERUSER_API_KEY}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "x-api-key",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
