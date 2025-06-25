@@ -194,7 +194,6 @@ Upon successful execution of the script, the following DID resources will be gen
 - `companyx.membership.jwt`: Membership credential for Company X
 - `companyy.membership.jwt`: Membership credential for Company Y
 
-⚠️ **Note:**
 These files are now ready for deployment. The Terraform configuration will automatically:
 
 - Deploy the DID issuer document (`issuer.did.json`) and make it publicly accessible by all participants for verification.
