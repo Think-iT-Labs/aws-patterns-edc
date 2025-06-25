@@ -168,7 +168,9 @@ As this pattern uses the [Eclipse Decentralized Claims Protocol (DCP)](https://e
 
 The required DID resources include:
 - **Issuer key pair:** A cryptographic key pair for the DID issuer. The private key is used to sign verifiable credentials, and the public key is used to validate them.
+
 - **Issuer DID document:** A standardized JSON document that contains the issuer's public key and relevant metadata, following the [W3C DID specification](https://www.w3.org/TR/did-core/). This document must be accessible at a public endpoint so that all participants in the data space can retrieve it to verify credentials signed by the authority. The DID document is essential for establishing trust, as it enables cryptographic verification of issued credentials.
+
 - **Verifiable credentials:** These are digital credentials issued (i.e., signed) to each participant (Company X and Company Y) by the data space authority. Each credential contains the participant's Decentralized Identifier (DID) and Business Partner Number (BPN), and is cryptographically signed by the authority's private key. This pattern uses `Membership credentials` serve as proof that a participant is an authorized member of the data space. Other participants and services can verify these credentials using the authority's public key, ensuring trust and secure access within the data space.
 
 This pattern uses the DID method web (`did:web`) to create DIDs that are resolvable via HTTPS endpoints. All DID resources are therefore linked to a specific domain name. The generation of DID resources is based on a domain name that you must provide—this should be the same domain name used in the Terraform configuration for the EKS cluster in the previous epic.
