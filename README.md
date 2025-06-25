@@ -74,6 +74,7 @@ Namespaces in Kubernetes will separate the company X provider’s infrastructure
 In a more realistic situation, each participant would have a separate Kubernetes cluster running within their own AWS account.
 
 ## Epics
+
 (click on ▶ to expand or ▼ to collapse)
 
 <details>
@@ -87,7 +88,8 @@ To clone the repository to your workstation, run the following command:
 git clone https://github.com/Think-iT-Labs/aws-patterns-edc
 cd aws-patterns-edc/infrastructure
 ```
->The workstation must have access to your AWS account.
+
+> The workstation must have access to your AWS account.
 
 #### Provision Amazon EKS cluster architecture using Terraform
 
@@ -104,12 +106,12 @@ Additionally, ensure that the `eks_availability_zones` variable is updated to ma
 ---
 
 > [!IMPORTANT]
-
->As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
-
->You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
-
->Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
+>
+> As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
+>
+> You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
+>
+> Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
 
 ---
 
@@ -122,7 +124,8 @@ terraform init
 terraform plan
 terraform apply -auto-approve
 ```
->The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
+
+> The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
@@ -146,7 +149,8 @@ After you provision the private cluster, add the new EKS cluster to your local K
 ```bash
 aws eks update-kubeconfig --name aws-patterns-edc --region <AWS REGION>
 ```
->Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster.
+
+> Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster.
 
 To confirm that your EKS nodes are running and are in the ready state, run the following command:
 
