@@ -184,7 +184,9 @@ python3 jwt-gen.py --regenerate-keys --sign-jwts --domain <DOMAIN NAME> --assets
 ```
 > Replace `<DOMAIN NAME>` with the domain name used during infrastructure provisioning.
 
-After running the script, the following DID resources will be generated in the current directory:
+**Output Files**
+
+Upon successful execution of the script, the following DID resources will be generated in the current directory:
 
 - `issuer.pub.json`: The issuer's public key
 - `issuer.key.json`: The issuer's private key
