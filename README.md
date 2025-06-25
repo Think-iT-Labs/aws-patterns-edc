@@ -194,7 +194,7 @@ Upon successful execution of the script, the following DID resources will be gen
 - `companyx.membership.jwt`: Membership credential for Company X
 - `companyy.membership.jwt`: Membership credential for Company Y
 
-These files are now ready for deployment. The Terraform configuration will automatically:
+These files are now ready for deployment. In the next step, the Terraform configuration will automatically:
 
 - Deploy the DID issuer document (`issuer.did.json`) and make it publicly accessible by all participants for verification.
 - Distribute the membership credentials (`companyx.membership.jwt` and `companyy.membership.jwt`) to the respective EDC Identity-hub for Company X and Company Y.
@@ -206,7 +206,7 @@ This process ensures that both the authority (issuer) and participant (Company X
 To deploy the data space components, navigate to the `deployment` folder in the repository and run the following commands:
 
 ```bash
-cd ../../deployment
+cd ../..
 
 terraform init
 
@@ -217,3 +217,42 @@ terraform apply
 ```
 
 >The deployment process may take **about 2 to 5 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
+
+After the deployment is complete, verify that all data space components are running and healthy on your EKS cluster. Run the following command to check the status of all pods in the authority, companyx, and companyy namespaces:
+
+```bash
+kubectl get pods --all-namespaces | grep -E "(authority|companyx|companyy)"
+```
+
+Review the STATUS column for each pod. All pods should display "Running" or "Completed". If any pods are not in a healthy state, use `kubectl logs <pod-name> -n <namespace>` and `kubectl describe pod <pod-name> -n <namespace>` to investigate and resolve any issues before proceeding.
+
+#### Data space endpoints verification
+
+This step ensures that the data space endpoints for the authority, Company X, and Company Y are correctly set up and accessible.
+
+Each participant's endpoint is exposed via Kubernetes Ingress resources within the EKS cluster. These Ingresses automatically provision an Application Load Balancer (ALB) in AWS, configure routing rules, and create DNS records in Route 53 for each subdomain (issuer.<DOMAIN NAME>,bdrs..<DOMAIN NAME>, companyx.<DOMAIN NAME>, companyy.<DOMAIN NAME>). This automation is handled by the AWS Load Balancer Controller and External DNS add-ons.
+
+To verify that the endpoints are provisioned and ready to use, run the following commands (replace `<DOMAIN NAME>` with your actual domain):
+
+```bash
+nslookup issuer.<DOMAIN NAME>
+
+nslookup bdrs.<DOMAIN NAME>
+
+nslookup companyx.<DOMAIN NAME>
+
+nslookup companyy.<DOMAIN NAME>
+```
+
+If the endpoints are set up correctly, each command should return the IP address of the Application Load Balancer (ALB) associated with that endpoint.
+
+If you do not see the expected IP addresses, try the following troubleshooting steps:
+- Wait a few minutes and try again. Provisioning an Application Load Balancer and DNS propagation can take several minutes.
+- Check the status of the AWS Load Balancer Controller and External DNS add-ons in your EKS cluster. Ensure their pods are running and review their logs for any errors:
+  - `kubectl get pods -n kube-system | grep -E "(aws-load-balancer-controller|external-dns)"`
+  - `kubectl logs <pod-name> -n kube-system`
+- Verify that the DNS records in Route 53 are correctly created and point to the ALB's DNS name.
+- Review the ALB configuration in the AWS Management Console to ensure it is active and associated with the correct target groups and listeners.
+
+Addressing issues in these areas should resolve most endpoint accessibility problems.
+
