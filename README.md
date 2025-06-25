@@ -36,7 +36,7 @@ In addition, this pattern replaces the centralized identity service used in prev
 * [Git](https://github.com/git-guides/install-git) on your workstation
 * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
-* [Helm](https://helm.sh/docs/intro/install/)
+* [python](https://www.python.org/downloads/) on your workstation
 * [Postman](https://www.postman.com/downloads/)
 * An [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html) SSL/TLS certificate
 * A DNS name that will point to an Application Load Balancer (the DNS name must be covered by the ACM certificate)
@@ -46,7 +46,7 @@ In addition, this pattern replaces the centralized identity service used in prev
 * AWS CLI version 2+
 * Terraform 1.12.0+
 * kubectl 1.32+
-* Helm 3
+* python 3.8+
 * Postman Collection v2.1
 
 ## Architecture
@@ -58,6 +58,12 @@ The MVDS architecture comprises one virtual private cloud (VPC) for Amazon EKS.
 Data spaces are designed to be technology-agnostic solutions, and multiple implementations exist. This pattern uses an Amazon EKS cluster to deploy the data space technical components. The following diagram shows the deployment of the EKS cluster. Worker nodes are installed in private subnets.
 
 ![eks architecture](./assets/Amazon%20EKS%20architecture.png)
+
+### Dataspace deployment architecture
+
+This pattern uses an Amazon EKS cluster to deploy the core components of the dataspace. Each participant (Company X and Company Y) operates its own EDC components (Tractus-X variant) and supporting services within isolated Kubernetes namespaces. A dedicated authority namespace hosts the DID issuer for credential management and the BDRS server for mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
+
+![dataspace deployment architecture](./assets/Data%20space%20deployment%20architecture.png)
 
 ## Best practices
 
@@ -95,16 +101,15 @@ The Terraform configuration for this pattern uses the `eu-central-1` AWS Region 
 However, you can change it to your preferred region by updating the `aws_region` variable in `eks/terraform.tfvars` file.
 Additionally, ensure that the `eks_availability_zones` variable is updated to match the Availability Zones for your chosen region.
 
-
 ---
 
-⚠️ **Important:**
+> [!IMPORTANT]
 
-As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
+>As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
 
-You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
+>You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
 
-Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
+>Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
 
 ---
 
