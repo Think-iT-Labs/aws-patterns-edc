@@ -105,7 +105,7 @@ Additionally, ensure that the `eks_availability_zones` variable is updated to ma
 
 ---
 
-> [!IMPORTANT]
+> **IMPORTANT:**
 >
 > As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
 >
