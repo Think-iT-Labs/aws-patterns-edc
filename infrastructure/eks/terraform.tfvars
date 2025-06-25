@@ -1,12 +1,12 @@
 # Global configuration
-aws_region                                      = "eu-central-1"
-project_name                                    = "aws-patterns-edc"
-domain_name                                     = "need-to-be-set"
+aws_region   = "eu-central-1"
+project_name = "aws-patterns-edc"
+domain_name  = "need-to-be-set"
 
 # VPC configuration
-vpc_name                                        = "aws-patterns-edc"
-vpc_cidr_block                                  = "10.0.0.0/16"
-subnet_cidr_blocks                              = ["10.0.0.0/20", "10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
+vpc_name           = "aws-patterns-edc"
+vpc_cidr_block     = "10.0.0.0/16"
+subnet_cidr_blocks = ["10.0.0.0/20", "10.0.16.0/20", "10.0.32.0/20", "10.0.48.0/20"]
 
 # EKS configuration
 eks_name                                        = "aws-patterns-edc"
@@ -24,7 +24,7 @@ eks_node_scaling_config = {
   max_size     = 2
   min_size     = 2
 }
-eks_secret_name_prefix           = "aws-patterns-edc"
+eks_secret_name_prefix = "aws-patterns-edc"
 
 # EKS Add-on versions
 metrics_server_chart_version     = "3.12.1"
@@ -33,5 +33,3 @@ aws_lbc_chart_version            = "1.13.1"
 aws_ebs_csi_driver_addon_version = "v1.40.0-eksbuild.1"
 external_dns_chart_version       = "1.15.2"
 external_secrets_chart_version   = "0.16.2"
-
-
