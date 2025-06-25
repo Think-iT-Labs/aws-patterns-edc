@@ -194,7 +194,14 @@ Upon successful execution of the script, the following DID resources will be gen
 - `companyx.membership.jwt`: Membership credential for Company X
 - `companyy.membership.jwt`: Membership credential for Company Y
 
-These files are now ready for deployment with the data space components.
+⚠️ **Note:**
+These files are now ready for deployment. The Terraform configuration will automatically:
+
+- Deploy the DID issuer document (`issuer.did.json`) and make it publicly accessible by all participants for verification.
+
+- Distribute the membership credentials (`companyx.membership.jwt` and `companyy.membership.jwt`) to the respective EDC Identity-hub for Company X and Company Y.
+
+This process ensures that both the authority (issuer) and participant (Company X and Company Y) components are properly initialized with the required decentralized identity resources.
 
 #### Apply the Terraform configuration
 
