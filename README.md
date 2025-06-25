@@ -75,10 +75,9 @@ In a more realistic situation, each participant would have a separate Kubernetes
 
 ## Epics
 
-(click on ▶ to expand or ▼ to collapse)
+### Set up the environment, and provision an EKS cluster and EC2 instances
 
-<details>
-  <summary><strong style="font-size:1.17em; font-weight:bold;">Set up the environment, and provision an EKS cluster and EC2 instances</strong></summary>
+This epic guides you through the steps to set up the environment and provision an Amazon EKS cluster and EC2 instances. As a result, you will have an Amazon EKS cluster running in a VPC with the necessary resources to deploy the data space components as outlined in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png).
 
 #### Clone the repository
 
@@ -86,10 +85,10 @@ To clone the repository to your workstation, run the following command:
 
 ```bash
 git clone https://github.com/Think-iT-Labs/aws-patterns-edc
-cd aws-patterns-edc/infrastructure
-```
 
-> The workstation must have access to your AWS account.
+cd aws-patterns-edc
+```
+>The workstation must have access to your AWS account.
 
 #### Provision Amazon EKS cluster architecture using Terraform
 
@@ -105,27 +104,29 @@ Additionally, ensure that the `eks_availability_zones` variable is updated to ma
 
 ---
 
-> **IMPORTANT:**
->
-> As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
->
-> You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
->
-> Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
+⚠️ **Important:**
+
+As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
+
+You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
+
+Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
 
 ---
 
 To provision the EKS cluster, run the following commands:
 
 ```bash
-cd .. 
-cd eks
-terraform init
-terraform plan
-terraform apply -auto-approve
-```
+cd infrastructure/eks
 
-> The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
+terraform init
+
+terraform apply
+
+# type "yes" and press enter when prompted to do so
+# alternatively execute terraform apply -auto-approve
+```
+>The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
@@ -149,11 +150,61 @@ After you provision the private cluster, add the new EKS cluster to your local K
 ```bash
 aws eks update-kubeconfig --name aws-patterns-edc --region <AWS REGION>
 ```
-
-> Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster.
+>Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster.
 
 To confirm that your EKS nodes are running and are in the ready state, run the following command:
 
 ```bash
 kubectl get nodes
 ```
+
+### Deploy the data space
+
+This epic guides you through the steps to deploy the data space components on the Amazon EKS cluster you provisioned in the previous epic. By the end, you will have a fully functional data space with two participants (Company X and Company Y), each operating in isolated namespaces, as illustrated in the [Dataspace deployment architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Data%20space%20deployment%20architecture.png).
+
+#### Generate DID resources
+
+As this pattern uses the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol) for decentralized identity management, you must generate the required Decentralized Identifier (DID) resources before deploying the data space components. These resources are essential for secure identity and credential management within the data space.
+
+The required DID resources include:
+- **Issuer key pair:** A cryptographic key pair for the DID issuer. The private key is used to sign verifiable credentials, and the public key is used to validate them.
+- **Issuer DID document:** A standardized JSON document that contains the issuer's public key and relevant metadata, following the [W3C DID specification](https://www.w3.org/TR/did-core/). This document must be accessible at a public endpoint so that all participants in the data space can retrieve it to verify credentials signed by the authority. The DID document is essential for establishing trust, as it enables cryptographic verification of issued credentials.
+- **Verifiable credentials:** These are digital credentials issued (i.e., signed) to each participant (Company X and Company Y) by the data space authority. Each credential contains the participant's Decentralized Identifier (DID) and Business Partner Number (BPN), and is cryptographically signed by the authority's private key. This pattern uses `Membership credentials` serve as proof that a participant is an authorized member of the data space. Other participants and services can verify these credentials using the authority's public key, ensuring trust and secure access within the data space.
+
+This pattern uses the DID method web (`did:web`) to create DIDs that are resolvable via HTTPS endpoints. All DID resources are therefore linked to a specific domain name. The generation of DID resources is based on a domain name that you must provide—this should be the same domain name used in the Terraform configuration for the EKS cluster in the previous epic.
+
+To generate the required DID resources based on the domain name, a Python script is provided in the repository. Follow these steps:
+
+```bash
+cd ../../deployment/assets/did
+
+python3 jwt-gen.py --regenerate-keys --sign-jwts --domain <DOMAIN NAME> --assets-dir .
+```
+> Replace `<DOMAIN NAME>` with the domain name used during infrastructure provisioning.
+
+After running the script, the following DID resources will be generated in the current directory:
+
+- `issuer.pub.json`: The issuer's public key
+- `issuer.key.json`: The issuer's private key
+- `issuer.did.json`: The issuer's DID document
+- `companyx.membership.jwt`: Membership credential for Company X
+- `companyy.membership.jwt`: Membership credential for Company Y
+
+These files are now ready for deployment with the data space components.
+
+#### Apply the Terraform configuration
+
+To deploy the data space components, navigate to the `deployment` folder in the repository and run the following commands:
+
+```bash
+cd ../../deployment
+
+terraform init
+
+terraform apply
+
+# type "yes" and press enter when prompted to do so
+# alternatively execute terraform apply -auto-approve
+```
+
+>The deployment process may take **about 2 to 5 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
