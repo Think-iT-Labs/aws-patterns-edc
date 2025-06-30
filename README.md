@@ -71,7 +71,9 @@ Data spaces are designed to be technology-agnostic solutions, and multiple imple
 
 ## Dataspace deployment architecture
 
-This pattern uses an Amazon EKS cluster to deploy the core components of the dataspace. Each participant (company X and Company Y) operates its own EDC components (Tractus-X variant) and supporting services within isolated Kubernetes namespaces. A dedicated authority namespace hosts the DID issuer for credential management and the BDRS server for mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
+As this pattern uses an Amazon EKS cluster to deploy the core components of the dataspace. Each participant (company X and company Y) operates its own EDC components (Tractus-X variant) and supporting services within isolated Kubernetes namespaces. 
+
+A dedicated authority namespace hosts the DID issuer for credential issuance and the BDRS server for mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
 
 ![dataspace deployment architecture](./assets/Data%20space%20deployment%20architecture.png)
 
@@ -173,7 +175,7 @@ kubectl get nodes
 
 ### Deploy the data space
 
-This epic guides you through the steps to deploy the data space components on the Amazon EKS cluster you provisioned in the previous epic. By the end, you will have a fully functional data space with two participants (company X and Company Y), each operating in isolated namespaces, as illustrated in the [Dataspace deployment architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Data%20space%20deployment%20architecture.png).
+This epic guides you through the steps to deploy the data space components on the Amazon EKS cluster you provisioned in the previous epic. By the end, you will have a fully functional data space with two participants (company X and company Y), each operating in isolated namespaces, as illustrated in the [Dataspace deployment architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Data%20space%20deployment%20architecture.png).
 
 #### Generate DID resources
 
@@ -183,7 +185,7 @@ The required DID resources include:
 
 - **Issuer key pair:** A cryptographic key pair for the DID issuer. The private key is used to sign verifiable credentials, and the public key is used to validate them.
 - **Issuer DID document:** A standardized JSON document that contains the issuer's `public key` and relevant metadata, following the [W3C DID specification](https://www.w3.org/TR/did-core/). This document must be hosted at a publicly accessible URL. This allows all participants in the data space to retrieve the document and verify digital credentials signed by the issuer. By enabling cryptographic verification, the DID document is essential for establishing trust in the data exchange environment.
-- **Verifiable credentials:** These are digital credentials issued to each participant (company X and Company Y) by the data space authority. Each credential contains the participant's `Decentralized Identifier` (DID) and `Business Partner Number` (BPN), and is cryptographically signed by the authority's private key. This pattern uses `Membership credentials` serve as proof that a participant is an authorized member of the data space. Other participants and services can verify these credentials using the authority's public key, ensuring trust and secure access within the data space.
+- **Verifiable credentials:** These are digital credentials issued to each participant (company X and company Y) by the data space authority. Each credential contains the participant's `Decentralized Identifier` (DID) and `Business Partner Number` (BPN), and is cryptographically signed by the authority's private key. This pattern uses `Membership credentials` serve as proof that a participant is an authorized member of the data space. Other participants and services can verify these credentials using the authority's public key, ensuring trust and secure access within the data space.
 
 This pattern uses the DID method web (`did:web`) to create DIDs that are resolvable via HTTP(S) endpoints. All DID resources are therefore linked to a specific domain name. The generation of DID resources is based on a domain name that you must provide—this should be the same domain name used in the Terraform configuration for the EKS cluster in the previous epic.
 
@@ -207,14 +209,14 @@ Upon successful execution of the script, the following DID resources will be gen
 - `issuer.key.json`: The issuer's private key
 - `issuer.did.json`: The issuer's DID document
 - `companyx.membership.jwt`: Membership credential for company X
-- `companyy.membership.jwt`: Membership credential for Company Y
+- `companyy.membership.jwt`: Membership credential for company Y
 
 These files are now ready for deployment. In the next step, the Terraform configuration will automatically:
 
 - Deploy the DID issuer document (`issuer.did.json`) and make it publicly accessible by all participants for verification.
-- Distribute the membership credentials (`companyx.membership.jwt` and `companyy.membership.jwt`) to the respective EDC Identity-hub for company X and Company Y.
+- Distribute the membership credentials (`companyx.membership.jwt` and `companyy.membership.jwt`) to the respective EDC Identity-hub for company X and company Y.
 
-This process ensures that both the authority (issuer) and participant (company X and Company Y) components are properly initialized with the required decentralized identity resources.
+This process ensures that both the authority (issuer) and participant (company X and company Y) components are properly initialized with the required decentralized identity resources.
 
 #### Apply the Terraform configuration
 
@@ -243,7 +245,7 @@ Review the STATUS column for each pod. All pods should display "Running" or "Com
 
 #### Data space endpoints verification
 
-This step ensures that the data space endpoints for the authority, company X, and Company Y are correctly set up and accessible.
+This step ensures that the data space endpoints for the authority, company X, and company Y are correctly set up and accessible.
 
 Each participant's endpoint is exposed via Kubernetes Ingress resources within the EKS cluster. These Ingresses automatically provision an Application Load Balancer (ALB) in AWS, configure routing rules, and create DNS records in Route 53 for each subdomain (issuer.<DOMAIN NAME>,bdrs..<DOMAIN NAME>, companyx.<DOMAIN NAME>, companyy.<DOMAIN NAME>). This automation is handled by the AWS Load Balancer Controller and External DNS add-ons.
 
@@ -303,9 +305,9 @@ aws s3api put-object --bucket <COMPANY_X_BUCKET_NAM> \
 
 > The S3 bucket name should be globally unique. For more information about naming rules, see the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
 
-### Prepare Company Y s3 bucket to receive the data asset.
-Company Y needs to create an S3 bucket to receive the data asset shared by company X.
-in reallty the company Y CONNECTOR AFTEREHRN IT COME FOR STRANGET IT WILL USE HTTP PUSH TO PUSH THE DATA ASSET TO THE COMPANY Y S3 BUCKET.
+### Prepare company Y s3 bucket to receive the data asset.
+company Y needs to create an S3 bucket to receive the data asset shared by company X.
+in reallty the company Y CONNECTOR AFTEREHRN IT COME FOR STRANGET IT WILL USE HTTP PUSH TO PUSH THE DATA ASSET TO THE company Y S3 BUCKET.
 As fro comeny x The following commands create an S3 bucket with default security settings. We highly recommend consulting [Security best practices for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html).
 
 ```bash
@@ -344,9 +346,9 @@ The following code is an example IAM policy for the user:
       "Effect": "Allow",
       "Resource": [
         "arn:aws:s3:::<S3 Provider (company X) Bucket>",
-        "arn:aws:s3:::<S3 Provider (Company Y) Bucket>",
+        "arn:aws:s3:::<S3 Provider (company Y) Bucket>",
         "arn:aws:s3:::<S3 Provider (company X) Bucket>/*",
-        "arn:aws:s3:::<S3 Provider (Company Y) Bucket>/*"
+        "arn:aws:s3:::<S3 Provider (company Y) Bucket>/*"
       ]
     }
   ]
@@ -357,7 +359,7 @@ In real-world scenarios, you should use two separate IAM users, one for each S3 
 
 In production, you should:
 - Create an IAM policy that grants access only to the S3 bucket of the provider (company X) and attach it to the IAM user that will be used by the EDC connector of company X.
-- Create a separate IAM policy that grants access only to the S3 bucket of the consumer (Company Y) and attach it to the IAM user that will be used by the EDC connector of Company Y.
+- Create a separate IAM policy that grants access only to the S3 bucket of the consumer (company Y) and attach it to the IAM user that will be used by the EDC connector of company Y.
 
 This ensures that each EDC connector has the minimum required permissions for its respective S3 bucket, following the principle of least privilege. 
 
@@ -365,9 +367,9 @@ This ensures that each EDC connector has the minimum required permissions for it
 
 #### Set up Postman to interact with the connectors
 
-After deploying the data space and verifying that both the company X and Company Y connectors are running and accessible, you can interact with them from your workstation using Postman as an HTTP client.
+After deploying the data space and verifying that both the company X and company Y connectors are running and accessible, you can interact with them from your workstation using Postman as an HTTP client.
 
-This repository provides ready-to-use Postman Collections for both the provider (company X) and consumer (Company Y) connectors. These collections contain pre-configured requests for common data space operations.
+This repository provides ready-to-use Postman Collections for both the provider (company X) and consumer (company Y) connectors. These collections contain pre-configured requests for common data space operations.
 
 **To get started:**
 1. Open Postman on your workstation.
@@ -376,7 +378,7 @@ This repository provides ready-to-use Postman Collections for both the provider 
    - `companyy.postman_collection.json` (for the consumer connector)
 3. Each collection uses Postman variables to simplify configuration. Before sending requests, set the required variables (such as connector URLs) in the collection setting. 
 
-By using these collections, you can easily test and interact with both connectors, register data assets, initiate data transfers, and validate the end-to-end data sharing process between company X and Company Y.
+By using these collections, you can easily test and interact with both connectors, register data assets, initiate data transfers, and validate the end-to-end data sharing process between company X and company Y.
 
 ####  Register the data asset to the provider’s connector by using Postman.
 
@@ -425,7 +427,7 @@ How it works:
 
 This process ensures that only legitimate, authorized participants—who can prove their membership using a valid, issuer-signed verifiable credential—are able to access the asset. Legal access is strictly enforced based on decentralized identity (DID) and verifiable credential (VC) verification using DCP in the EDC dataspace.
 
-Note: This is why, in previous steps of this guide (see "Generate DID resources"), we generate the issuer DID document and the membership credentials for both company X and Company Y. These credentials are then seeded into the EDC Identity-hub. This process ensures that each participant has a unique Decentralized Identifier (DID) and a verifiable membership credential, issued and signed by the authority. When a participant requests access to a data asset, the EDC connector can verify the presented credential against the issuer's DID document, confirming its authenticity and active status. Only participants with valid, issuer-signed credentials—proving their membership in the data space—are granted access, enabling secure, decentralized, and automated access control in the EDC dataspace.
+Note: This is why, in previous steps of this guide (see "Generate DID resources"), we generate the issuer DID document and the membership credentials for both company X and company Y. These credentials are then seeded into the EDC Identity-hub. This process ensures that each participant has a unique Decentralized Identifier (DID) and a verifiable membership credential, issued and signed by the authority. When a participant requests access to a data asset, the EDC connector can verify the presented credential against the issuer's DID document, confirming its authenticity and active status. Only participants with valid, issuer-signed credentials—proving their membership in the data space—are granted access, enabling secure, decentralized, and automated access control in the EDC dataspace.
 
 
 * **Connector**: company X
@@ -467,16 +469,16 @@ The EDC connector enforces these terms, enabling secure and automated access con
 
 #### Request the data catalog shared by company X.
 
-As a data consumer in the data space, Company Y first needs to discover the data that is being shared by other participants.
+As a data consumer in the data space, company Y first needs to discover the data that is being shared by other participants.
 
-In this basic setup, you can do this by asking the consumer (Company Y) connector to request the catalog of available assets from the provider (company X) connector directly.
+In this basic setup, you can do this by asking the consumer (company Y) connector to request the catalog of available assets from the provider (company X) connector directly.
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Request Catalog
 
 * **Collection** Variables:
-  * Update `COMPANY_Y_CONNECTOR_URL` variable to the URL of the Company Y connector in the request URL.
+  * Update `COMPANY_Y_CONNECTOR_URL` variable to the URL of the company Y connector in the request URL.
   * Update `COMPANY_X_CONNECTOR_URL`. Set this as the `counterPartyAddress` in the request body. This is the URL of the company X connector since the catalog is targeted at the company X connector.
   * Update `COMPANY_X_BPN`. Set this as the `counterPartyId` in the request body. This is company X's Business Partner Number (BPN) which is `BPNL000000000001` in this setup.
 
@@ -491,7 +493,7 @@ In this basic setup, you can do this by asking the consumer (Company Y) connecto
 
 Now that you have identified the asset that you want to consume, initiate a contract negotiation process between the consumer (company Y) and provider (company X) connectors.
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Initiate negotiation
 
@@ -507,7 +509,7 @@ The process might take some time before reaching the **Finalized** state.
 
 You can check the state of the Contract Negotiation and the corresponding Contract Agreement ID.
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Get All Contract Negotiations
 
@@ -517,11 +519,11 @@ You can check the state of the Contract Negotiation and the corresponding Contra
 
 ### Consume the data by using the contract agreement
 
-After a successful contract negotiation, Company Y, as the consumer, can initiate a data transfer process based on the agreed-upon contract. This process will leverage the capabilities of the Eclipse Data Connector (EDC).
+After a successful contract negotiation, company Y, as the consumer, can initiate a data transfer process based on the agreed-upon contract. This process will leverage the capabilities of the Eclipse Data Connector (EDC).
 
 Specifically, two key EDC connector features will be used in this pattern:
 
-* **AWS S3 Integration (Push)**: The data asset will be directly transferred from company X’s (the provider’s) S3 bucket and pushed to Company Y’s (the consumer’s) S3 bucket using the EDC connector, leveraging the "HttpData-PUSH" transfer type.
+* **AWS S3 Integration (Push)**: The data asset will be directly transferred from company X’s (the provider’s) S3 bucket and pushed to company Y’s (the consumer’s) S3 bucket using the EDC connector, leveraging the "HttpData-PUSH" transfer type.
 
 * **HTTP Proxy (Pull)**: For data asset accessible via an HTTP endpoint, the EDC connector will use its HTTP proxy capability to pull the data from company X's public HTTP proxy endpoint, leveraging the "HttpData-PULL" transfer type.
 
@@ -529,14 +531,14 @@ Specifically, two key EDC connector features will be used in this pattern:
 
 Use Amazon S3 integration with the EDC connector, and directly point to the S3 bucket in the consumer infrastructure as a destination:
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Initiate Transfer Process S3 (Push)
 
 * **Collection** Variables:
   * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID`, ‒ The Contract Agreement ID from the contract negotiation step.
 
-* **Request Body**: Update the request body with the S3 bucket that you created for the Company Y.
+* **Request Body**: Update the request body with the S3 bucket that you created for the company Y.
 
 ```json
 "dataDestination": {
@@ -550,9 +552,9 @@ Use Amazon S3 integration with the EDC connector, and directly point to the S3 b
 }
 ```
 
-You can check the status of the transfer process by using the `Get All Transfer Processes` request in the Company Y connector collection. The transfer process should eventually reach the **Started** state, indicating that the data has been started transferring the carbon foorptin data asset to the Company Y S3 bucket.
+You can check the status of the transfer process by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **Started** state, indicating that the data has been started transferring the carbon foorptin data asset to the company Y S3 bucket.
 
-Check the S3 bucket of Company Y to verify that the data asset has been successfully transferred.
+Check the S3 bucket of company Y to verify that the data asset has been successfully transferred.
 
 
 #### Consume data from the provider public HTTP endpoint (Option 2)
@@ -561,14 +563,14 @@ Check the S3 bucket of Company Y to verify that the data asset has been successf
 
 Use the HTTP proxy capability of the EDC connector to pull the data asset from the provider's public HTTP endpoint:
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Initiate Transfer Process HTTP Proxy (Pull)
 
 * **Collection** Variables:
   * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID`, ‒ The Contract Agreement ID from the contract negotiation step.
 
-You can check the status of the transfer process by using the `Get All Transfer Processes` request in the Company Y connector collection. The transfer process should eventually reach the **Started** state.
+You can check the status of the transfer process by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **Started** state.
 
 * `TRANSFER_PROCESS_ID` ‒ The ID of the transfer process is used in the next step to retrieve an access token.
 
@@ -576,7 +578,7 @@ You can check the status of the transfer process by using the `Get All Transfer 
 
 To access the data asset, you need to obtain an access token for the Endpoint Data Reference (EDR) of the transfer process. This token is required to authenticate and authorize the data transfer from the provider's public endpoint.
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Get EDR Data Address for TransferId
 
@@ -601,7 +603,7 @@ The received payload is similar to the following:
 
 To download the data asset from the provider's public endpoint, you need to use the access token obtained in the previous step. This token will authenticate your request to access the data.
 
-* **Connector**: Company Y
+* **Connector**: company Y
 
 * **Request**: Get Data Asset from The Public Endpoint
 
