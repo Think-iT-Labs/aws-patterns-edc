@@ -59,23 +59,23 @@ To support decentralized identity functionality, the following components are in
 * python 3.8+
 * Postman Collection v2.1
 
-## Architecture
+# Architecture
 
 The MVDS architecture comprises one virtual private cloud (VPC) for Amazon EKS.
 
-### Amazon EKS architecture
+## Amazon EKS architecture
 
 Data spaces are designed to be technology-agnostic solutions, and multiple implementations exist. This pattern uses an Amazon EKS cluster to deploy the data space technical components. The following diagram shows the deployment of the EKS cluster. Worker nodes are installed in private subnets.
 
 ![eks architecture](./assets/Amazon%20EKS%20architecture.png)
 
-### Dataspace deployment architecture
+## Dataspace deployment architecture
 
 This pattern uses an Amazon EKS cluster to deploy the core components of the dataspace. Each participant (company X and Company Y) operates its own EDC components (Tractus-X variant) and supporting services within isolated Kubernetes namespaces. A dedicated authority namespace hosts the DID issuer for credential management and the BDRS server for mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
 
 ![dataspace deployment architecture](./assets/Data%20space%20deployment%20architecture.png)
 
-## Best practices
+# Best practices
 
 **Amazon EKS and isolation of participants’ infrastructures**
 
@@ -83,7 +83,7 @@ Namespaces in Kubernetes will separate the company X provider’s infrastructure
 
 In a more realistic situation, each participant would have a separate Kubernetes cluster running within their own AWS account.
 
-## Epics
+# Epics
 
 ### Set up the environment, and provision an EKS cluster and EC2 instances
 
