@@ -163,6 +163,23 @@ output "next_steps" {
 }
 
 ########################################
+# Database Configuration Information
+########################################
+
+output "database_passwords" {
+  description = "Database passwords for both companies (sensitive information)"
+  value = {
+    companyx_admin_password = var.companyx_datasource.admin_password
+    companyx_user = var.companyx_datasource.username
+    companyx_user_password  = var.companyx_datasource.password
+    companyy_admin_password = var.companyy_datasource.admin_password
+    companyy_user = var.companyy_datasource.username
+    companyy_user_password  = var.companyy_datasource.password
+  }
+  sensitive = true
+}
+
+########################################
 # Quick Access Information
 ########################################
 
