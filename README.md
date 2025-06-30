@@ -129,31 +129,32 @@ git clone https://github.com/Think-iT-Labs/aws-patterns-edc.git
 cd aws-patterns-edc
 ```
 
-### Provision Amazon EKS cluster architecture using Terraform
+### Provision the Amazon EKS Cluster with Terraform
 
-To deploy the Amazon EKS architecture in your AWS account, this pattern uses Terraform to automate the infrastructure setup. Follow the step-by-step instructions below to provision the necessary resources.
+This pattern uses Terraform to automate the deployment of the Amazon EKS architecture in your AWS account. The required Terraform configuration files are located in the `infrastructure/eks/` directory.
 
-The Terraform configuration is organized in the `infrastructure` folder of the repository, which includes a subfolder:
+#### Configure the AWS Region
 
-* `eks`: includes the configuration files for provisioning the EKS cluster.
+The infrastructure is provisioned in the `eu-central-1` AWS Region by default. If you want to deploy to a different Region, you must update the following variables in the `infrastructure/eks/terraform.tfvars` file:
 
-The Terraform configuration for this pattern uses the `eu-central-1` AWS Region by default.
-However, you can change it to your preferred region by updating the `aws_region` variable in `eks/terraform.tfvars` file.
-Additionally, ensure that the `eks_availability_zones` variable is updated to match the Availability Zones for your chosen region.
-
----
-
-⚠️ **Important:**
-
-As mentioned in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites) section, a domain name is required.
-
-You must set the Terraform variable `domain_name` in the `eks/terraform.tfvars` file to your custom domain. This domain must also be secured with an ACM (AWS Certificate Manager) certificate that you've already created in AWS.
-
-Follow this guide to [create an ACM certificate](https://docs.aws.amazon.com/res/latest/ug/acm-certificate.html).
+*   `aws_region`: Set this to your preferred AWS Region (e.g., `"us-west-2"`).
+*   `eks_availability_zones`: Update the list of Availability Zones to match your chosen Region (e.g., `["us-west-2a", "us-west-2b"]`).
 
 ---
 
-To provision the EKS cluster, run the following commands:
+⚠️ **Important: Domain Name and ACM Certificate**
+
+As stated in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites), a registered domain name and a corresponding AWS Certificate Manager (ACM) certificate are required for this pattern.
+
+This domain name will be used to create the necessary DNS records for the Application Load Balancer (ALB). The ALB is provisioned in the Amazon EKS cluster and uses Ingress resources to route external traffic to the Eclipse EDC components, securely exposing them to the internet.
+
+You must provide your domain name using the `--var` flag when applying the Terraform configuration. This domain must be secured with an ACM certificate that you have already created in your AWS account.
+
+For instructions on how to request a public certificate, see the [Request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) guide in the AWS documentation.
+
+---
+
+To provision the infrastructure, run the following commands:
 
 ```bash
 cd infrastructure/eks
