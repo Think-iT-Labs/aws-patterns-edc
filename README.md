@@ -241,13 +241,13 @@ The required DID resources are:
    - Enables cryptographic verification and trust in the data space.
 
 3. **Verifiable credentials**
-   - Digital credentials issued by the authority to each participant (company X and company Y).
+   - Digital credentials issued by the issuer to each participant (company X and company Y).
    - Each credential includes:
      - The participant's Decentralized Identifier (DID)
      - The participant's Business Partner Number (BPN)
-   - Credentials are signed by the authority's private key.
+   - Credentials are signed by the issuer's private key.
    - Membership credentials prove a participant is an authorized member of the data space.
-   - Other participants and services verify these credentials using the authority's public key.
+   - Other participants and services verify these credentials using the issuer's public key.
 
 This pattern uses the DID method web (`did:web`) to create DIDs that are resolvable via HTTP(S) endpoints. All DID resources are therefore linked to a specific domain name. The generation of DID resources is based on a domain name that you must provide—this should be the same domain name used in the Terraform configuration for the EKS cluster in the previous epic.
 
