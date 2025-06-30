@@ -249,19 +249,25 @@ The required DID resources are:
    - Membership credentials prove a participant is an authorized member of the data space.
    - Other participants and services verify these credentials using the issuer's public key.
 
-This pattern uses the DID method web (`did:web`) to create DIDs that are resolvable via HTTP(S) endpoints. All DID resources are therefore linked to a specific domain name. The generation of DID resources is based on a domain name that you must provide—this should be the same domain name used in the Terraform configuration for the EKS cluster in the previous epic.
+This pattern uses the `did:web` method to create DIDs that are accessible via HTTPS. All DID resources are tied to a domain name, which must match the one used in your EKS Terraform setup.
 
 To generate the required DID resources based on the domain name, a Python script is provided in the repository. Follow these steps:
 
 ```bash
 cd ../../deployment/assets/did
 
-pip install -r requirements.txt
+# Ensure pip is installed and upgrade it
+python3 -m ensurepip --upgrade
+python3 -m pip install --upgrade pip
 
-python3 jwt-gen.py --regenerate-keys --sign-jwts --domain <DOMAIN NAME> --assets-dir .
+# Install dependencies
+python3 -m pip install -r requirements.txt
+
+# Apply the script to generate the DID resources
+python3 jwt-gen.py --regenerate-keys --sign-jwts --domain <YOUR_DOMAIN_NAME> --assets-dir .
 ```
 
-> Replace `<DOMAIN NAME>` with the domain name used during infrastructure provisioning.
+> Replace `<YOUR_DOMAIN_NAME>` with the domain name used during infrastructure provisioning.
 
 **Output Files**
 
