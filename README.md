@@ -217,7 +217,7 @@ To confirm that your EKS nodes are running and are in the ready state, run the f
 kubectl get nodes
 ```
 
-**Bastion Host Consideration (optional)**
+#### Bastion Host Consideration (optional)
 
 The provided Terraform configuration does not include Bastion Hosts by default. However, the architecture is designed to support them if needed. In such cases, a Bastion Host should be provisioned in a public subnet to enable secure administrative access to resources in the private subnets, such as EKS worker nodes.
 
