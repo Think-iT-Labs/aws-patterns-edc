@@ -26,7 +26,7 @@ This deployment pattern provisions a Kubernetes cluster using Amazon Elastic Kub
 
 The [Eclipse Dataspace Components Connector (EDC)](https://github.com/eclipse-edc/Connector) control plane and data plane are both deployed on Amazon EKS. 
 
-This setup uses a variant of Eclipse EDC called [Eclipse Tractus-X](https://github.com/eclipse-tractusx), which includes a Helm chart for deploying the control plane, data plane, and required dependencies such as PostgreSQL and HashiCorp Vault.
+This setup uses a variant of Eclipse EDC called [Eclipse Tractus-X](https://github.com/eclipse-tractusx), which provides a Helm chart for the [Tractus-X Connector](https://github.com/eclipse-edc/Connector). This chart deploys the control plane, data plane, and essential dependencies such as PostgreSQL and HashiCorp Vault.
 
 A significant architectural enhancement in this pattern is the transition from a centralized identity to a decentralized identity model. It implements the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol), which is the Eclipse EDC’s reference implementation for managing Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs).
 
