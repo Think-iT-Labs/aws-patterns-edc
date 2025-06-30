@@ -148,7 +148,7 @@ As stated in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-e
 
 This domain name will be used to create the necessary DNS records for the Application Load Balancer (ALB). The ALB is provisioned in the Amazon EKS cluster and uses Ingress resources to route external traffic to the Eclipse EDC components, securely exposing them to the internet.
 
-You must provide your domain name using the `--var` flag when applying the Terraform configuration. This domain must be secured with an ACM certificate that you have already created in your AWS account.
+You must provide your domain name using the `-var` flag when applying the Terraform configuration. This domain must be secured with an ACM certificate that you have already created in your AWS account.
 
 For instructions on how to request a public certificate, see the [Request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) guide in the AWS documentation.
 
