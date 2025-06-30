@@ -30,7 +30,7 @@ This setup uses a variant of Eclipse EDC called [Eclipse Tractus-X](https://gith
 
 A significant architectural enhancement in this pattern is the transition from a centralized identity to a decentralized identity model. It implements the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol), which is the Eclipse EDC’s reference implementation for managing Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs).
 
-As the pattern is based on Eclipse Tractus-X, it integrates with the [Identity Hub](https://github.com/eclipse-tractusx/tractusx-identityhub), a service that enables participants in the data space to manage their DIDs and VCs.
+As the pattern is based on Eclipse Tractus-X, it integrates with the [Tractus-X Identity Hub](https://github.com/eclipse-tractusx/tractusx-identityhub), a service that enables participants in the data space to manage their DIDs and VCs.
 
 To support decentralized identity functionality, the following components are included in the deployment:
 
