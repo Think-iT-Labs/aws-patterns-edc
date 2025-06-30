@@ -373,9 +373,9 @@ If you do not see the expected IP addresses, try the following troubleshooting s
 
 > **Note:** Addressing issues in these areas should resolve most endpoint accessibility problems.**
 
-### Prepare the carbon-emissions intensity data to be shared.
+## Prepare the carbon-emissions intensity data to be shared
 
-First you need to decide on the data asset to be shared. The data of company X represents the carbon-emissions footprint of its vehicle fleet. Weight is Gross Vehicle Weight (GVW) in tonnes, and emissions are in grams of CO2 per tonne-kilometer (g CO2 e/t-km) according to the Wheel-to-Well (WTW) measurement:
+First, you need to decide on the data asset to be shared. The data of company X represents the carbon-emissions footprint of its vehicle fleet. Weight is Gross Vehicle Weight (GVW) in tonnes, and emissions are in grams of CO2 per tonne-kilometer (g CO2 e/t-km) according to the Wheel-to-Well (WTW) measurement:
 
 * Vehicle type: Van; weight: < 3.5; emissions: 800
 
@@ -385,9 +385,9 @@ First you need to decide on the data asset to be shared. The data of company X r
 
 * Vehicle type: Heavy goods vehicle (HGV); weight: > 20; emissions: 115
 
-The example data is in the carbon_emissions_data.json file in the aws-patterns-edc repository.
+The example data is in the [carbon_emissions_data.json](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/carbon_emissions_data.json) file in the [aws-patterns-edc](https://github.com/Think-iT-Labs/aws-patterns-edc) repository.
 
-company X uses Amazon S3 bucket to store objects (the data asset to be shared).
+The company X uses Amazon S3 bucket to store objects (the data asset to be shared).
 
 Create the S3 bucket and store the example data object there. The following commands create an S3 bucket with default security settings. We highly recommend consulting [Security best practices for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html).
 
