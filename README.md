@@ -113,7 +113,7 @@ In a more realistic situation, each participant would have a separate Kubernetes
 
 # Epics
 
-## Set up the environment, and provision an EKS cluster and EC2 instances
+## Epic 1: Set up the environment, and provision an EKS cluster and EC2 instances
 
 This epic guides you through the steps to set up the environment and provision an Amazon EKS cluster and EC2 instances. As a result, you will have an Amazon EKS cluster running in a VPC with the necessary resources to deploy the data space components as outlined in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png).
 
@@ -221,19 +221,33 @@ kubectl get nodes
 
 The provided Terraform configuration does not include Bastion Hosts by default. However, the architecture is designed to support them if needed. In such cases, a Bastion Host should be provisioned in a public subnet to enable secure administrative access to resources in the private subnets, such as EKS worker nodes.
 
-### Deploy the data space
+## Epic 2: Deploying the data space components on Amazon EKS
 
 This epic guides you through the steps to deploy the data space components on the Amazon EKS cluster you provisioned in the previous epic. By the end, you will have a fully functional data space with two participants (company X and company Y), each operating in isolated namespaces, as illustrated in the [Dataspace deployment architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Data%20space%20deployment%20architecture.png).
 
-#### Generate DID resources
+### Generate DID resources
 
 As this pattern uses the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol) for decentralized identity management, you must generate the required Decentralized Identifier (DID) resources before deploying the data space components. These resources are essential for secure identity and credential management within the data space.
 
-The required DID resources include:
+The required DID resources are:
 
-- **Issuer key pair:** A cryptographic key pair for the DID issuer. The private key is used to sign verifiable credentials, and the public key is used to validate them.
-- **Issuer DID document:** A standardized JSON document that contains the issuer's `public key` and relevant metadata, following the [W3C DID specification](https://www.w3.org/TR/did-core/). This document must be hosted at a publicly accessible URL. This allows all participants in the data space to retrieve the document and verify digital credentials signed by the issuer. By enabling cryptographic verification, the DID document is essential for establishing trust in the data exchange environment.
-- **Verifiable credentials:** These are digital credentials issued to each participant (company X and company Y) by the data space authority. Each credential contains the participant's `Decentralized Identifier` (DID) and `Business Partner Number` (BPN), and is cryptographically signed by the authority's private key. This pattern uses `Membership credentials` serve as proof that a participant is an authorized member of the data space. Other participants and services can verify these credentials using the authority's public key, ensuring trust and secure access within the data space.
+1. **Issuer key pair**
+   - Private key: Used to sign verifiable credentials.
+   - Public key: Used by others to verify those credentials.
+
+2. **Issuer DID document**
+   - A JSON document containing the issuer's public key and metadata, following the [W3C DID specification](https://www.w3.org/TR/did-core/).
+   - Must be hosted at a public URL so all participants can retrieve and use it to verify credentials.
+   - Enables cryptographic verification and trust in the data space.
+
+3. **Verifiable credentials**
+   - Digital credentials issued by the authority to each participant (company X and company Y).
+   - Each credential includes:
+     - The participant's Decentralized Identifier (DID)
+     - The participant's Business Partner Number (BPN)
+   - Credentials are signed by the authority's private key.
+   - Membership credentials prove a participant is an authorized member of the data space.
+   - Other participants and services verify these credentials using the authority's public key.
 
 This pattern uses the DID method web (`did:web`) to create DIDs that are resolvable via HTTP(S) endpoints. All DID resources are therefore linked to a specific domain name. The generation of DID resources is based on a domain name that you must provide—this should be the same domain name used in the Terraform configuration for the EKS cluster in the previous epic.
 
