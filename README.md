@@ -24,15 +24,15 @@ The pattern includes steps for the following:
 
 This deployment pattern provisions a Kubernetes cluster using Amazon Elastic Kubernetes Service (Amazon EKS) to host data space connectors and their associated services.
 
-The [Eclipse Dataspace Components (EDC)](https://github.com/eclipse-edc) control plane and data plane are both deployed on Amazon EKS. 
+The [Eclipse Dataspace Components Connector (EDC)](https://github.com/eclipse-edc/Connector) control plane and data plane are both deployed on Amazon EKS. 
 
-This setup uses a variant of EDC called [Eclipse Tractus-X](https://github.com/eclipse-tractusx), which includes a Helm chart for deploying the control plane, data plane, and required dependencies such as PostgreSQL and HashiCorp Vault.
+This setup uses a variant of Eclipse EDC called [Eclipse Tractus-X](https://github.com/eclipse-tractusx), which includes a Helm chart for deploying the control plane, data plane, and required dependencies such as PostgreSQL and HashiCorp Vault.
 
-A significant architectural enhancement in this pattern is the transition from a centralized identity provider to a decentralized identity model. It implements the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol), which is the Eclipse EDC’s reference implementation for managing Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs).
+A significant architectural enhancement in this pattern is the transition from a centralized identity to a decentralized identity model. It implements the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol), which is the Eclipse EDC’s reference implementation for managing Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs).
 
 As the pattern is based on Eclipse Tractus-X, it integrates with the [Identity Hub](https://github.com/eclipse-tractusx/tractusx-identityhub), a service that enables participants in the data space to manage their DIDs and VCs.
 
-To enable decentralized identity functionality, the following components must also be deployed:
+To enable decentralized identity functionality, the following components will also be deployed:
 
 * DID Issuer: A component responsible for issuing Verifiable Credentials to participants within the data space.
 
