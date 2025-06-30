@@ -1,10 +1,10 @@
 terraform {
-  required_version = "1.12.2"
+  required_version = "~> 1.12"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.100.0"
+      version = "= 5.100.0"
     }
     helm = {
       source  = "hashicorp/helm"
@@ -29,8 +29,21 @@ data "terraform_remote_state" "eks" {
   }
 }
 
+# Local values with fallbacks for when EKS state is not available
+locals {
+  # Try to get values from EKS state, fallback to variables if not available
+  aws_region_from_eks = try(data.terraform_remote_state.eks.outputs.aws_region, null)
+  cluster_name_from_eks = try(data.terraform_remote_state.eks.outputs.cluster_name, null)
+  domain_name_from_eks = try(data.terraform_remote_state.eks.outputs.domain_name, null)
+
+  # Use EKS values if available, otherwise fallback to variables
+  aws_region = local.aws_region_from_eks != null ? local.aws_region_from_eks : var.aws_region
+  cluster_name = local.cluster_name_from_eks != null ? local.cluster_name_from_eks : "aws-patterns-edc"
+  domain_name = local.domain_name_from_eks != null ? local.domain_name_from_eks : var.domain_name
+}
+
 provider "aws" {
-  region = data.terraform_remote_state.eks.outputs.aws_region
+  region = local.aws_region
   default_tags {
     tags = {
       Project   = var.project_name
@@ -42,11 +55,11 @@ provider "aws" {
 }
 
 data "aws_eks_cluster" "eks_cluster_d" {
-  name = data.terraform_remote_state.eks.outputs.cluster_name
+  name = local.cluster_name
 }
 
 data "aws_eks_cluster_auth" "eks_cluster_auth_d" {
-  name = data.terraform_remote_state.eks.outputs.cluster_name
+  name = local.cluster_name
 }
 
 provider "helm" {
