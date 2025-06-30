@@ -192,7 +192,7 @@ To provision the EKS cluster, run the following commands:
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
-- A VPC with two **public** and two **private** subnets.
+- A **VPC** with two **public** and two **private** subnets.
 - An **Internet Gateway** attached to the VPC for internet connectivity.
 - A **NAT Gateway** to enable internet access from the private subnets.
 - An **Amazon EKS cluster** configured with two `t3a.medium` nodes provisioned in the private subnets.
@@ -203,23 +203,23 @@ Additionally, the configuration installs several add-ons inside the EKS cluster,
 - **AWS Load Balancer Controller** to automatically provision Application Load Balancers (ALBs) for Kubernetes Ingress resources on EKS.
 - **External DNS** to automatically manage DNS records in the Route 53 hosted zone record, linking them to ALBs based on Ingress resources in EKS.
 
-**Bastion Host Consideration (optional):**
-
-The provided Terraform configuration does not include Bastion Hosts by default. However, the architecture is designed to support them if needed. In such cases, a Bastion Host should be provisioned in a public subnet to enable secure administrative access to resources in the private subnets, such as EKS worker nodes.
-
 After you provision the private cluster, add the new EKS cluster to your local Kubernetes configuration by running the following command:
 
 ```bash
 aws eks update-kubeconfig --name aws-patterns-edc --region <AWS REGION>
 ```
 
-> Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster.
+> Replace `<AWS REGION>` with the AWS Region where you provisioned the EKS cluster (default = eu-central-1).
 
 To confirm that your EKS nodes are running and are in the ready state, run the following command:
 
 ```bash
 kubectl get nodes
 ```
+
+**Bastion Host Consideration (optional)**
+
+The provided Terraform configuration does not include Bastion Hosts by default. However, the architecture is designed to support them if needed. In such cases, a Bastion Host should be provisioned in a public subnet to enable secure administrative access to resources in the private subnets, such as EKS worker nodes.
 
 ### Deploy the data space
 
