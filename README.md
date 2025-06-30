@@ -32,11 +32,11 @@ A significant architectural enhancement in this pattern is the transition from a
 
 As the pattern is based on Eclipse Tractus-X, it integrates with the [Identity Hub](https://github.com/eclipse-tractusx/tractusx-identityhub), a service that enables participants in the data space to manage their DIDs and VCs.
 
-To enable decentralized identity functionality, the following components will also be deployed:
+To support decentralized identity functionality, the following components are included in the deployment:
 
-* DID Issuer: A component responsible for issuing Verifiable Credentials to participants within the data space.
+* **DID Issuer:** A centralized component responsible for issuing Verifiable Credentials to participants within the data space.
 
-* BPN-DID Resolution Service (BDRS): Acts as a centralized directory mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
+* **BPN-DID Resolution Service (BDRS)**: Acts as a centralized directory mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
 
 ## Prerequisites
 
