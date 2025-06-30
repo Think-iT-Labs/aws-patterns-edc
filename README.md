@@ -154,19 +154,34 @@ For instructions on how to request a public certificate, see the [Request a publ
 
 ---
 
-To provision the infrastructure, run the following commands:
+> **Note:** Before proceeding, ensure you have an active AWS session in your current terminal. Your local AWS credentials must have the necessary permissions to create and manage EKS clusters and related resources.
 
-```bash
-cd infrastructure/eks
+To provision the EKS cluster, run the following commands:
 
-terraform init
+1.  Navigate to the EKS infrastructure directory:
 
-terraform apply
+    ```bash
+    cd infrastructure/eks
+    ```
 
-# type "yes" and press enter when prompted to do so
-# alternatively execute terraform apply -auto-approve
-```
+2.  Initialize Terraform to download the required providers:
 
+    ```bash
+    terraform init
+    ```
+
+3.  Apply the Terraform configuration to create the AWS resources. Replace `<YOUR_DOMAIN_NAME>` with the domain name you configured in the prerequisites.
+
+    ```bash
+    terraform apply -var="domain_name=<YOUR_DOMAIN_NAME>"
+    ```
+
+    When prompted, review the execution plan and type `yes` to confirm. To bypass the interactive prompt, you can use the `-auto-approve` flag:
+
+    ```bash
+    terraform apply -var="domain_name=<YOUR_DOMAIN_NAME>" -auto-approve
+    ```
+    
 > The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
