@@ -2,19 +2,14 @@
 # Global configuration
 ##############################################
 
-variable "aws_region" {
-  type        = string
-  description = "AWS region to deploy to"
-}
-
 variable "project_name" {
   type        = string
   description = "Name of the project"
 }
 
-variable "domain_name" {
-  type        = string
-  description = "Global domain name for exposing the cluster resources"
+# Local value to get domain_name from EKS remote state
+locals {
+  domain_name = data.terraform_remote_state.eks.outputs.domain_name
 }
 
 variable "tx-identity-hub_image" {

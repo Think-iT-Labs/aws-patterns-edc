@@ -1,10 +1,10 @@
 terraform {
-  required_version = "~> 1.12"
+  required_version = "1.12.2"
 
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.98"
+      version = "5.100.0"
     }
     helm = {
       source  = "hashicorp/helm"
@@ -19,11 +19,18 @@ terraform {
   backend "local" {
     path = "terraform.tfstate"
   }
+}
 
+# Data source to read EKS infrastructure state
+data "terraform_remote_state" "eks" {
+  backend = "local"
+  config = {
+    path = "../infrastructure/eks/terraform.tfstate"
+  }
 }
 
 provider "aws" {
-  region = var.aws_region
+  region = data.terraform_remote_state.eks.outputs.aws_region
   default_tags {
     tags = {
       Project   = var.project_name
@@ -35,11 +42,11 @@ provider "aws" {
 }
 
 data "aws_eks_cluster" "eks_cluster_d" {
-  name = "aws-patterns-edc"
+  name = data.terraform_remote_state.eks.outputs.cluster_name
 }
 
 data "aws_eks_cluster_auth" "eks_cluster_auth_d" {
-  name = "aws-patterns-edc"
+  name = data.terraform_remote_state.eks.outputs.cluster_name
 }
 
 provider "helm" {

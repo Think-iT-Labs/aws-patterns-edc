@@ -156,7 +156,7 @@ For instructions on how to request a public certificate, see the [Request a publ
 
 ---
 
-#### Apply the Terraform configuration
+#### Apply the Infrastructure Terraform configuration
 
 > **Note:** Before proceeding, ensure you have an active AWS session in your current terminal. Your local AWS credentials must have the necessary permissions to create and manage EKS clusters and related resources.
 
@@ -269,7 +269,7 @@ python3 jwt-gen.py --regenerate-keys --sign-jwts --domain <YOUR_DOMAIN_NAME> --a
 
 > Replace `<YOUR_DOMAIN_NAME>` with the domain name used during infrastructure provisioning.
 
-**Output Files**
+#### DID resources generation output files
 
 Upon successful execution of the script, the following DID resources will be generated in the current directory:
 
@@ -286,7 +286,7 @@ These files are now ready for deployment. In the next step, the Terraform config
 
 This process ensures that both the authority (issuer) and participant (company X and company Y) components are properly initialized with the required decentralized identity resources.
 
-#### Apply the Terraform configuration
+### Apply the Data space Terraform configuration
 
 To deploy the data space components, navigate to the `deployment` folder in the repository and run the following commands:
 
@@ -295,7 +295,7 @@ cd ../..
 
 terraform init
 
-terraform apply
+terraform apply -var="domain_name=<YOUR_DOMAIN_NAME>"
 
 # type "yes" and press enter when prompted to do so
 # alternatively execute terraform apply -auto-approve

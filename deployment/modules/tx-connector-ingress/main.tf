@@ -20,7 +20,7 @@ resource "kubernetes_ingress_v1" "companyx_ingress" {
     ingress_class_name = var.albc_ingress_class_name
 
     rule {
-      host = "${var.humanReadableName}.${var.domain_name}"
+      host = "${var.humanReadableName}.${local.domain_name}"
 
       http {
         path {
