@@ -79,7 +79,7 @@ A dedicated authority namespace hosts the DID issuer for credential issuance and
 
 # Tools
 
-## AWS services
+### AWS services
 
 * [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/) provides scalable computing capacity in the AWS Cloud. You can launch as many virtual servers as you need and quickly scale them up or down.
 
