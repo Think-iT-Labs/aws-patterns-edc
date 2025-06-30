@@ -184,6 +184,7 @@ To provision the EKS cluster, run the following commands:
     
 > The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
+
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
 - A VPC with two **public** and two **private** subnets.
