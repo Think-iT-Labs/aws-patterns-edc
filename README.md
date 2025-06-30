@@ -371,7 +371,7 @@ If you do not see the expected IP addresses, try the following troubleshooting s
 - Verify that the DNS records in Route 53 are correctly created and point to the ALB's DNS name.
 - Review the ALB configuration in the AWS Management Console to ensure it is active and associated with the correct target groups and listeners.
 
-Addressing issues in these areas should resolve most endpoint accessibility problems.
+**Addressing issues in these areas should resolve most endpoint accessibility problems.**
 
 ### Prepare the carbon-emissions intensity data to be shared.
 
