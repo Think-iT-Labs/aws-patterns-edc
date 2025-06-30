@@ -360,7 +360,7 @@ curl -k https://companyy.<YOUR_DOMAIN_NAME>
 
 > **Note:** The `-k` flag allows curl to proceed with insecure connections, which may be necessary during initial setup before certificates are fully propagated.
 
-#### Troubleshooting endpoint accessibility
+#### Troubleshooting data space endpoints accessibility
 
 If you do not see the expected IP addresses, try the following troubleshooting steps:
 
