@@ -101,7 +101,7 @@ A dedicated authority namespace hosts the DID issuer for credential issuance and
 
 ### Code repository
 
-The infrastructure provisioning, deployment code, and Python scripting for this pattern are available in the GitHub repository: [aws-patterns-edc](https://github.com/Think-iT-Labs/aws-patterns-edc).
+The infrastructure provisioning, deployment code, and Python scripting for this pattern are available in the GitHub repository [aws-patterns-edc](https://github.com/Think-iT-Labs/aws-patterns-edc).
 
 # Best practices
 
