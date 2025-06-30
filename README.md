@@ -119,17 +119,17 @@ This epic guides you through the steps to set up the environment and provision a
 
 ### Clone the repository
 
-To clone the repository to your workstation, run the following command:
+To get started, clone the repository to your local machine:
+
+1. Open a terminal window.
+2. Run the following commands:
 
 ```bash
-git clone https://github.com/Think-iT-Labs/aws-patterns-edc
-
+git clone https://github.com/Think-iT-Labs/aws-patterns-edc.git
 cd aws-patterns-edc
 ```
 
-> The workstation must have access to your AWS account.
-
-#### Provision Amazon EKS cluster architecture using Terraform
+### Provision Amazon EKS cluster architecture using Terraform
 
 To deploy the Amazon EKS architecture in your AWS account, this pattern uses Terraform to automate the infrastructure setup. Follow the step-by-step instructions below to provision the necessary resources.
 
