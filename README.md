@@ -22,21 +22,31 @@ The pattern includes steps for the following:
 * Deploying the infrastructure needed for a basic data space with two participants running on AWS.
 * Exchanging carbon emissions‒intensity data by using the connectors in a secure way.
 
-This pattern deploys a Kubernetes cluster that will host data space connectors and their services through Amazon Elastic Kubernetes Service (Amazon EKS).
+This deployment pattern provisions a Kubernetes cluster using Amazon Elastic Kubernetes Service (Amazon EKS) to host data space connectors and their associated services.
 
-The [Eclipse Dataspace Components (EDC)](https://github.com/eclipse-edc) control plane and data plane are both deployed on Amazon EKS. The official Tractus-X Helm chart deploys PostgreSQL and HashiCorp Vault services as dependencies.
+The [Eclipse Dataspace Components (EDC)](https://github.com/eclipse-edc) control plane and data plane are both deployed on Amazon EKS. 
 
-In addition, this pattern replaces the centralized identity service used in previous versions with a decentralized identity model. It uses the [Eclipse Decentralized Claims Protocol](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol), which is the Eclipse EDC’s implementation for decentralized identity.
+This setup uses a variant of EDC called [Eclipse Tractus-X](https://github.com/eclipse-tractusx), which includes a Helm chart for deploying the control plane, data plane, and required dependencies such as PostgreSQL and HashiCorp Vault.
+
+A significant architectural enhancement in this pattern is the transition from a centralized identity provider to a decentralized identity model. It implements the [Eclipse Decentralized Claims Protocol (DCP)](https://eclipse-dataspace-dcp.github.io/decentralized-claims-protocol), which is the Eclipse EDC’s reference implementation for managing Decentralized Identifiers (DIDs) and Verifiable Credentials (VCs).
+
+As the pattern is based on Eclipse Tractus-X, it integrates with the [Identity Hub](https://github.com/eclipse-tractusx/tractusx-identityhub), a service that enables participants in the data space to manage their DIDs and VCs.
+
+To enable decentralized identity functionality, the following components must also be deployed:
+
+* DID Issuer: A component responsible for issuing Verifiable Credentials to participants within the data space.
+
+* BPN-DID Resolution Service (BDRS): Acts as a centralized directory mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
 
 ## Prerequisites
 
 * An active AWS account to deploy the infrastructure in your chosen AWS Region
 * [AWS Command Line Interface (AWS CLI)](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed and configured in your chosen AWS Region
 * [AWS security credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
-* [Git](https://github.com/git-guides/install-git) on your workstation
+* [Git](https://github.com/git-guides/install-git)
 * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/)
-* [python](https://www.python.org/downloads/) on your workstation
+* [python](https://www.python.org/downloads/)
 * [Postman](https://www.postman.com/downloads/)
 * An [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html) SSL/TLS certificate
 * A DNS name that will point to an Application Load Balancer (the DNS name must be covered by the ACM certificate)
