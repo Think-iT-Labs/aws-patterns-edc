@@ -129,7 +129,7 @@ In a more realistic situation, each participant would have a separate Kubernetes
 
 This epic guides you through the steps to set up the environment and provision an Amazon EKS cluster and EC2 instances. As a result, you will have an Amazon EKS cluster running in a VPC with the necessary resources to deploy the data space components as outlined in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png).
 
-#### Clone the repository
+### Clone the repository
 
 To clone the repository to your workstation, run the following command:
 
