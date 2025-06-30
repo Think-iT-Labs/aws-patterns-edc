@@ -146,13 +146,17 @@ The infrastructure is provisioned in the `eu-central-1` AWS Region by default. I
 
 As stated in the [Prerequisites](https://github.com/Think-iT-Labs/aws-patterns-edc/tree/main?tab=readme-ov-file#prerequisites), a registered domain name and a corresponding AWS Certificate Manager (ACM) certificate are required for this pattern.
 
-This domain name will be used to create the necessary DNS records for the Application Load Balancer (ALB). The ALB is provisioned in the Amazon EKS cluster and uses Ingress resources to route external traffic to the Eclipse EDC components, securely exposing them to the internet.
+This domain name will be used to create the necessary DNS records (sub-domains) for the Application Load Balancer (ALB). The ALB is provisioned in the Amazon EKS cluster and uses Ingress resources to route external traffic to the Eclipse EDC components, securely exposing them to the internet.
+
+For example, if you provide the domain name `aws-patterns-edc.io`, the pattern will automatically create sub-domains such as `companyx.aws-patterns-edc.io` to expose the company X components.
 
 You must provide your domain name using the `-var` flag when applying the Terraform configuration. This domain must be secured with an ACM certificate that you have already created in your AWS account.
 
 For instructions on how to request a public certificate, see the [Request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) guide in the AWS documentation.
 
 ---
+
+#### Apply the Terraform configuration
 
 > **Note:** Before proceeding, ensure you have an active AWS session in your current terminal. Your local AWS credentials must have the necessary permissions to create and manage EKS clusters and related resources.
 
@@ -184,6 +188,7 @@ To provision the EKS cluster, run the following commands:
     
 > The provisioning process may take **about 10 to 15 minutes** to complete. Please wait until it finishes fully and ensure there are no errors in the Terraform CLI output.
 
+#### Resources created by the Terraform configuration
 
 The Terraform configuration creates the following resources by default, as designed in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png) diagram:
 
