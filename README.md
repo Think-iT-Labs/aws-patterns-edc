@@ -77,6 +77,44 @@ A dedicated authority namespace hosts the DID issuer for credential issuance and
 
 ![dataspace deployment architecture](./assets/Data%20space%20deployment%20architecture.png)
 
+# Tools
+
+## AWS services
+
+* [Amazon Elastic Compute Cloud (Amazon EC2)](https://docs.aws.amazon.com/ec2/) provides scalable computing capacity in the AWS Cloud. You can launch as many virtual servers as you need and quickly scale them up or down.
+
+* [Amazon Elastic Kubernetes Service (Amazon EKS)](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html) helps you run Kubernetes on AWS without needing to install or maintain your own Kubernetes control plane or nodes.
+
+* [Amazon Simple Storage Service (Amazon S3)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html) is a cloud-based object storage service that helps you store, protect, and retrieve any amount of data.
+
+* [Elastic Load Balancing (ELB)](https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/what-is-load-balancing.html) distributes incoming application or network traffic across multiple targets. For example, you can distribute traffic across EC2 instances, containers, and IP addresses in one or more Availability Zones.
+
+* [Amazon Route 53](https://docs.aws.amazon.com/route53/) is a scalable and highly available Domain Name System (DNS) web service that helps you register domain names and route internet traffic to AWS resources.
+
+* [AWS Certificate Manager (ACM)](https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html) lets you easily provision, manage, and deploy SSL/TLS certificates for use with AWS services and your internal connected resources.
+
+### Other tools
+
+* [Git](https://git-scm.com/) is an open-source, distributed version control system.
+
+* [Terraform](https://www.terraform.io/) is an infrastructure as code (IaC) tool that allows you to define and provision infrastructure using a declarative configuration language.
+
+* [Helm](https://helm.sh/) is an open source package manager for Kubernetes that helps you install and manage applications on your Kubernetes cluster.
+
+* [kubectl](https://kubernetes.io/docs/reference/kubectl/) is a command-line interface that helps you run commands against Kubernetes clusters.
+
+* [Python](https://www.python.org/) is a programming language that lets you work quickly and integrate systems more effectively, used here as a scripting language.
+
+* [Postman](https://www.postman.com/) is an API platform.
+
+* [HashiCorp Vault](https://www.vaultproject.io/) provides secure storage with controlled access for credentials and other sensitive information.
+
+* [PostgreSQL](https://www.postgresql.org/) is an open source relational database management system (RDBMS) that uses and extends the SQL language.
+
+### Code repository
+
+The infrastructure provisioning, deployment code, and Python scripting for this pattern are available in the GitHub repository: [aws-patterns-edc](https://github.com/Think-iT-Labs/aws-patterns-edc).
+
 # Best practices
 
 **Amazon EKS and isolation of participants’ infrastructures**
@@ -87,7 +125,7 @@ In a more realistic situation, each participant would have a separate Kubernetes
 
 # Epics
 
-### Set up the environment, and provision an EKS cluster and EC2 instances
+## Set up the environment, and provision an EKS cluster and EC2 instances
 
 This epic guides you through the steps to set up the environment and provision an Amazon EKS cluster and EC2 instances. As a result, you will have an Amazon EKS cluster running in a VPC with the necessary resources to deploy the data space components as outlined in the [Amazon EKS architecture](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/assets/Amazon%20EKS%20architecture.png).
 
