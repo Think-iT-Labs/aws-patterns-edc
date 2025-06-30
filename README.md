@@ -315,21 +315,52 @@ kubectl get pods --all-namespaces | grep -E "(authority|companyx|companyy|issuer
 
 This step ensures that the data space endpoints for the authority, company X, and company Y are correctly set up and accessible.
 
-Each participant's endpoint is exposed via Kubernetes Ingress resources within the EKS cluster. These Ingresses automatically provision an Application Load Balancer (ALB) in AWS, configure routing rules, and create DNS records in Route 53 for each subdomain (issuer.<DOMAIN NAME>,bdrs..<DOMAIN NAME>, companyx.<DOMAIN NAME>, companyy.<DOMAIN NAME>). This automation is handled by the AWS Load Balancer Controller and External DNS add-ons.
+Each participant's endpoint is exposed via Kubernetes Ingress resources within the EKS cluster. These Ingresses automatically provision an Application Load Balancer (ALB) in AWS, configure routing rules, and create DNS records in Route 53 for each subdomain. This automation is handled by the AWS Load Balancer Controller and External DNS add-ons.
 
-To verify that the endpoints are provisioned and ready to use, run the following commands (replace `<DOMAIN NAME>` with your actual domain):
+**Expected endpoints after deployment:**
+- `issuer.<YOUR_DOMAIN_NAME>` - DID Issuer service for verifiable credentials
+- `bdrs.<YOUR_DOMAIN_NAME>` - BPN-DID Resolution Service
+- `companyx.<YOUR_DOMAIN_NAME>` - Company X EDC connector
+- `companyy.<YOUR_DOMAIN_NAME>` - Company Y EDC connector
+
+To verify that the endpoints are provisioned and ready to use, run the following commands (replace `<YOUR_DOMAIN_NAME>` with your actual domain):
 
 ```bash
-nslookup issuer.<DOMAIN NAME>
+nslookup issuer.<YOUR_DOMAIN_NAME>
 
-nslookup bdrs.<DOMAIN NAME>
+nslookup bdrs.<YOUR_DOMAIN_NAME>
 
-nslookup companyx.<DOMAIN NAME>
+nslookup companyx.<YOUR_DOMAIN_NAME>
 
-nslookup companyy.<DOMAIN NAME>
+nslookup companyy.<YOUR_DOMAIN_NAME>
 ```
 
-If the endpoints are set up correctly, each command should return the IP address of the Application Load Balancer (ALB) associated with that endpoint.
+> **Expected Result:** If the endpoints are set up correctly, each command should return the IP address of the Application Load Balancer (ALB) associated with that endpoint. For example:
+> ```
+> Server:    8.8.8.8
+> Address:   8.8.8.8#53
+> 
+> Non-authoritative answer:
+> Name:   issuer.your-domain.com
+> Address: 52.59.123.456
+> ```
+
+#### Additional verification commands
+
+You can also test endpoint accessibility using curl commands:
+
+```bash
+# Test DID Issuer endpoint
+curl -k https://issuer.<YOUR_DOMAIN_NAME>
+
+# Test connector management endpoints
+curl -k https://companyx.<YOUR_DOMAIN_NAME>
+curl -k https://companyy.<YOUR_DOMAIN_NAME>
+```
+
+> **Note:** The `-k` flag allows curl to proceed with insecure connections, which may be necessary during initial setup before certificates are fully propagated.
+
+#### Troubleshooting endpoint accessibility
 
 If you do not see the expected IP addresses, try the following troubleshooting steps:
 
@@ -341,7 +372,6 @@ If you do not see the expected IP addresses, try the following troubleshooting s
 - Review the ALB configuration in the AWS Management Console to ensure it is active and associated with the correct target groups and listeners.
 
 Addressing issues in these areas should resolve most endpoint accessibility problems.
-
 
 ### Prepare the carbon-emissions intensity data to be shared.
 
