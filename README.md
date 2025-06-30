@@ -306,7 +306,7 @@ terraform apply
 After the deployment is complete, verify that all data space components are running and healthy on your EKS cluster. Run the following command to check the status of all pods in the authority, companyx, and companyy namespaces:
 
 ```bash
-kubectl get pods --all-namespaces | grep -E "(authority|companyx|companyy)"
+kubectl get pods --all-namespaces | grep -E "(authority|companyx|companyy|issuer|bdrs-server)"
 ```
 
 > **Note:** Review the **STATUS** column for each pod. All pods should display "Running" or "Completed". If any pods are not in a healthy state, use `kubectl logs <pod-name> -n <namespace>` and `kubectl describe pod <pod-name> -n <namespace>` to investigate and resolve any issues before proceeding.
