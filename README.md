@@ -38,7 +38,7 @@ To support decentralized identity functionality, the following components are in
 
 * **BPN-DID Resolution Service (BDRS)**: Acts as a centralized directory mapping Business Partner Numbers (BPNs) to their corresponding DIDs.
 
-## Prerequisites
+# Prerequisites
 
 * An active AWS account to deploy the infrastructure in your chosen AWS Region
 * [AWS Command Line Interface (AWS CLI)](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed and configured in your chosen AWS Region
