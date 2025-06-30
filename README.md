@@ -309,9 +309,9 @@ After the deployment is complete, verify that all data space components are runn
 kubectl get pods --all-namespaces | grep -E "(authority|companyx|companyy)"
 ```
 
-Review the STATUS column for each pod. All pods should display "Running" or "Completed". If any pods are not in a healthy state, use `kubectl logs <pod-name> -n <namespace>` and `kubectl describe pod <pod-name> -n <namespace>` to investigate and resolve any issues before proceeding.
+> **Note:** Review the **STATUS** column for each pod. All pods should display "Running" or "Completed". If any pods are not in a healthy state, use `kubectl logs <pod-name> -n <namespace>` and `kubectl describe pod <pod-name> -n <namespace>` to investigate and resolve any issues before proceeding.
 
-#### Data space endpoints verification
+### Data space endpoints verification
 
 This step ensures that the data space endpoints for the authority, company X, and company Y are correctly set up and accessible.
 
