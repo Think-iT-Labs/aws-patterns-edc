@@ -295,7 +295,7 @@ cd ../..
 
 terraform init
 
-terraform apply -var="domain_name=<YOUR_DOMAIN_NAME>"
+terraform apply
 
 # type "yes" and press enter when prompted to do so
 # alternatively execute terraform apply -auto-approve

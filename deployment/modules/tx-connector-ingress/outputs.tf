@@ -5,7 +5,7 @@ output "ingress_name" {
 
 output "ingress_hostname" {
   description = "Hostname for the ingress"
-  value       = "{var.humanReadableName}.${local.domain_name}"
+  value       = "{var.humanReadableName}.${var.domain_name}"
 }
 
 output "ingress_annotations" {
