@@ -474,8 +474,6 @@ In a more realistic situation, you should:
 
 This ensures that each EDC connector has the minimum required permissions for its respective S3 bucket, following the principle of least privilege. 
 
----
-
 ## Epic 4: Provide company X carbon-emissions footprint data through the connector
 
 This epic guides you through the steps to provide the carbon-emissions footprint data from company X (the provider) to company Y (the consumer) using the EDC connectors deployed in the previous epic.
@@ -606,9 +604,9 @@ In this basic setup, you can do this by asking the consumer (company Y) connecto
   * Update `COMPANY_X_CONNECTOR_URL`. Set this as the `counterPartyAddress` in the request body. This is the URL of the company X connector since the catalog is targeted at the company X connector.
   * Update `COMPANY_X_BPN`. Set this as the `counterPartyId` in the request body. This is company X's Business Partner Number (BPN) which is `BPNL000000000001` in this setup.
 
-* **Response**: All available data assets from the provider together with their attached usage policies. As a data consumer, look for the contract of your interest and update the following collection variables accordingly.
+* **Response**: The response contains all available data assets from the provider. Find the asset you are interested in and extract the following IDs from the `dcat:dataset` object:
 
-looks at this part of the response to identify the asset and contract offer that you want to negotiate:
+In the response, locate the `dcat:dataset` object. The following snippet shows where to find the asset ID (`@id`) and the contract offer ID (`odrl:hasPolicy` -> `@id`):
 
 ```json
     "dcat:dataset": {
@@ -626,7 +624,7 @@ looks at this part of the response to identify the asset and contract offer that
   
 > **Note:** You need the asset ID and contract offer ID to initiate the contract negotiation in the next step.
 
-####  Initiate a contract negotiation for the carbon-emissions intensity data from company X
+###  Initiate a contract negotiation for the carbon-emissions intensity data from company X
 
 Now that you have identified the asset that you want to consume, initiate a contract negotiation process between the consumer (company Y) and provider (company X) connectors.
 
@@ -635,9 +633,9 @@ Now that you have identified the asset that you want to consume, initiate a cont
 * **Request**: Initiate negotiation
 
 From the previous step, update the following collection variables with the values you obtained from the response of the Request Catalog request.
+
 * **Collection** Variables: 
   * `CONTRACT_OFFER_ID_CARBON_EMISSIONS` ‒ The ID of the contract offer the consumer wants to negotiate
-  
   * `ASSET_ID_CARBON_EMISSIONS` ‒ The ID of the asset the consumer wants to negotiate
 
 The process might take some time before reaching the **Finalized** state.
@@ -650,7 +648,22 @@ You can check the state of the Contract Negotiation and the corresponding Contra
 
 * **Request**: Get All Contract Negotiations
 
-* **Response**: All available data assets from the provider together with their attached usage policies. As a data consumer, look for the contract of your interest and update the following collection variables accordingly.
+* **Response**: The response lists all contract negotiations initiated by company Y. Find the negotiation for the desired asset and confirm its `state` is `FINALIZED`. The `contractAgreementId` from this object is required for the next step.
+ 
+```json
+    {
+      "@type": "ContractNegotiation",
+      "@id": "4141a14f-def1-4be7-b37a-8ff1a7f4cfa6",
+      "type": "CONSUMER",
+      "protocol": "dataspace-protocol-http",
+      "state": "FINALIZED",
+      "counterPartyId": "BPNL000000000001",
+      "counterPartyAddress": "https://companyx.<YOUR_DOMAIN_NAME>/api/v1/dsp",
+      "callbackAddresses": [],
+      "createdAt": 1751369661409,
+      "contractAgreementId": "052545d0-fe05-4fb9-b05c-8de24cf66184", # The ID of the finalized contract agreement
+    ...   
+```
 
   * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID` ‒ The ID of the contract agreement of the finalized contract negotiation. This ID is used in the next step to initiate the data transfer process.
 
