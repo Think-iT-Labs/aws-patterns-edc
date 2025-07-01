@@ -325,6 +325,8 @@ Each participant's endpoint is exposed via Kubernetes Ingress resources within t
 
 To verify that the endpoints are provisioned and ready to use, run the following commands (replace `<YOUR_DOMAIN_NAME>` with your actual domain):
 
+> You may need to wait a few minutes (~5) after deployment for the DNS records to propagate.
+
 ```bash
 nslookup issuer.<YOUR_DOMAIN_NAME>
 
@@ -378,30 +380,30 @@ If you do not see the expected IP addresses, try the following troubleshooting s
 First, you need to decide on the data asset to be shared. The data of company X represents the carbon-emissions footprint of its vehicle fleet. Weight is Gross Vehicle Weight (GVW) in tonnes, and emissions are in grams of CO2 per tonne-kilometer (g CO2 e/t-km) according to the Wheel-to-Well (WTW) measurement:
 
 * Vehicle type: Van; weight: < 3.5; emissions: 800
-
 * Vehicle type: Urban truck; weight: 3.5‒7.5; emissions: 315
-
 * Vehicle type: Medium goods vehicle (MGV); weight: 7.5‒20; emissions: 195
-
 * Vehicle type: Heavy goods vehicle (HGV); weight: > 20; emissions: 115
 
 The example data is in the [carbon_emissions_data.json](https://github.com/Think-iT-Labs/aws-patterns-edc/blob/main/carbon_emissions_data.json) file in the [aws-patterns-edc](https://github.com/Think-iT-Labs/aws-patterns-edc) repository.
 
 The company X uses Amazon S3 bucket to store objects (the data asset to be shared).
 
-Create the S3 bucket and store the example data object there. The following commands create an S3 bucket with default security settings. We highly recommend consulting [Security best practices for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html).
+To create the S3 bucket and store the example data object there as a provider (company X). The following commands create an S3 bucket with default security settings. We highly recommend consulting [Security best practices for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html).
 
 ```bash
-aws s3api create-bucket <COMPANY_X_BUCKET_NAME> --region <AWS_REGION>
-# You need to add '--create-bucket-configuration 
-# LocationConstraint=<AWS_REGION>' if you want to create # the bucket outside of us-east-1 region
-
-aws s3api put-object --bucket <COMPANY_X_BUCKET_NAM> \
- --key <S3 OBJECT NAME> \
- --body <PATH OF THE FILE TO UPLOAD>
+aws s3api create-bucket --bucket <COMPANY_X_BUCKET_NAME> --region <AWS_REGION>
+# You need to add '--create-bucket-configuration LocationConstraint=<AWS_REGION>' if you want to create # the bucket outside of us-east-1 region
 ```
 
 > The S3 bucket name should be globally unique. For more information about naming rules, see the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
+
+After the S3 bucket is created, you can upload the carbon emissions data asset to the S3 bucket using the following command:
+
+```bash
+aws s3api put-object --bucket <COMPANY_X_BUCKET_NAME> --key <S3_OBJECT_NAME> --body <PATH_OF_THE_FILE_TO_UPLOAD>
+```
+
+> For consistency, we recommend using the name `carbon_emissions_data.json` for the S3 object. This is the name used in the example data asset.
 
 ### Prepare company Y s3 bucket to receive the data asset.
 company Y needs to create an S3 bucket to receive the data asset shared by company X.

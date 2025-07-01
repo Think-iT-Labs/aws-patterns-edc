@@ -14,7 +14,7 @@ variable "project_name" {
 
 variable "domain_name" {
   type        = string
-  description = "Domain name for exposing the cluster resources"
+  description = "Fully qualified domain name (FQDN) for exposing the data space endpoints to the internet."
 }
 
 ##############################################
