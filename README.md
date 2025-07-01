@@ -766,35 +766,49 @@ To access the data asset, you need to obtain an access token for the Endpoint Da
 
 ```json
 {
-  "@type": "DataAddress",
-  "flowType": "PULL",
-  "endpointType": "https://w3id.org/idsa/v4.1/HTTP",
-  "tx-auth:refreshEndpoint": "https://companyx...",
-  "transferTypeDestination": "HttpData",
-  "tx-auth:audience": "did:web:companyy.learning.think-it.io",
-  "type": "https://w3id.org/idsa/v4.1/HTTP",
-  "endpoint": "http://companyx-tractusx-connector-dataplane:8081/api/public",
-  "tx-auth:refreshToken": "eyJraWQiOiJkaWQ6d2ViOmNvbXBhbnl4LmxlYXJuaW5nLnRoaW5rLWl0LmlvI3NpZ25pbmcta2V5LTEiLCJhbGciOiJFZDI1NTE5In0.eyJleHAiOjE3NTEzNzQ4MTYsImlhdCI6MTc1MTM3NDUxNiwianRpIjoiZGMzNDgzM2MtNzhjYy00NDlhLWI5NWMtYjllMTIxZjM3Njg2In0.JwKKZOdZnZcuB_TMpTgQtebqFFcq6Pipnh9Fb1B2oABDbqjLusgsUbfhva6a2MGK8UMFJaym2lcdKm_j9EfcCw",
-  "tx-auth:expiresIn": "300",
-  "authorization": "eyJraWQiOiJkaWQ6d2ViOmNvbXBhbnl4LmxlYXJuaW5nLnRoaW5rLWl0LmlvI3NpZ25pbmcta2V5LTEiLCJhbGciOiJFZDI1NTE5In0.eyJpc3MiOiJCUE5MMDAwMDAwMDAwMDAxIiwiYXVkIjoiQlBOTDAwMDAwMDAwMDAwMiIsInN1YiI6IkJQTkwwMDAwMDAwMDAwMDEiLCJleHAiOjE3NTEzNzQ4MTYsImlhdCI6MTc1MTM3NDUxNiwianRpIjoiMjkwNWU0NGYtNzY2MC00YTIxLTlhNDgtNzcwZTIxYzYwNzczIn0.7ZOOqSmxxyR2LTb27iDY-4bY6YxTKrDJvyna-ec721h2_LvR0U-pofCGWaIwvd2729zTo3Me7HBmS7SKuI-zBg",
-  "tx-auth:refreshAudience": "did:web:companyy.learning.think-it.io",
-  ...
+    "@type": "DataAddress",
+    "flowType": "PULL",
+    "endpointType": "https://w3id.org/idsa/v4.1/HTTP",
+    "tx-auth:refreshEndpoint": "https://companyx.<YOUR_DOMAIN_NAME>/api/public/token",
+    "transferTypeDestination": "HttpData",
+    "tx-auth:audience": "did:web:companyy.learning.think-it.io",
+    "type": "https://w3id.org/idsa/v4.1/HTTP",
+    "endpoint": "https://companyx.<YOUR_DOMAIN_NAME>/api/public", # The company X connector's public endpoint
+    "tx-auth:refreshToken": "eyJraWQiOiJkaWQ6d2ViOmNvbXBh...",
+    "tx-auth:expiresIn": "300",
+    "authorization": "eyJraWQiOiJkaWQ6d2ViOmNvbXBhbnl4Lmx...", # The access token
+    "tx-auth:refreshAudience": "did:web:companyy.<YOUR_DOMAIN_NAME>",
+    ...
 }
+```
 
-
+* `ACCESS_TOKEN` ‒ The access token is used to authenticate requests to the EDR endpoint in the next step.
 
 ####  Download the data asset
 
-To download the data asset from the provider's public endpoint, you need to use the access token obtained in the previous step. This token will authenticate your request to access the data.
+Now that you have the `access token` and the `EDR endpoint URL`, you can download the carbon emissions data asset from the provider's public endpoint.
 
 * **Connector**: company Y
 
 * **Request**: Get Data Asset from The Public Endpoint
 
 * **Collection** Variables:
-  * Update `COMPANY_X_CONNECTOR_URL` variable in the request URL with the provider (company X) connector URL.
-  * Update `AUTHORIZATION` variable in the request Headers tab with the access token you received in the previous step.
-  > Important: do not prepend a bearer prefix!
+  * Update `AUTHORIZATION` variable in the **request Headers** tab with the access token you received in the previous step.
 
-This will return the carbon emissions data asset in the response body.
+* **Response**: The response contains the carbon emissions data asset in JSON format. You can save this response to a file or process it as needed.
+
+```json
+{
+  "region": "Europe and South America",
+  "vehicles": [
+    {
+      "type": "Van",
+      "gross_vehicle_weight": "<3.5 t GVW",
+      "emission_intensity": {
+        "CO2": 800, "unit": "g CO2 e/t-km (WTW)"
+      }
+    },
+    ...
+}
+```
 
