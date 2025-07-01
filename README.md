@@ -812,3 +812,51 @@ Now that you have the `access token` and the `EDR endpoint URL`, you can downloa
 }
 ```
 
+# Conclusion
+
+🎉 **Congratulations!** You have successfully set up a minimum viable data space on AWS and completed your first secure data exchange between two organizations.
+
+## What You've Accomplished
+
+Throughout this guide, you have:
+* **Infrastructure Deployment**: Provisioned a production-ready Amazon EKS cluster with essential add-ons for data space operations
+* **Decentralized Identity Management**: Generated and configured DIDs and Verifiable Credentials using the Eclipse DCP protocol
+* **EDC Connector Deployment**: Set up Eclipse Tractus-X connectors for both provider and consumer participants
+* **Secure Data Sharing**: Successfully exchanged carbon emissions data using both S3-to-S3 and HTTP proxy transfer methods
+* **Policy-Based Access Control**: Implemented membership-based policies to ensure only authorized participants can access shared data
+* **End-to-End Verification**: Validated the complete data sharing workflow from asset registration to successful data transfer
+
+## Clean Up Resources
+
+To avoid unnecessary AWS charges, remember to clean up the resources when you're done experimenting:
+
+### Step 1: Clean up the data space components
+
+```bash
+# Navigate to the deployment directory aws-patterns-edc/deployment
+terraform destroy -auto-approve
+```
+
+### Step 2: Clean up the EKS infrastructure
+
+```bash
+# Navigate to the deployment directory infrastructure/eks
+terraform destroy -auto-approve
+```
+
+# Further References
+
+**Data Spaces Standards:**
+- [International Data Spaces (IDS)](https://internationaldataspaces.org/) - Reference architecture and standards
+- [Data Spaces Support Centre](https://dssc.eu/) - European initiative with best practices and guidelines
+- [Gaia-X](https://gaia-x.eu/) - European data infrastructure standards and federation services
+
+**Eclipse EDC Ecosystem:**
+- [Eclipse EDC Documentation](https://eclipse-edc.github.io/) - Comprehensive guides and API references
+- [Eclipse EDC GitHub](https://github.com/eclipse-edc) - Source code, samples, and community discussions
+- [Tractus-X Documentation](https://eclipse-tractusx.github.io/) - Industry-specific implementations and use cases
+
+**AWS Integration:**
+- [AWS for Data Spaces](https://aws.amazon.com/government-education/aws-for-data-spaces/) - AWS-specific guidance and services
+- [Building data spaces for sustainability use cases ](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-building-data-spaces/introduction.html)(AWS Prescriptive Guidance strategy by [Think-it](https://www.think-it.io/))
+
