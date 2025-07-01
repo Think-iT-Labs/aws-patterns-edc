@@ -24,6 +24,7 @@ resource "helm_release" "tx_connector" {
       bdrs_server_url                    = "https://${var.bdrs_hostname}/api/directory"
       dataplane_signer_privatekey_alias  = var.dataplane.privatekey_alias
       dataplane_verifier_publickey_alias = var.dataplane.publickey_alias
+      dataplane_url_public               = "https://${var.connector_hostname}/api/public"
       postgresql_jdbc_url                = local.jdbcUrl
       postgresql_auth_postgres_password  = var.datasource.admin_password
       postgresql_auth_username           = var.datasource.username

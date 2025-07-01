@@ -84,6 +84,8 @@ dataplane:
     requests:
       cpu: 100m
       memory: 256Mi
+  url:
+    public: ${dataplane_url_public}
 
 postgresql:
    jdbcUrl: ${postgresql_jdbc_url}
