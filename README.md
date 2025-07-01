@@ -521,6 +521,8 @@ An EDC connector data asset holds the id of the data and its location. In this c
 }
 ```
 
+> **Note:** Use the Access Key ID and Secret Access Key from the IAM user created in the [IAM policy and user](#iam-policy-and-user-for-s3-buckets-of-company-x-and-company-y) section.
+
 * **Response:** A successful request returns the created time and the ID of the newly created asset.
 
 ```json
@@ -665,19 +667,19 @@ You can check the state of the Contract Negotiation and the corresponding Contra
     ...   
 ```
 
-  * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID` ‒ The ID of the contract agreement of the finalized contract negotiation. This ID is used in the next step to initiate the data transfer process.
+  * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID` ‒ The ID of the contract agreement of the finalized contract negotiation. 
 
-### Consume the data by using the contract agreement
+> **Note:** The contract Agreement ID is used in the next step to initiate the data transfer process.
 
-After a successful contract negotiation, company Y, as the consumer, can initiate a data transfer process based on the agreed-upon contract. This process will leverage the capabilities of the Eclipse Data Connector (EDC).
+## Epic 5: Consume the data by using the contract agreement
 
-Specifically, two key EDC connector features will be used in this pattern:
+With a finalized contract, company Y now has the green light to access the data from company X. This epic demonstrates two ways to transfer the data using the EDC connector:
 
-* **AWS S3 Integration (Push)**: The data asset will be directly transferred from company X’s (the provider’s) S3 bucket and pushed to company Y’s (the consumer’s) S3 bucket using the EDC connector, leveraging the "HttpData-PUSH" transfer type.
+1.  **S3 Push Transfer**: The provider's EDC connector pushes the data directly from its S3 bucket to the consumer's S3 bucket. This is a direct, backend-to-backend transfer.
 
-* **HTTP Proxy (Pull)**: For data asset accessible via an HTTP endpoint, the EDC connector will use its HTTP proxy capability to pull the data from company X's public HTTP proxy endpoint, leveraging the "HttpData-PULL" transfer type.
+2.  **HTTP Pull Transfer**: The consumer's EDC connector pulls the data through a secure HTTP endpoint.
 
-#### Consume data from S3 buckets (Option 1)
+### Consume data from S3 buckets (Option 1)
 
 Use Amazon S3 integration with the EDC connector, and directly point to the S3 bucket in the consumer infrastructure as a destination:
 
@@ -688,26 +690,26 @@ Use Amazon S3 integration with the EDC connector, and directly point to the S3 b
 * **Collection** Variables:
   * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID`, ‒ The Contract Agreement ID from the contract negotiation step.
 
-* **Request Body**: Update the request body with the S3 bucket that you created for the company Y.
+* **Request Body**: Update the request body with the S3 bucket details that you created for company Y.
 
 ```json
 "dataDestination": {
       "@type": "DataAddress",
       "type": "AmazonS3",
       "objectName": "carbon_emissions_data.json",
-      "region": "",
-      "bucketName": "",
-      "accessKeyId": "",
-      "secretAccessKey": ""
+      "region": "<REPLACE WITH THE BUCKET REGION>",
+      "bucketName": "<REPLACE WITH THE SOURCE BUCKET NAME>",  
+      "accessKeyId": "<REPLACE WITH YOUR ACCESS KEY ID>",
+      "secretAccessKey": "<REPLACE WITH SECRET ACCESS KEY>"
 }
 ```
+> **Note:** Use the Access Key ID and Secret Access Key from the IAM user created in the [IAM policy and user](#iam-policy-and-user-for-s3-buckets-of-company-x-and-company-y) section.
 
-You can check the status of the transfer process by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **Started** state, indicating that the data has been started transferring the carbon foorptin data asset to the company Y S3 bucket.
+You can check the status of the transfer process by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **COMPLETED** state, indicating that the data has been COMPLETED transferring the carbon footprint data asset to the company Y S3 bucket.
 
 Check the S3 bucket of company Y to verify that the data asset has been successfully transferred.
 
-
-#### Consume data from the provider public HTTP endpoint (Option 2)
+### Consume data from the provider public HTTP endpoint (Option 2)
 
 #### Initiate a data transfer process
 
