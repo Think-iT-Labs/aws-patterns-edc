@@ -615,7 +615,7 @@ looks at this part of the response to identify the asset and contract offer that
         "@id": "carbon-emissions", # The ID of the asset
         "@type": "dcat:Dataset",
         "odrl:hasPolicy": {
-            "@id": "Y2FyYm9uLWVtaXNzaW9ucy1tZW1iZXJzaGlw:Y2FyYm9uLWVtaXNzaW9ucw==:MjRjYjY1YjQtMTEyYi00ZGJmLTg1ZmQtNzNmMTAyOTJiNmYz", # The ID of the contract offer
+            "@id": "Y2FyYm9uLWVtaXNzaW9ucy1tZW1iZXJzaGlw:Y2FyYm9uLWVtaXNzaW9uc...", # The ID of the contract offer
             "@type": "odrl:Offer",
     ...   
 ```
