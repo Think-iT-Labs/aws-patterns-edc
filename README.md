@@ -671,7 +671,7 @@ You can check the state of the Contract Negotiation and the corresponding Contra
 
 > **Note:** The contract Agreement ID is used in the next step to initiate the data transfer process.
 
-## Epic 5: Consume the data by using the contract agreement
+## Epic 6: Consume the data by using the contract agreement
 
 With a finalized contract, company Y now has the green light to access the data from company X. This epic demonstrates two ways to transfer the data using the EDC connector:
 
