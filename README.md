@@ -591,7 +591,7 @@ This offer bundles the data asset with the `Membership` usage policy, making it 
 
 This epic guides you through the steps to discover the carbon-emissions intensity data asset shared by company X (the provider) and reach an agreement on the defined contract with company Y (the consumer).
 
-#### Request the data catalog shared by company X
+### Request the data catalog shared by company X
 
 As a data consumer in the data space, company Y first needs to discover the data that is being shared by other participants.
 
