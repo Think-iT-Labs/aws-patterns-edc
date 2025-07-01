@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d6a64c94-ab10-4885-a41b-ff9dba752856",
+		"_postman_id": "3a6f21c4-1af7-4c12-978b-dab7677e174a",
 		"name": "AWS Pattern EDC - Company Y Connector Management API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "41314594"
@@ -143,6 +143,105 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Contract Negotiations by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"QuerySpec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractnegotiations/{{CONTRACT_NEGOTIATIONS_ID}}",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractnegotiations",
+								"{{CONTRACT_NEGOTIATIONS_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Agreement",
+			"item": [
+				{
+					"name": "Get All Agreements",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractagreements/request",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractagreements",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contract Agreement by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractagreements/{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractagreements",
+								"{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -227,7 +326,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"@context\": [\n        { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\n        {\n            \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n        },\n        {\n            \"tx\": \"https://w3id.org/tractusx/v0.0.1/ns/\"\n        },\n        {\n            \"tx-auth\": \"https://w3id.org/tractusx/auth/\"\n        },\n        {\n            \"cx-policy\": \"https://w3id.org/catenax/policy/\"\n        }\n    ],\n    \"assetId\": \"carbon-emissions\",\n    \"counterPartyAddress\":  \"{{COMPANY_X_CONNECTOR_URL}}/api/v1/dsp\",\n    \"counterPartyId\": \"{{COMPANY_X_BPN}}\",\n    \"connectorId\": \"{{PROVIDER_ID}}\",\n    \"contractId\": \"{{CONTRACT_AGREEMENT_ID}}\",\n    \"dataDestination\": {\n        \"type\": \"HttpProxy\"\n    },\n    \"protocol\": \"dataspace-protocol-http\",\n    \"transferType\": \"HttpData-PULL\"\n}",
+							"raw": "{\n    \"@context\": [\n        { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\n        {\n            \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n        },\n        {\n            \"tx\": \"https://w3id.org/tractusx/v0.0.1/ns/\"\n        },\n        {\n            \"tx-auth\": \"https://w3id.org/tractusx/auth/\"\n        },\n        {\n            \"cx-policy\": \"https://w3id.org/catenax/policy/\"\n        }\n    ],\n    \"assetId\": \"carbon-emissions\",\n    \"counterPartyAddress\":  \"{{COMPANY_X_CONNECTOR_URL}}/api/v1/dsp\",\n    \"counterPartyId\": \"{{COMPANY_X_BPN}}\",\n    \"connectorId\": \"{{COMPANY_X_DID}}\",\n    \"contractId\": \"{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}\",\n    \"dataDestination\": {\n        \"type\": \"HttpProxy\"\n    },\n    \"protocol\": \"dataspace-protocol-http\",\n    \"transferType\": \"HttpData-PULL\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -439,7 +538,7 @@
 		"apikey": [
 			{
 				"key": "value",
-				"value": "root",
+				"value": "password",
 				"type": "string"
 			},
 			{
@@ -471,39 +570,54 @@
 	],
 	"variable": [
 		{
-			"key": "PROVIDER_MANAGEMENT_URL",
-			"value": "http://localhost:8400/management/v2",
-			"type": "string"
-		},
-		{
-			"key": "CONSUMER_PROTOCOL_URL",
-			"value": "http://consumer-tractusx-connector-controlplane.consumer:8084/api/v1/dsp",
-			"type": "string"
-		},
-		{
-			"key": "ASSET_NAME",
+			"key": "COMPANY_X_CONNECTOR_URL",
 			"value": "",
-			"type": "string"
+			"type": "default"
 		},
 		{
-			"key": "ASSET_ID",
+			"key": "COMPANY_Y_CONNECTOR_URL",
 			"value": "",
-			"type": "string"
+			"type": "default"
 		},
 		{
-			"key": "POLICY_ID",
+			"key": "COMPANY_X_DID",
 			"value": "",
-			"type": "string"
+			"type": "default"
 		},
 		{
-			"key": "CONTRACT_NAME",
-			"value": "",
-			"type": "string"
+			"key": "COMPANY_X_BPN",
+			"value": "BPNL000000000001",
+			"type": "default"
 		},
 		{
-			"key": "CONTRACT_ID",
+			"key": "ASSET_ID_CARBON_EMISSIONS",
+			"value": "carbon-emission",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_OFFER_ID_CARBON_EMISSIONS",
 			"value": "",
-			"type": "string"
+			"type": "default"
+		},
+		{
+			"key": "CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "TRANSFER_PROCESS_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "AUTHORIZATION",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_NEGOTIATIONS_ID",
+			"value": "",
+			"type": "default"
 		}
 	]
 }

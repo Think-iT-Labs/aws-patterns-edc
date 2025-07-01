@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "10d2db0f-c56e-4ef6-a15e-5a701b2a0fdd",
+		"_postman_id": "bc784a83-50cd-49ec-9e27-f168200ec123",
 		"name": "AWS Pattern EDC - Company X Connector Management API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "41314594"
@@ -109,6 +109,53 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Asset by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/assets/{{ASSET_ID}}",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"assets",
+								"{{ASSET_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Asset by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/assets/{{ASSET_ID}}",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"assets",
+								"{{ASSET_ID}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "customAsset",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -160,6 +207,66 @@
 								"management",
 								"v3",
 								"policydefinitions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Policies",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/policydefinitions/request",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"policydefinitions",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Policy by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/policydefinitions/{{POLICY_ID}}",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"policydefinitions",
+								"{{POLICY_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Policy by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/policydefinitions/{{POLICY_ID}}",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"policydefinitions",
+								"{{POLICY_ID}}"
 							]
 						}
 					},
@@ -219,6 +326,66 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get All Contract Definitions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/contractdefinitions/request",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractdefinitions",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contract Definition by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/contractdefinitions/{{CONTRACT_DEFINITION_ID}}",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractdefinitions",
+								"{{CONTRACT_DEFINITION_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Contract Definition by Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/management/v3/contractdefinitions/{{CONTRACT_DEFINITION_ID}}",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractdefinitions",
+								"{{CONTRACT_DEFINITION_ID}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
@@ -270,29 +437,19 @@
 			"type": "string"
 		},
 		{
-			"key": "ASSET_NAME",
-			"value": "",
-			"type": "string"
-		},
-		{
 			"key": "ASSET_ID",
-			"value": "",
+			"value": "carbon-emissions",
 			"type": "string"
 		},
 		{
 			"key": "POLICY_ID",
-			"value": "",
+			"value": "require-membership",
 			"type": "string"
 		},
 		{
-			"key": "CONTRACT_NAME",
-			"value": "",
-			"type": "string"
-		},
-		{
-			"key": "CONTRACT_ID",
-			"value": "",
-			"type": "string"
+			"key": "CONTRACT_DEFINITION_ID",
+			"value": "carbon-emissions-membership",
+			"type": "default"
 		}
 	]
 }
