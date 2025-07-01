@@ -705,11 +705,24 @@ Use Amazon S3 integration with the EDC connector, and directly point to the S3 b
 ```
 > **Note:** Use the Access Key ID and Secret Access Key from the IAM user created in the [IAM policy and user](#iam-policy-and-user-for-s3-buckets-of-company-x-and-company-y) section.
 
-You can check the status of the transfer process by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **COMPLETED** state, indicating that the data has been COMPLETED transferring the carbon footprint data asset to the company Y S3 bucket.
+You can monitor the transfer process status by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **COMPLETED** state, indicating that the carbon footprint data asset has been successfully transferred to the company Y S3 bucket.
 
-Check the S3 bucket of company Y to verify that the data asset has been successfully transferred.
+To verify that the data asset has been successfully transferred, check the company Y S3 bucket using the following command:
 
-### Consume data from the provider public HTTP endpoint (Option 2)
+```bash
+aws s3 ls s3://<COMPANY_Y_BUCKET_NAME>/
+```
+
+You should see the `carbon_emissions_data.json` file listed in the output. To further verify the transfer, you can download and inspect the file content:
+
+```bash
+aws s3 cp s3://<COMPANY_Y_BUCKET_NAME>/carbon_emissions_data.json ./downloaded_carbon_emissions_data.json
+cat downloaded_carbon_emissions_data.json
+```
+
+### Consume data from the provider's public HTTP endpoint (Option 2)
+
+This option demonstrates how to use the HTTP proxy capability of the EDC connector to pull the data asset from the provider's public HTTP endpoint.
 
 #### Initiate a data transfer process
 
@@ -721,10 +734,22 @@ Use the HTTP proxy capability of the EDC connector to pull the data asset from t
 
 * **Collection** Variables:
   * `CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID`, ‒ The Contract Agreement ID from the contract negotiation step.
+  * `COMPANY_X_DID` ‒ The Decentralized Identifier (DID) for company X (e.g., `did:web:companyx.<YOUR_DOMAIN_NAME>`).
 
-You can check the status of the transfer process by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **Started** state.
+* **Response**: The response contains the ID of the transfer process that was initiated. This ID is used in the next step to retrieve an access token for the Endpoint Data Reference (EDR).
+
+```json
+{
+  "@type": "IdResponse",
+  "@id": "73e407be-d033-4f17-b799-8bf53b439b59", # Transfer process ID
+  "createdAt": 1751374116234,
+  ...
+}
+```
 
 * `TRANSFER_PROCESS_ID` ‒ The ID of the transfer process is used in the next step to retrieve an access token.
+
+You can monitor the transfer process status by using the `Get All Transfer Processes` request in the company Y connector collection. The transfer process should eventually reach the **STARTED** state, indicating that the data transfer process has been initiated and is ready to proceed.
 
 ####  Get an access token for The Endpoint Data Reference
 
@@ -737,19 +762,26 @@ To access the data asset, you need to obtain an access token for the Endpoint Da
 * **Collection** Variables:
   * Update `TRANSFER_PROCESS_ID` variable in the request URL with the transfer process ID from the transfer process step.
 
-The received payload is similar to the following:
+* **Response**: The response contains the access token and the EDR endpoint URL (company X connector's public endpoint). The access token is used to authenticate requests to the EDR endpoint.
 
 ```json
 {
-  "id": "dcc90391-3819-4b54-b401-1a005a029b78",
-  "endpoint": "http://consumer-tractusx-connector-dataplane.consumer:8081/api/public",
-  "authKey": "Authorization",
-  "authCode": "<AUTH CODE YOU RECEIVE IN THE ENDPOINT>",
-  "properties": {
-    "https://w3id.org/edc/v0.0.1/ns/cid": "vehicle-carbon-footprint-contract:4563abf7-5dc7-4c28-bc3d-97f45e32edac:b073669b-db20-4c83-82df-46b583c4c062"
-  }
+  "@type": "DataAddress",
+  "flowType": "PULL",
+  "endpointType": "https://w3id.org/idsa/v4.1/HTTP",
+  "tx-auth:refreshEndpoint": "https://companyx...",
+  "transferTypeDestination": "HttpData",
+  "tx-auth:audience": "did:web:companyy.learning.think-it.io",
+  "type": "https://w3id.org/idsa/v4.1/HTTP",
+  "endpoint": "http://companyx-tractusx-connector-dataplane:8081/api/public",
+  "tx-auth:refreshToken": "eyJraWQiOiJkaWQ6d2ViOmNvbXBhbnl4LmxlYXJuaW5nLnRoaW5rLWl0LmlvI3NpZ25pbmcta2V5LTEiLCJhbGciOiJFZDI1NTE5In0.eyJleHAiOjE3NTEzNzQ4MTYsImlhdCI6MTc1MTM3NDUxNiwianRpIjoiZGMzNDgzM2MtNzhjYy00NDlhLWI5NWMtYjllMTIxZjM3Njg2In0.JwKKZOdZnZcuB_TMpTgQtebqFFcq6Pipnh9Fb1B2oABDbqjLusgsUbfhva6a2MGK8UMFJaym2lcdKm_j9EfcCw",
+  "tx-auth:expiresIn": "300",
+  "authorization": "eyJraWQiOiJkaWQ6d2ViOmNvbXBhbnl4LmxlYXJuaW5nLnRoaW5rLWl0LmlvI3NpZ25pbmcta2V5LTEiLCJhbGciOiJFZDI1NTE5In0.eyJpc3MiOiJCUE5MMDAwMDAwMDAwMDAxIiwiYXVkIjoiQlBOTDAwMDAwMDAwMDAwMiIsInN1YiI6IkJQTkwwMDAwMDAwMDAwMDEiLCJleHAiOjE3NTEzNzQ4MTYsImlhdCI6MTc1MTM3NDUxNiwianRpIjoiMjkwNWU0NGYtNzY2MC00YTIxLTlhNDgtNzcwZTIxYzYwNzczIn0.7ZOOqSmxxyR2LTb27iDY-4bY6YxTKrDJvyna-ec721h2_LvR0U-pofCGWaIwvd2729zTo3Me7HBmS7SKuI-zBg",
+  "tx-auth:refreshAudience": "did:web:companyy.learning.think-it.io",
+  ...
 }
-```
+
+
 
 ####  Download the data asset
 
