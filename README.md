@@ -497,17 +497,19 @@ By using these collections, you can test and interact with both connectors, regi
 
 ###  Register the data asset to the provider’s connector by using Postman
 
-An EDC connector data asset holds the id of the data and its location. In this case, the EDC connector data asset will point to the created object in the S3 bucket:
+An EDC connector data asset holds the id of the data and its location. In this case, the EDC connector data asset will point to the created object `carbon_emissions_data.json` in the S3 bucket:
 
 * **Connector**: company X
 
 * **Request**:  Create Carbon Emissions Data Asset
 
 * **Collection** Variables: 
-  * Update `COMPANY_X_CONNECTOR_URL` variable to the URL of the company X connector.
-  * Update `ASSET_ID`. Choose a unique asset ID for the carbon emissions data asset (e.g. `carbon-emissions`). 
+  * Update `COMPANY_X_CONNECTOR_URL` variable to the URL of the company X connector (e.g. `https://companyx.<YOUR_DOMAIN_NAME>`). .
+  * Update `ASSET_ID` variable in request body with a unique asset ID for the carbon emissions data asset (e.g. `carbon-emissions`). 
 
-* **Request Body**: Update the request body with the S3 bucket that you created for the company X.
+* **Request Body**: Update the request body with the S3 bucket details that you created for company X.
+
+> **Note:** If you chose a different S3 object name when uploading the data asset to the S3 bucket, update the `objectName` field accordingly.
 
 ```json
 "dataAddress": {
@@ -520,10 +522,15 @@ An EDC connector data asset holds the id of the data and its location. In this c
     "secretAccessKey": "<REPLACE WITH SECRET ACCESS KEY>"
 }
 ```
+
 * **Response:** A successful request returns the created time and the asset ID of the newly created asset.
+
 ```json
 {
-  "@id": "c89aa31c-ec4c-44ed-9e8c-1647f19d7583"
+  "@type": "IdResponse",
+  "@id": "carbon-emissions",
+  "createdAt": 1751366701521,
+  ...
 }
 ```
 
@@ -728,3 +735,4 @@ To download the data asset from the provider's public endpoint, you need to use 
   > Important: do not prepend a bearer prefix!
 
 This will return the carbon emissions data asset in the response body.
+
