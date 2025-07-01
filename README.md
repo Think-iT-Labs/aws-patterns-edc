@@ -612,10 +612,10 @@ looks at this part of the response to identify the asset and contract offer that
 
 ```json
     "dcat:dataset": {
-        "@id": "carbon-emissions", # The ID of the asset
+        "@id": "carbon-emissions", # The asset ID
         "@type": "dcat:Dataset",
         "odrl:hasPolicy": {
-            "@id": "Y2FyYm9uLWVtaXNzaW9ucy1tZW1iZXJzaGlw:Y2Fy...", # The ID of the contract offer
+            "@id": "Y2FyYm9uLWVtaXNzaW9ucy1tZW1...", # The contract offer ID
             "@type": "odrl:Offer",
     ...   
 ```
