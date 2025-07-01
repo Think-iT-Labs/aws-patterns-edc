@@ -375,7 +375,13 @@ If you do not see the expected IP addresses, try the following troubleshooting s
 
 > **Note:** Addressing issues in these areas should resolve most endpoint accessibility problems.**
 
-## Prepare the carbon-emissions intensity data to be shared
+## Epic 3: Preparing the data asset
+
+This epic guides you through the steps to prepare the carbon-emissions intensity data asset for sharing between company X (the provider) and company Y (the consumer) within the data space. 
+
+Additionally, this epic covers the preparation of S3 buckets for both companies to securely store and receive the data asset during the transfer process.
+
+### Prepare the carbon-emissions intensity data to be shared
 
 First, you need to decide on the data asset to be shared. The data of company X represents the carbon-emissions footprint of its vehicle fleet. Weight is Gross Vehicle Weight (GVW) in tonnes, and emissions are in grams of CO2 per tonne-kilometer (g CO2 e/t-km) according to the Wheel-to-Well (WTW) measurement:
 
@@ -405,26 +411,28 @@ aws s3api put-object --bucket <COMPANY_X_BUCKET_NAME> --key <S3_OBJECT_NAME> --b
 
 > For consistency, we recommend using the name `carbon_emissions_data.json` for the S3 object. This is the name used in the example data asset.
 
-### Prepare company Y s3 bucket to receive the data asset.
-company Y needs to create an S3 bucket to receive the data asset shared by company X.
-in reallty the company Y CONNECTOR AFTEREHRN IT COME FOR STRANGET IT WILL USE HTTP PUSH TO PUSH THE DATA ASSET TO THE company Y S3 BUCKET.
-As fro comeny x The following commands create an S3 bucket with default security settings. We highly recommend consulting [Security best practices for Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html).
+### Prepare a company Y S3 bucket to receive the data asset
+
+Company Y needs to create an S3 bucket to receive the data asset shared by company X.
+
+In the data transfer process, the company Y connector will receive the data asset from company X and use an `HTTP PUSH` operation to store the data asset in company Y's designated S3 bucket.
+
+Similar to company X, the following commands create an S3 bucket with default security settings.
 
 ```bash
-aws s3api create-bucket <COMPANY_Y_BUCKET_NAME> --region <AWS_REGION>
-# You need to add '--create-bucket-configuration 
-# LocationConstraint=<AWS_REGION>' if you want to create # the bucket outside of us-east-1 region
+aws s3api create-bucket --bucket <COMPANY_Y_BUCKET_NAME> --region <AWS_REGION>
+# You need to add '--create-bucket-configuration LocationConstraint=<AWS_REGION>' if you want to create the bucket outside of us-east-1 region
 ```
 
-### IAM policy and User for S3 buckets of company X and comamany Y.
+### IAM policy and User for S3 buckets of company X and company Y
 
 The EDC connector currently doesn't use temporary AWS credentials, such as those provided by assuming a role. The EDC supports only the use of an [IAM access key ID and secret access key combination](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html).
 
-Two S3 buckets are required for later steps. One S3 bucket is used for storing data made available by the provider. The other S3 bucket is for data received by the consumer.
+As two S3 buckets are required for later steps. One S3 bucket is used for storing data made available by the provider. The other S3 bucket is for data received by the consumer.
 
 The IAM user should have permission to read and write objects only in the two named buckets.
 
-An access key ID and secret access key pair needs to be created and kept safe. After this MVDS has been decommissioned, the IAM user should be deleted.
+Access key ID and secret access key pair need to be created and kept safe. After this MVDS has been decommissioned, the IAM user should be deleted.
 
 The following code is an example IAM policy for the user:
 
@@ -454,14 +462,19 @@ The following code is an example IAM policy for the user:
   ]
 }
 ```
-**Important:**
+
+---
+
+⚠️ **Important:**
 In real-world scenarios, you should use two separate IAM users, one for each S3 bucket. This example uses a single IAM user for simplicity.
 
-In production, you should:
+In a more realistic situation, you should:
 - Create an IAM policy that grants access only to the S3 bucket of the provider (company X) and attach it to the IAM user that will be used by the EDC connector of company X.
 - Create a separate IAM policy that grants access only to the S3 bucket of the consumer (company Y) and attach it to the IAM user that will be used by the EDC connector of company Y.
 
 This ensures that each EDC connector has the minimum required permissions for its respective S3 bucket, following the principle of least privilege. 
+
+---
 
 ### Provide company X carbon-emissions footprint data through the connector
 
