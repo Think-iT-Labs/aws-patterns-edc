@@ -844,6 +844,26 @@ terraform destroy -auto-approve
 terraform destroy -auto-approve
 ```
 
+# Additional information
+
+This guide uses several data space components to create a functional MVDS. The following table provides an overview of the key components and their versions:
+
+| Component | Version  | Description |
+| :--- |:---------| :--- |
+| **Tractus-X Connector** | `0.9.0`  | The core component for managing data exchange, policies, and contracts. | 
+| **Tractus-X Identity Hub** | `0.8.0`  | Manages decentralized identities (DIDs) and verifiable credentials (VCs). | 
+| **Tractus-X BDRS Server** | `0.5.2`  | A centralized directory for mapping Business Partner Numbers (BPNs) to DIDs. |
+
+### Helm Charts
+
+The deployment is automated using Helm charts. The following table lists the charts and their versions used in this guide:
+
+| Chart | Version | Description |
+| :--- | :--- | :--- |
+| **tractusx-connector** | `0.9.0` | Deploys the Tractus-X connector for both company X and company Y. | 
+| **bdrs-server** | `0.5.2` | Deploys the BPN-DID Resolution Service for the authority. | 
+| **nginx** | `20.1.2` | Deploys the DID issuer for the authority. |
+
 # Further References
 
 **Data Spaces Standards:**
@@ -859,4 +879,3 @@ terraform destroy -auto-approve
 **AWS Integration:**
 - [AWS for Data Spaces](https://aws.amazon.com/government-education/aws-for-data-spaces/) - AWS-specific guidance and services
 - [Building data spaces for sustainability use cases ](https://docs.aws.amazon.com/prescriptive-guidance/latest/strategy-building-data-spaces/introduction.html)(AWS Prescriptive Guidance strategy by [Think-it](https://www.think-it.io/))
-
