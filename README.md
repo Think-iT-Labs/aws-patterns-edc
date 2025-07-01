@@ -476,9 +476,11 @@ This ensures that each EDC connector has the minimum required permissions for it
 
 ---
 
-### Provide company X carbon-emissions footprint data through the connector
+## Epic 4: Provide company X carbon-emissions footprint data through the connector
 
-#### Set up Postman to interact with the connectors
+This epic guides you through the steps to provide the carbon-emissions footprint data from company X (the provider) to company Y (the consumer) using the EDC connectors deployed in the previous epic.
+
+### Set up Postman to interact with the connectors
 
 After deploying the data space and verifying that both the company X and company Y connectors are running and accessible, you can interact with them from your workstation using Postman as an HTTP client.
 
@@ -491,9 +493,9 @@ This repository provides ready-to-use Postman Collections for both the provider 
    - `companyy.postman_collection.json` (for the consumer connector)
 3. Each collection uses Postman variables to simplify configuration. Before sending requests, set the required variables (such as connector URLs) in the collection setting. 
 
-By using these collections, you can easily test and interact with both connectors, register data assets, initiate data transfers, and validate the end-to-end data sharing process between company X and company Y.
+By using these collections, you can test and interact with both connectors, register data assets, initiate data transfers, and validate the end-to-end data sharing process between company X and company Y.
 
-####  Register the data asset to the provider’s connector by using Postman.
+###  Register the data asset to the provider’s connector by using Postman
 
 An EDC connector data asset holds the id of the data and its location. In this case, the EDC connector data asset will point to the created object in the S3 bucket:
 
