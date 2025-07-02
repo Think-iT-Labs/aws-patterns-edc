@@ -1,0 +1,623 @@
+{
+	"info": {
+		"_postman_id": "3a6f21c4-1af7-4c12-978b-dab7677e174a",
+		"name": "AWS Pattern EDC - Company Y Connector Management API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41314594"
+	},
+	"item": [
+		{
+			"name": "Catalog",
+			"item": [
+				{
+					"name": "Request Catalog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"CatalogRequest\",\n    \"counterPartyAddress\": \"{{COMPANY_X_CONNECTOR_URL}}/api/v1/dsp\",\n    \"counterPartyId\": \"{{COMPANY_X_BPN}}\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"querySpec\": {\n        \"offset\": 0,\n        \"limit\": 50\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/catalog/request",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"catalog",
+								"request"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Negotiation",
+			"item": [
+				{
+					"name": "Initiate negotiation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\",\n        {\n            \"tx\": \"https://w3id.org/tractusx/v0.0.1/ns/\"\n        },\n        {\n            \"tx-auth\": \"https://w3id.org/tractusx/auth/\"\n        },\n        {\n            \"cx-policy\": \"https://w3id.org/catenax/policy/\"\n        }\n    ],\n    \"@type\": \"ContractRequest\",\n    \"counterPartyAddress\": \"{{COMPANY_X_CONNECTOR_URL}}/api/v1/dsp\",\n    \"counterPartyId\": \"{{COMPANY_X_BPN}}\",\n    \"protocol\": \"dataspace-protocol-http\",\n    \"policy\": {\n        \"@id\": \"{{CONTRACT_OFFER_ID_CARBON_EMISSIONS}}\",\n        \"@type\": \"Offer\",\n        \"assigner\": \"{{COMPANY_X_BPN}}\",\n        \"odrl:permission\": {\n            \"odrl:action\": {\n                \"@id\": \"odrl:use\"\n            },\n            \"odrl:constraint\": {\n                \"odrl:leftOperand\": {\n                    \"@id\": \"cx-policy:Membership\"\n                },\n                \"odrl:operator\": {\n                    \"@id\": \"odrl:eq\"\n                },\n                \"odrl:rightOperand\": \"active\"\n            }\n        },\n        \"odrl:prohibition\": [],\n        \"odrl:obligation\": [],\n        \"target\": \"{{ASSET_ID_CARBON_EMISSIONS}}\"\n    },\n    \"callbackAddresses\": []\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractnegotiations",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractnegotiations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Contract Negotiations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"QuerySpec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractnegotiations/request",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractnegotiations",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contract Negotiations by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"QuerySpec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractnegotiations/{{CONTRACT_NEGOTIATIONS_ID}}",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractnegotiations",
+								"{{CONTRACT_NEGOTIATIONS_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract Agreement",
+			"item": [
+				{
+					"name": "Get All Agreements",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractagreements/request",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractagreements",
+								"request"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Contract Agreement by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/contractagreements/{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"contractagreements",
+								"{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transfer Process",
+			"item": [
+				{
+					"name": "Initiate Transfer Process S3 (Push)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "password",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\n        {\n            \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n        },\n        {\n            \"tx\": \"https://w3id.org/tractusx/v0.0.1/ns/\"\n        },\n        {\n            \"tx-auth\": \"https://w3id.org/tractusx/auth/\"\n        },\n        {\n            \"cx-policy\": \"https://w3id.org/catenax/policy/\"\n        }\n    ],\n    \"@type\": \"TransferRequest\",\n    \"assetId\": \"carbon-emissions\",\n    \"counterPartyAddress\": \"{{COMPANY_X_CONNECTOR_URL}}/api/v1/dsp\",\n    \"counterPartyId\": \"{{COMPANY_X_BPN}}\",\n    \"contractId\": \"{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}\",\n    \"dataDestination\": {\n        \"@type\": \"DataAddress\",\n        \"type\": \"AmazonS3\",\n        \"objectName\": \"carbon_emissions_data.json\",\n        \"region\": \"\",\n        \"bucketName\": \"\",\n        \"accessKeyId\": \"\",\n        \"secretAccessKey\": \"\"\n    },\n    \"protocol\": \"dataspace-protocol-http\",\n    \"transferType\": \"HttpData-PUSH\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/transferprocesses",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"transferprocesses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Initiate Transfer Process HTTP Proxy (Pull)",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "X-Api-Key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\n        {\n            \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n        },\n        {\n            \"tx\": \"https://w3id.org/tractusx/v0.0.1/ns/\"\n        },\n        {\n            \"tx-auth\": \"https://w3id.org/tractusx/auth/\"\n        },\n        {\n            \"cx-policy\": \"https://w3id.org/catenax/policy/\"\n        }\n    ],\n    \"assetId\": \"carbon-emissions\",\n    \"counterPartyAddress\":  \"{{COMPANY_X_CONNECTOR_URL}}/api/v1/dsp\",\n    \"counterPartyId\": \"{{COMPANY_X_BPN}}\",\n    \"connectorId\": \"{{COMPANY_X_DID}}\",\n    \"contractId\": \"{{CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID}}\",\n    \"dataDestination\": {\n        \"type\": \"HttpProxy\"\n    },\n    \"protocol\": \"dataspace-protocol-http\",\n    \"transferType\": \"HttpData-PULL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/transferprocesses",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"transferprocesses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Transfer Processes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"QuerySpec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/transferprocesses/request",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"transferprocesses",
+								"request"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EDR Data Addresses",
+			"item": [
+				{
+					"name": "Get EDR Data Address for TransferId",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"edrs",
+								"{{TRANSFER_PROCESS_ID}}",
+								"dataaddress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All EDR Data Addresses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"@context\": [\n        \"https://w3id.org/edc/connector/management/v0.0.1\"\n    ],\n    \"@type\": \"QuerySpec\"\n}"
+						},
+						"url": {
+							"raw": "{{COMPANY_Y_CONNECTOR_URL}}/management/v3/edrs/request",
+							"host": [
+								"{{COMPANY_Y_CONNECTOR_URL}}"
+							],
+							"path": [
+								"management",
+								"v3",
+								"edrs",
+								"request"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Download Data Asset",
+			"item": [
+				{
+					"name": "Get Data Asset from The Public Endpoint",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{AUTHORIZATION}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{COMPANY_X_CONNECTOR_URL}}/api/public",
+							"host": [
+								"{{COMPANY_X_CONNECTOR_URL}}"
+							],
+							"path": [
+								"api",
+								"public"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "password",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-api-key",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "COMPANY_X_CONNECTOR_URL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "COMPANY_Y_CONNECTOR_URL",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "COMPANY_X_DID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "COMPANY_X_BPN",
+			"value": "BPNL000000000001",
+			"type": "default"
+		},
+		{
+			"key": "ASSET_ID_CARBON_EMISSIONS",
+			"value": "carbon-emission",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_OFFER_ID_CARBON_EMISSIONS",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "CARBON_EMISSIONS_CONTRACT_AGREEMENT_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "TRANSFER_PROCESS_ID",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "AUTHORIZATION",
+			"value": "",
+			"type": "default"
+		},
+		{
+			"key": "CONTRACT_NEGOTIATIONS_ID",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

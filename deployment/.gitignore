@@ -26,3 +26,10 @@ terraform.rc
 terraform.tfstate
 terraform.tfstate.backup
 /.terraform.tfstate.lock.info
+
+# Ignore jwt files
+/assets/did/companyy.membership.jwt
+/assets/did/companyx.membership.jwt
+/assets/did/issuer.did.json
+/assets/did/issuer.key.json
+/assets/did/issuer.pub.json

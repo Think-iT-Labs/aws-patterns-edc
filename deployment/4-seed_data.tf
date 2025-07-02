@@ -99,7 +99,7 @@ resource "kubernetes_job" "seed_connectors_via_mgmt_api" {
             "--env-var", "ISSUER_DID=${local.issuer_did}",
             "--env-var", "IH_SUPERUSER_API_KEY=${each.value.ih_superuser_apikey}",
             "--env-var",
-            "CONNECTOR_URL=https://${each.key}.${var.domain_name}",
+            "CONNECTOR_URL=https://${each.key}.${local.domain_name}",
             "--env-var", "MEMBERSHIP_CREDENTIAL=${file("${path.module}/${each.value.vc_membership_path}")}",
             "--env-var", "BPN=${each.value.bpn}",
             "--reporters", "cli",
@@ -164,16 +164,16 @@ locals {
     companyy = kubernetes_namespace.companyy_namespace.metadata[0].name
   }
 
-  companyx_participant_did = "did:web:companyx.${var.domain_name}"
-  companyy_participant_did = "did:web:companyy.${var.domain_name}"
-  issuer_did               = "did:web:issuer.${var.domain_name}"
+  companyx_participant_did = "did:web:companyx.${local.domain_name}"
+  companyy_participant_did = "did:web:companyy.${local.domain_name}"
+  issuer_did               = "did:web:issuer.${local.domain_name}"
 
   companies = {
     companyx = {
       namespace              = var.companyx_namespace
-      participant_did        = "did:web:companyx.${var.domain_name}"
+      participant_did        = "did:web:companyx.${local.domain_name}"
       participant_did_base64 = base64encode(local.companyx_participant_did)
-      vc_membership_path     = "assets/did/verifiable-credentials/membership/companyx.membership.jwt"
+      vc_membership_path     = "assets/did/companyx.membership.jwt"
       bpn                    = var.companyx_bpn
       ih_superuser_apikey    = var.companyx_ih_superuser_apikey
       module_dependency      = module.companyx_tx-identity-hub
@@ -181,9 +181,9 @@ locals {
     }
     companyy = {
       namespace              = var.companyy_namespace
-      participant_did        = "did:web:companyy.${var.domain_name}"
+      participant_did        = "did:web:companyy.${local.domain_name}"
       participant_did_base64 = base64encode(local.companyy_participant_did)
-      vc_membership_path     = "assets/did/verifiable-credentials/membership/companyy.membership.jwt"
+      vc_membership_path     = "assets/did/companyy.membership.jwt"
       bpn                    = var.companyy_bpn
       ih_superuser_apikey    = var.companyy_ih_superuser_apikey
       module_dependency      = module.companyy_tx-identity-hub
