@@ -17,6 +17,6 @@ variable "albc_ingress_class_name" {
 
 variable "did_json_path" {
   type        = string
-  default     = "assets/did/documents/issuer/issuer.did.json"
+  default     = "assets/did/issuer.did.json"
   description = "Path to the DID JSON file"
 }

@@ -1,7 +1,6 @@
 # Global configuration
 aws_region   = "eu-central-1"
 project_name = "aws-patterns-edc"
-domain_name  = "need-to-be-set"
 
 # VPC configuration
 vpc_name           = "aws-patterns-edc"

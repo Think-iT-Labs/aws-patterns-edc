@@ -14,20 +14,20 @@ module "companyx_tx-connector" {
   participantId     = var.companyx_bpn
 
   dcp_config = {
-    id                     = "did:web:companyx.${var.domain_name}"
-    sts_token_url          = "https://companyx.${var.domain_name}/api/sts/token"
-    sts_client_id          = "did:web:companyx.${var.domain_name}"
-    sts_clientsecret_alias = "did:web:companyx.${var.domain_name}-sts-client-secret"
-    issuer                 = "did:web:issuer.${var.domain_name}"
+    id                     = "did:web:companyx.${local.domain_name}"
+    sts_token_url          = "https://companyx.${local.domain_name}/api/sts/token"
+    sts_client_id          = "did:web:companyx.${local.domain_name}"
+    sts_clientsecret_alias = "did:web:companyx.${local.domain_name}-sts-client-secret"
+    issuer                 = "did:web:issuer.${local.domain_name}"
   }
 
   dataplane = {
-    privatekey_alias = "did:web:companyx.${var.domain_name}#signing-key-1"
-    publickey_alias  = "did:web:companyx.${var.domain_name}#signing-key-1"
+    privatekey_alias = "did:web:companyx.${local.domain_name}#signing-key-1"
+    publickey_alias  = "did:web:companyx.${local.domain_name}#signing-key-1"
   }
 
-  connector_hostname = "companyx.${var.domain_name}"
-  bdrs_hostname      = "bdrs.${var.domain_name}"
+  connector_hostname = "companyx.${local.domain_name}"
+  bdrs_hostname      = "bdrs.${local.domain_name}"
 }
 
 # CompanyX tx-identity-hub
@@ -43,8 +43,8 @@ module "companyx_tx-identity-hub" {
   ih_superuser_apikey = var.companyx_ih_superuser_apikey
 
   aliases = {
-    sts-private-key   = "did:web:issuer.${var.domain_name}#signing-key-1"
-    sts-public-key-id = "did:web:issuer.${var.domain_name}#signing-key-1"
+    sts-private-key   = "did:web:issuer.${local.domain_name}#signing-key-1"
+    sts-public-key-id = "did:web:issuer.${local.domain_name}#signing-key-1"
   }
 
   datasource = {
@@ -64,7 +64,7 @@ module "companyx_connector_ingress" {
 
   humanReadableName = var.companyx_humanReadableName
   namespace         = kubernetes_namespace.companyx_namespace.metadata[0].name
-  domain_name       = var.domain_name
+  domain_name       = local.domain_name
 
 }
 
